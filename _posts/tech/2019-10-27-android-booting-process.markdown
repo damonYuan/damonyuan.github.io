@@ -12,7 +12,7 @@ tags: [One-Image-Per-Day]
 
 **One Image Per Day**
 
-![android-booting-process]({{site.url}}/images/2019-10-27-android-booting-process/android-booting-process "Android Booting Process")
+![android-booting-process]({{site.url}}/images/2019-10-27-android-booting-process/android-booting-process.png "Android Booting Process")
 
 To add to what [Android bootloader/fastboot mode and recovery mode explained/Android boot process](https://tektab.com/2015/10/31/android-bootloaderfastboot-mode-and-recovery-mode-explained/) has provided, I want to give some more details from Bootloader of normal boot to Kernel.
 
