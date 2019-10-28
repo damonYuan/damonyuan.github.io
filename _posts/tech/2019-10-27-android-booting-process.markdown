@@ -8,7 +8,7 @@ tags: [One-Image-Per-Day]
 ---
 
 > * Reference: [Android bootloader/fastboot mode and recovery mode explained/Android boot process](https://tektab.com/2015/10/31/android-bootloaderfastboot-mode-and-recovery-mode-explained/)
-> *Reference: [Booting Android](http://2net.co.uk/slides/android-boot-slides-2.0.pdf)
+> * Reference: [Booting Android](http://2net.co.uk/slides/android-boot-slides-2.0.pdf)
 
 **One Image Per Day**
 
