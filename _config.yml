@@ -1,0 +1,44 @@
+# Site settings
+title: Damon Yuan's Blog
+description: "The real work is in the details."
+url: 'https://www.damonyuan.com'
+baseurl: ''
+google_analytics: 'UA-92600235-2'
+disqus_shortname: 'damonyuan'
+
+author:
+  name: 'Damon Yuan'
+  email: damon.yuan.dev@gmail.com
+  twitter_username:
+  facebook_username:
+  github_username:  damonYuan
+  linkedin_username:  damonyuan
+
+defaults:
+  -
+    scope:
+      path: ''
+      type: 'posts'
+    values:
+        layout: 'post'
+
+# Build settings
+destination: _site
+paginate: 10
+permalink: /:year/:title/
+markdown: kramdown
+highlighter: rouge
+encoding: "utf-8"
+
+sass:
+    sass_dir: _sass
+    style: compressed
+
+kramdown:
+  # use Github Flavored Markdown
+  input: GFM
+  # do not replace newlines by <br>s
+  hard_wrap: false
+
+plugins: ['jekyll-paginate']
+exclude: ['README.md', 'Gemfile', 'Gemfile.lock', 'screenshot.png', '_codep', '_notes', '.gitmodules']
