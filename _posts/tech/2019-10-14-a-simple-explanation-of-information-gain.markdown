@@ -51,7 +51,7 @@ After the formula of Entropy is defined, we can start to calculate the Informati
 
 Training a decision tree consists of iteratively splittin gthe current data into two branches. Say we had the following data points: 
 
-![the-dataset](https://victorzhou.com/dataset-0a81728a87e7cf55cf58a653f9c210c5.svg "The Dataset")
+![the-dataset]({{site.url}}/images/2019-10-14-a-simple-explanation-of-information-gain/dataset.svg "The Dataset")
 
 Right now, we have 1 branch with 5 blues and 5 greens. We can build a model for each points using the following data structure,
 
@@ -99,7 +99,7 @@ Let's calculate the Information Gain of our entire dataset.
 
 Let's make a split at x = 2:
 
-![a-perfect-split](https://victorzhou.com/dataset-perfect-split-d99afd724f34af430a26dd0670b57cf3.svg "A Perfect Split")
+![a-perfect-split]({{site.url}}/images/2019-10-14-a-simple-explanation-of-information-gain/dataset-perect-split.svg "A Perfect Split")
 
 This is a perfect split since it breaks our dataset perfectly into two branches:
 
@@ -140,7 +140,7 @@ Let's calculate the Information Gain of this split,
 
 Let's make a split at x = 1.5:
 
-![a-imperfect-split](https://victorzhou.com/dataset-imperfect-split-4768c79349a62634d54ce531b3680751.svg "An Imperfect Split")
+![a-imperfect-split]({{site.url}}/images/2019-10-14-a-simple-explanation-of-information-gain/dataset-imperfect-split.svg "An Imperfect Split")
 
 This imperfect split breaks our dataset into these branches:
 
