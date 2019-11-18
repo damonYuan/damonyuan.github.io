@@ -1,7 +1,7 @@
 ---
 title:  "完美都是存在的，只是不能经常去追求它"
 date: 2017-06-22 15:04:23
-hidden: false
+hidden: true
 categories: [Mics]
 tags: [Others]
 ---
