@@ -10,8 +10,8 @@ tags: [One-Image-Per-Day, Java, JVM]
 > * Author: [Damon Yuan](https://www.damonyuan.com)
 > * Date: 2019-11-30
 > * Reference: 
-> [What is Java JDK, JRE and JVM – In-depth Analysis](https://howtodoinjava.com/java/basics/jdk-jre-jvm/)
-> [漫话：如何给女朋友解释鸿蒙OS是怎样实现跨平台的？](https://juejin.im/post/5d50d05ee51d4561da620117)
+> * [What is Java JDK, JRE and JVM – In-depth Analysis](https://howtodoinjava.com/java/basics/jdk-jre-jvm/)
+> * [漫话：如何给女朋友解释鸿蒙OS是怎样实现跨平台的？](https://juejin.im/post/5d50d05ee51d4561da620117)
 
 
 **One Image Per Day**
