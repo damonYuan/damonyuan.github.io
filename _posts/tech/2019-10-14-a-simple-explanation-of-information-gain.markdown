@@ -99,7 +99,7 @@ Let's calculate the Information Gain of our entire dataset.
 
 Let's make a split at x = 2:
 
-![a-perfect-split]({{site.url}}/images/2019-10-14-a-simple-explanation-of-information-gain/dataset-perect-split.svg "A Perfect Split")
+![a-perfect-split]({{site.url}}/images/2019-10-14-a-simple-explanation-of-information-gain/dataset-pefect-split.svg "A Perfect Split")
 
 This is a perfect split since it breaks our dataset perfectly into two branches:
 
