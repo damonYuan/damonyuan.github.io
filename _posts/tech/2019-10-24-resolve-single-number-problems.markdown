@@ -9,7 +9,7 @@ tags: [One-Image-Per-Day]
 
 > * Author: [Damon Yuan](https://www.damonyuan.com)
 > * Date: 2019-10-24
-> * Reference: [Single Number II](https://leetcode.com/problems/single-number-ii/)
+> * Reference: [Single Number II](https://leetcode.com/problems/single-number-ii/); [leetcode 之 Single Number II](https://blog.csdn.net/yutianzuijin/article/details/50597413)
 
 **One Image Per Day**
 
