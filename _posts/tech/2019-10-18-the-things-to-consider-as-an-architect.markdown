@@ -47,5 +47,8 @@ When a feature is recommended by a Business Analyst, a design document should be
 Here is a example of design document's structure that should be considered by an Architect,
 
 ![the_things_to_consider_as_an_architect]({{site.url}}/images/2019-10-18-the-things-to-consider-as-an-architect/the_things_to_consider_as_an_architect.svg "The Things to Consider as An Architect")
- 
+
+## Knowledge Map for an JavaEE architect
+
+![knowledge_map_for_an_javaee_architect]({{site.url}}/images/2019-10-18-the-things-to-consider-as-an-architect/javaee-architect-knowledge-map.svg "Knowledge Map for an JavaEE architect")
 
