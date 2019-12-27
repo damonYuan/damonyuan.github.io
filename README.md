@@ -8,22 +8,6 @@
 
 Access via: [http://localhost:4000](http://localhost:4000)
 
-### https is enabled using Cloudflare
-
-### Article Key Factors
-
-#### Learn
-
-- What
-- How
-- Why
-
-#### Apply
-
-- who
-- where
-- when
-
 ### Tools
 
 > http://itools.com/tool/google-translate-web-page-translator
