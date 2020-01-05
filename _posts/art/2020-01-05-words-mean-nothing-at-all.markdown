@@ -1,7 +1,7 @@
 ---
 title:  "Words Mean Nothing At All"
 description: "an artifact from Nara"
-date: 2019-11-30 15:04:23
+date: 2020-01-05 15:04:23
 hidden: false
 categories: [Art]
 tags: [Nara]
