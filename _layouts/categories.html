@@ -18,7 +18,7 @@ layout: default
       <!-- iterate through all the posts on the site --> 
       {% for post in site.posts %} 
         <!-- list only those which contain the current tag --> 
-        {% if post.categories contains catitem[0] and (post.hidden == false or post.hidden == null) %}
+        {% if post.categories contains catitem[0] and post.hidden != true %}
           <li>
             <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
           </li>
