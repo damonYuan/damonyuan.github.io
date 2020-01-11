@@ -7,9 +7,9 @@ categories: [Tech]
 tags: [thoughts, TED]
 ---
 
-Recently I joked with one friend from Microsoft about some funny findings during the work - some developers don't really understand what the command is doing, just copy&paste the command into the terminal and expect it will run as what the document states. We made fun of this by naming them the "Blackbox Developers" and also bantered on the famous sentence in IT - "It works in my computer".
+Recently I joked with one friend from Microsoft about some funny findings during the work - some developers don't really understand what the commands they are running is doing, just copy&paste the commands into the terminal and expect them to run as what the document states. We made fun of this by naming them the "Blackbox Developers" and also bantered on the famous sentence in IT - "It works in my computer".
 
-While if happening in real daily work, there will be no fun at all and will be a disaster to the project. When I came back home and suddenly remembered a TED talk from Elon Musk, actually he has given some insight about it in 2013, at which moment his recycling rocket has never launched successfully. 
+While if happening in real daily work, there will be no fun at all and it is a disaster to the project. When I came back home and suddenly recalled a TED talk from Elon Musk, I remembered that he had given some ideas about how should one deal with unknown affairs.
 
 Here is what he said in the original text, 
 
