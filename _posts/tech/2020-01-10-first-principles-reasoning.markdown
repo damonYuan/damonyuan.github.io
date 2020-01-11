@@ -1,6 +1,6 @@
 ---
-title:  "First Principle Reasoning"
-description: "First Principle Reasoning"
+title:  "First Principles Reasoning"
+description: "First Principles Reasoning"
 date: 2020-01-10 15:04:23
 hidden: false
 categories: [Tech]
