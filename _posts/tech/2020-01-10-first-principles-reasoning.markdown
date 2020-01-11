@@ -10,7 +10,7 @@ tags: [thoughts, TED]
 > * Author: [Damon Yuan](https://www.damonyuan.com)
 > * Date: 2020-01-10
 
-Recently I joked with one friend from Microsoft about some funny findings during the work - some developers don't really understand what the commands they are running is doing, just copy&paste the commands into the terminal and expect them to run as what the document states. We made fun of this by naming them the "Blackbox Developers" and also bantered on the famous sentence in IT - "It works in my computer".
+Recently I joked with one friend from Microsoft about some funny findings during the work - some developers don't really understand what the commands they are running are doing, just copy&paste the commands into the terminal and expect them to run as what the document states. We made fun of this by naming them the "Blackbox Developers" and also bantered on the famous sentence in IT - "It works in my computer".
 
 While if happening in real daily work, there will be no fun at all and it is a disaster to the project. When I came back home and suddenly recalled a TED talk from Elon Musk, I remembered that he had given some ideas about how should one deal with unknown affairs.
 
