@@ -40,7 +40,7 @@ Before starting a project, we need to decide the tech stack for the project, for
 
 ![ms_patterns]({{site.url}}/images/2019-10-18-the-things-to-consider-as-an-architect/ms_patterns.png "Microsercie Patterns")
 
-One more thing to emphasis is that the logging system is as important as that of the required functionality and should be taken into consideration in the very beginning. One thing I learned from Automation Control system is that a controlled system should always provide the feedback, like the metrics, the logs, and the tracing. It is also very important to have a centric monitoring system to collect, analysis, visualize the data and send alerts when necessary, like ELK/EFK stack, Prometheus with Grafana, etc.
+It's worthy to mention that the logging system is as important as that of the required functions and should be taken into consideration in the very beginning. One thing I learned from Automation Control Theorem is that a controlled system should always provide the feedback, including the metrics, the logs, and the tracing. It is also very important to have a centric monitoring system to collect, analysis, visualize the data and send alerts when necessary, like ELK/EFK stack, Prometheus with Grafana, etc.
 
 ## Example Two: Before adding a new feature to a existing project
 
