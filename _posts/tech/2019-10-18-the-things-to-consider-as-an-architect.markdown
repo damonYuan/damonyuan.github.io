@@ -40,6 +40,8 @@ Before starting a project, we need to decide the tech stack for the project, for
 
 ![ms_patterns]({{site.url}}/images/2019-10-18-the-things-to-consider-as-an-architect/ms_patterns.png "Microsercie Patterns")
 
+One more thing to emphasis is that the logging system is as important as that of the required functionality and should be taken into consideration in the very beginning. One thing I learned from Automation Control system is that a controlled system should always provide the feedback, like the metrics, the logs, and the tracing.
+
 ## Example Two: Before adding a new feature to a existing project
 
 When a feature is recommended by a Business Analyst, a design document should be prepare beforehand so that the developers can understand what to do and the Scrum Masters know the exact definition of done. What's more, the documents themselves are also a part of the intellectual property of an company.
