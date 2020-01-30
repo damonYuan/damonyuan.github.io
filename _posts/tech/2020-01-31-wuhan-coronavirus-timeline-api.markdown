@@ -27,7 +27,7 @@ The project is consisted by,
 
 All of them are deployed to Kubernetes with Istio enabled. 
 
-I will open source it later when I feel ready and please let me know if any questions.
+I will [open source it](https://github.com/damonYuan/ncov-api-k8s) later when I feel ready and please let me know if any questions.
 
 The API docs is here: [Wuhan Coronavirus Timeline API / 武汉肺炎 Timeline API](https://wuhanapi.damonyuan.com/)
 
