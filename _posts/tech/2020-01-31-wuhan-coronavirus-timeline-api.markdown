@@ -12,7 +12,7 @@ tags: [Wuhan, Coronavirus, Timeline, API, Pneumonia]
 
 Recently the situation of Wuhan Coronavirus is getting serious, more and more foreign friends are aware of it and taking preventive measures to protect themselves from getting infected. Some of them are even interested in what is happening in China, and drop their jaws when hearing something like [China building 1,000-bed hospital in 10 days to treat coronavirus](https://www.dezeen.com/2020/01/27/china-wuhan-huoshenshan-hospital-coronavirus/). 
 
-To get the related credible information propagated easier with less language barrier, I have created a project to provide the API for consuming, for now it only crawls some Timeline information and I might add more in the future if the time is allowed.
+To get the related credible information from China propagated easier with less language barrier and without second hand modification, I have just created a project to provide the API for English speaking forks consuming. For now it only crawls some Timeline information and I might add more in the future if the time is allowed.
 
 The project is consisted by,
 
