@@ -41,3 +41,5 @@ By the way, [Metaprogramming Ruby 2](https://pragprog.com/book/ppmetr2/metaprogr
 
 #### Reference
 - [What is “this” keyword in JavaScript](https://codeburst.io/all-about-this-and-new-keywords-in-javascript-38039f71780c)
+- [All This](https://cooperluan.github.io/javascript/translation/2015/02/08/all-this-in-javascript/#function-this)
+- [理一理js中让人抓狂的this](https://www.jianshu.com/p/adaf787a0d4d)
