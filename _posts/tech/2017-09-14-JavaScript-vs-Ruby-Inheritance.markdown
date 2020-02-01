@@ -39,4 +39,5 @@ end
 
 By the way, [Metaprogramming Ruby 2](https://pragprog.com/book/ppmetr2/metaprogramming-ruby-2) is really great a book for rubyists.
 
-> Reference: [What is “this” keyword in JavaScript](https://codeburst.io/all-about-this-and-new-keywords-in-javascript-38039f71780c)
+#### Reference
+- [What is “this” keyword in JavaScript](https://codeburst.io/all-about-this-and-new-keywords-in-javascript-38039f71780c)
