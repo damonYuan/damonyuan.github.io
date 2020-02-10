@@ -2,7 +2,7 @@
 title:  "Wuhan Coronavirus Timeline API | 武汉肺炎 Timeline API"
 description: "Wuhan Coronavirus Timeline API | 武汉肺炎 Timeline API"
 date: 2020-01-30 15:04:23
-hidden: false
+hidden: true
 categories: [Tech]
 tags: [Wuhan, Coronavirus, Timeline, API, Pneumonia]
 ---
