@@ -29,7 +29,7 @@ The configuration for ShadowSocks and kcptun is placed inside the `config` folde
 
 `user <-> ss client <-> tcptun client <-> tcptun server <-> ss server <-> target website`
 
-Solution for "ss client + tcptun client" can be ShadowsocksX-NG or using a docker-compose to orchestrate.
+Solution for `ss client + tcptun client` can be ShadowsocksX-NG or using a docker-compose to orchestrate.
 
 ## Runbook
 
