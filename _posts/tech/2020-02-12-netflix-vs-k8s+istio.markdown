@@ -7,11 +7,11 @@ categories: [Tech]
 tags: [Kubernetes, SpringBoot, Netflix, Istio]
 ---
 
-## Microservice is complex
-
 Microservice is complex.
 
 Many articles simplify the complexity of microservice architecture to something that dividing a monolithic application into smaller pieces which owns its own domain, and each of them talks to others via some communication protocol. It's helpful for layman to grasp the basic concepts and feel the benefits it will bring - smaller application, easier development, and faster delivery, however sometimes it also covers the complexity behind it.
+
+## The Patterns
 
 IMHO, Here is a bit extraction of the patters that should be considered in a microservice architecture, 
 
@@ -37,7 +37,7 @@ IMHO, Here is a bit extraction of the patters that should be considered in a mic
 
 If all these still cannot demonstrate the complexity of the microservice architecture, read this -> [Back to Microservice with Istio](https://medium.com/google-cloud/back-to-microservices-with-istio-p1-827c872daa53). Lucky that I'm not the only person who has this feeling.
 
-The Comparison
+## The Comparison
 
 In `Netflix` Stack, most of the patterns mentioned above are implemented as a lib or a framework, and the developers will need to directly provision the service, integrate the library, and customize the code in the application. In `Kubernetes + Istio` solution, the sidecar pattern is used so that the application can be deployed into the cluster as normal application without knowing the details of patterns in microservice architecture - all those are taken care by Istio.
 
