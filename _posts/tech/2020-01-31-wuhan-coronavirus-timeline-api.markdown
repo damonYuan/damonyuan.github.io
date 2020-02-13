@@ -1,6 +1,6 @@
 ---
 title:  "A Test App with Istio"
-description: "A Pet App with Istio"
+description: "A Test App with Istio"
 date: 2020-01-30 15:04:23
 hidden: false
 categories: [Tech]
