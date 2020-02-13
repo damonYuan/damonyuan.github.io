@@ -7,6 +7,9 @@ categories: [Tech]
 tags: [Kubernetes, SpringBoot, Netflix, Istio]
 ---
 
+> * Author: [Damon Yuan](https://www.damonyuan.com)
+> * Date: 2020-02-12
+
 **Microservice is complex.**
 
 Many articles simplify the complexity of microservice architecture to something that dividing a monolithic application into smaller pieces which owns its own domain, and each of them talks to others via some communication protocol. It's helpful for layman to grasp the basic concepts and feel the benefits it will bring - smaller application, easier development, and faster delivery, however sometimes it also covers the complexity behind it.

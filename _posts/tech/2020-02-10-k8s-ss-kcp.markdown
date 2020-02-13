@@ -7,6 +7,9 @@ categories: [Tech]
 tags: [Kubernetes, ShadowSocks, kcptun]
 ---
 
+> * Author: [Damon Yuan](https://www.damonyuan.com)
+> * Date: 2020-02-10
+
 > [GitHub k8s-ss-kcp](https://github.com/damonYuan/k8s-ss-kcp)
 
 A Kubernetes solution for [ShadowSocks](https://github.com/shadowsocks/shadowsocks-libev) + [kcptun](https://github.com/xtaci/kcptun).

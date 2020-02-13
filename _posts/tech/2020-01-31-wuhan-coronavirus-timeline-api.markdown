@@ -1,8 +1,8 @@
 ---
-title:  "Wuhan Coronavirus Timeline API | 武汉肺炎 Timeline API"
-description: "Wuhan Coronavirus Timeline API | 武汉肺炎 Timeline API"
+title:  "A Test App with Istio"
+description: "A Pet App with Istio"
 date: 2020-01-30 15:04:23
-hidden: true
+hidden: false
 categories: [Tech]
 tags: [Wuhan, Coronavirus, Timeline, API, Pneumonia]
 ---
@@ -27,12 +27,3 @@ The project is consisted by,
 
 All of them are deployed to Kubernetes with Istio enabled. 
 
-I will [open source it](https://github.com/damonYuan/ncov-api-k8s) later when I feel ready and please let me know if any questions.
-
-The API docs is here: [Wuhan Coronavirus Timeline API / 武汉肺炎 Timeline API](https://wuhanapi.damonyuan.com/)
-
-The Timeline app is here: [Wuhan Coronavirus Timeline / 武汉肺炎 Timeline](https://wuhan.damonyuan.com/)
-
----
-
-__--CONTINUE--__
