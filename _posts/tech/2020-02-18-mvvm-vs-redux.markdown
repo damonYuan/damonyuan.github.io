@@ -16,7 +16,7 @@ Most of a pattern in a Framework is designed to decouple the components as much 
   1. using synchronized interfaces
   2. using asynchronized messages
 
-![MVVM vs Redux]({{site.url}}/images/2020-02-18-mvvm-vs-redux/mvvm-redux.png "MVVM vs Redux")  
+![MVVM vs Redux]({{site.url}}/images/2020-02-18-mvvm-vs-redux/mvvm-redux.svg "MVVM vs Redux")  
 
-![Spring]({{site.url}}/images/2020-02-18-mvvm-vs-redux/spring-pattern.png "Spring")  
+![Spring]({{site.url}}/images/2020-02-18-mvvm-vs-redux/spring-pattern.svg "Spring")  
 
