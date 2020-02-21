@@ -20,3 +20,7 @@ Most of a pattern in a Framework is designed to decouple the components as much 
 
 ![Spring]({{site.url}}/images/2020-02-18-mvvm-vs-redux/spring-pattern.svg "Spring")  
 
+- IoC: Inverse of Control - "Don't call us, we will call you"
+- DI: Dependency Injection
+- AOP: Aspect Oriented Programming
+
