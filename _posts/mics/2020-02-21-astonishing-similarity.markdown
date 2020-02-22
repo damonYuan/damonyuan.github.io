@@ -6,11 +6,14 @@ categories: [Mics]
 tags: [Others]
 ---
 
+> * [Netflix: Greatest Events of WWII in Colour](https://www.netflix.com/)
+
 ![01]({{site.url}}/images/2020-02-21-astonishing-similarity/wwII_01.png "01")
 ![02]({{site.url}}/images/2020-02-21-astonishing-similarity/wwII_02.png "02")
 ![03]({{site.url}}/images/2020-02-21-astonishing-similarity/wwII_03.png "03")
 ![04]({{site.url}}/images/2020-02-21-astonishing-similarity/wwII_04.png "04")
-----
+
+---
 
 ![11]({{site.url}}/images/2020-02-21-astonishing-similarity/wwII_11.png "11")
 ![12]({{site.url}}/images/2020-02-21-astonishing-similarity/wwII_12.png "12")
