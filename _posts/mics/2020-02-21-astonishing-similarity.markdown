@@ -15,8 +15,6 @@ tags: [Others]
 ![03]({{site.url}}/images/2020-02-21-astonishing-similarity/wwII_03.png "03")
 ![04]({{site.url}}/images/2020-02-21-astonishing-similarity/wwII_04.png "04")
 
----
-
 ## "The Big Lie"
 
 ![21]({{site.url}}/images/2020-02-21-astonishing-similarity/wwII_21.png "21")
@@ -30,9 +28,7 @@ tags: [Others]
 ![29]({{site.url}}/images/2020-02-21-astonishing-similarity/wwII_29.png "29")
 ![210]({{site.url}}/images/2020-02-21-astonishing-similarity/wwII_210.png "210")
 
----
-
-## The Effective Propaganda
+## Propaganda Plays on Prejudices
 
 ![11]({{site.url}}/images/2020-02-21-astonishing-similarity/wwII_11.png "11")
 ![12]({{site.url}}/images/2020-02-21-astonishing-similarity/wwII_12.png "12")
