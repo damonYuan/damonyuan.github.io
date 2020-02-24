@@ -23,4 +23,12 @@ Most of a pattern in a Framework is designed to decouple the components as much 
 - IoC: Inverse of Control - "Don't call us, we will call you"
 - DI: Dependency Injection
 - AOP: Aspect Oriented Programming
+   
+   With AOP, you still define the common functionality in one place, but you can declaratively define how and where this functionality is applied without having to modify the class to which you’re applying the new feature. Cross-cutting concerns can now be modularized into special classes called aspects. 
+   
+   This has two benefits. 
+   
+   - First, the logic for each concern is in one place, as opposed to being scat- tered all over the code base. 
+   - Second, your service modules are cleaner because they only contain code for their primary concern (or core functionality), and secondary concerns have been moved to aspects.
+
 
