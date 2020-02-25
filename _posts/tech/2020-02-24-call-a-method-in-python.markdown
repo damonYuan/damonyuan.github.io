@@ -1,6 +1,6 @@
 ---
-title:  "Call a Class Method from an instance in Python"
-description: "Call a Class Method from an instance in Python"
+title:  "Call a Class Method from an Instance in Python"
+description: "Call a Class Method from an Instance in Python"
 date: 2020-02-24 15:04:23
 hidden: false
 categories: [Tech]
