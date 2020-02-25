@@ -142,15 +142,21 @@ Reference: ([Python Descriptors: An Introduction](https://realpython.com/python-
 
 ![Python Inheritance Model]({{site.url}}/images/2020-02-24-call-a-method-in-python/python_inheritance_model.png "Python Inheritance Model")
 
+Much simpler, right?
+
 When `c.whoami()` is invoked, the search chain will
 
-   1. check if the instance's namespace contains the method. Here we find the bound method and using the descriptor to access the method. 
-   2. the descriptor will help to call the method using `Parent.whoami(c)`
+   1. check if the instance's namespace contains the method. Here we find the bound method and using the descriptor to access the method, the descriptor will help to call the method using `Parent.whoami(c)`
+   2. Otherwise, check if the type of the instance and see if the type's namespace contains the method
+   3. if still not found, escalate through the chain until it reach the end
 
 When `c.kls_whoami()` is called, the search chain will
 
-   1. check if the instance's namespace contains the method. Here we find the bound method and using the descriptor to access the method. 
-   2. the descriptor will help to call the method using `Parent.kls_whoami(type(c))`
+   1. check if the instance's namespace contains the method. Here we find the bound method and using the descriptor to access the method, the descriptor will help to call the method using `Parent.kls_whoami(type(c))`
+   2. Otherwise, check if the type of the instance and see if the type's namespace contains the method
+   3. if still not found, escalate through the chain until it reach the end
+
+`Child.kls_whoami()` and `Parent.kls_whoami()` is similar except that they are starting from the namespace of `Child` class and `Parent` class respectively.
 
 Both the class method and the instance method live in the `Parant` class's namespace, and the built-in non-data descriptor will help the instance to find the bound methods and convert the instance called upon to the arguments required by the method. For these reasons, a class method can be called on a python object instance without throwing any exceptions.
 
