@@ -72,7 +72,7 @@ c.kls_whoami # undefined method
 
 and the inheritance model is
 
-![Ruby Inheritance Model]({{site.url}}/images/2020-02-24-call-a-method-in-python/ruby_inheritance_model.png "Ruby Inheritance Model")  
+![Ruby Inheritance Model]({{site.url}}/images/2020-02-24-call-a-class-method-from-an-instance-in-python/ruby_inheritance_model.png "Ruby Inheritance Model")  
 
 When `c.whoami` is invoked, the search chain is 
 
@@ -116,7 +116,7 @@ c.klsWhoami(); # TypeError: c.klsWhoami is not a function
 
 and the inheritance model is
 
-![JavaScript Inheritance Model]({{site.url}}/images/2020-02-24-call-a-method-in-python/js_inheritance_model.png "JavaScript Inheritance Model")  
+![JavaScript Inheritance Model]({{site.url}}/images/2020-02-24-call-a-class-method-from-an-instance-in-python/js_inheritance_model.png "JavaScript Inheritance Model")  
 
 When `c.whoami()` is invoked, the search chain is 
 
@@ -140,7 +140,7 @@ This works for regular instance methods just like it does for class methods or s
 
 Reference: ([Python Descriptors: An Introduction](https://realpython.com/python-descriptors/))
 
-![Python Inheritance Model]({{site.url}}/images/2020-02-24-call-a-method-in-python/python_inheritance_model.png "Python Inheritance Model")
+![Python Inheritance Model]({{site.url}}/images/2020-02-24-call-a-class-method-from-an-instance-in-python/python_inheritance_model.png "Python Inheritance Model")
 
 Much simpler, right?
 
