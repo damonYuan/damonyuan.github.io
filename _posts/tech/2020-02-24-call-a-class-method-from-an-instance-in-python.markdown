@@ -28,9 +28,9 @@ class Child(Parent):
      
 
 c = Child()
-c.whoami() # Child
-Child.kls_whoami() # Parent
-c.kls_whoami() # Parent -> ? why
+c.whoami() # instance
+Child.kls_whoami() # class
+c.kls_whoami() # class -> ? why
 ```
 
 I was shocked because it never happens in JavaScript, Ruby or other languages that I know, and it seems to have broken the principle of encapsulation - how come a class method can be called from an object, why is it so special and and what's the differences between Python and other languages' inheritance models?
@@ -65,8 +65,8 @@ end
 
 c = Child.new
 d = Child.new
-c.whoami # child
-Child.kls_whoami # Parent
+c.whoami # instance
+Child.kls_whoami # class
 c.kls_whoami # undefined method
 ```
 
@@ -108,9 +108,8 @@ class Child extends Parent {
 }
 
 let c = new Child();
-let d = new Child();
-c.whoami(); # Child
-Child.klsWhoami(); # Parent
+c.whoami(); # instance
+Child.klsWhoami(); # class
 c.klsWhoami(); # TypeError: c.klsWhoami is not a function
 ```
 
