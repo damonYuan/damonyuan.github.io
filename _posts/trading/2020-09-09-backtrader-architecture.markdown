@@ -2,7 +2,7 @@
 title:  "backtrader architecture"
 description: "backtrader architecture"
 date: 2020-09-09 15:04:23
-hidden: true
+hidden: false
 categories: [Trading]
 tags: [backtrader, architecture]
 ---
