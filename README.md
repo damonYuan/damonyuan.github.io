@@ -18,5 +18,3 @@ Access via: [http://localhost:4000](http://localhost:4000)
 [online preview](https://www.codecogs.com/latex/eqneditor.php)
 [draw it here](http://detexify.kirelabs.org/classify.html)
 
-----
-技术无境，地低成海，人低成王。
