@@ -9,6 +9,7 @@ tags: [backtrader, architecture]
 
 > * Author: [Damon Yuan](https://www.damonyuan.com)
 > * Date: 2020-09-09
+> * 微信公众号: [backtrader 基本架构](https://mp.weixin.qq.com/s/8Jt2TN1Ndozg4MXFP8izHQ)
 
 作为一个初学者，剖析一下本工具的基本架构，明白大家都很懒不想看代码，所以制作了一张流程图，希望对大家理解有所帮助。
 
