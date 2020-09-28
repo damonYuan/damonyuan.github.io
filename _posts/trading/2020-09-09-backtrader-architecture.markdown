@@ -1,6 +1,6 @@
 ---
-title:  "backtrader architecture"
-description: "backtrader architecture"
+title:  "backtrader 基本架构"
+description: "backtrader 基本架构"
 date: 2020-09-09 15:04:23
 hidden: false
 categories: [Trading]
@@ -10,7 +10,9 @@ tags: [backtrader, architecture]
 > * Author: [Damon Yuan](https://www.damonyuan.com)
 > * Date: 2020-09-09
 
-Just another simple explanation of the backtrader's application architecture.
+作为一个初学者，剖析一下本工具的基本架构，希望对大家理解代码有所帮助。
+
+直接上码，
 
 Code:
 

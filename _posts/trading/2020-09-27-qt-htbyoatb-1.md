@@ -1,0 +1,26 @@
+---
+title:  "手动拆解《Quantitative Trading - How to Build Your Own Algorithmic Trading Business》（一）"
+description: "手动拆解《Quantitative Trading - How to Build Your Own Algorithmic Trading Business》（一）"
+date: 2020-09-27 15:04:23
+hidden: false
+categories: [Trading]
+tags: [backtrader, quantitative, trading]
+---
+
+之前介绍了 backtrader 的基本架构和使用方法，今天这个系列从一本书开始，记录我自己的量化学习之路的同时，希望也能够帮助到一些其他人。
+
+这次选择的第一本书是 Ernest Chan 的《Quantitative Trading - How to Build Your Own Algorithmic Trading Business》。
+
+![Quantitative Trading - How to Build Your Own Algorithmic Trading Business]({{site.url}}/images/2020-09-27-qt-htbyoatb-1/cover.png "Quantitative Trading - How to Build Your Own Algorithmic Trading Business")
+
+为什么选这本书，原因也很简单，就是简单。这本平平无奇的书用平实的语言向读者诠释了量化交易的基本思路，相比那些一上来就开始劝退的大部头，用户体验不是好得一丢丢。话不多说，开始拆解第一章。
+
+![第一章]({{site.url}}/images/2020-09-27-qt-htbyoatb-1/c1.png "第一章")
+
+结构如上。第一部分其实就是叫你不要慌，量化很简单，傻子都可以。第二部分和你说量化很赚钱，做得好可以规模化，解放你的双手不要996，简单粗暴直接对钱做交易不要什么市场调研之类的，总之就是棒棒的比创业好得不得了。第三部分就是提一些问题给你，比如怎么发现交易策略啊，怎么评估策略好坏啊，怎么回测啊，总之先把小白心理问得有点毛，然后告诉你不要慌，我在后面几章都会讲。字数还是要凑点的，一来显得不那么工具书，二来字数上去了卖的钱才多嘛。
+
+第一章就是这样，平平无奇。
+
+![平平无奇]({{site.url}}/images/2020-09-27-qt-htbyoatb-1/平平无奇.png "平平无奇")
+
+未完待续哦。
