@@ -42,12 +42,12 @@ class SmaStrategy(bt.Strategy):  # [4]
 
     def notify_order(self, order):  # [7]
         if order.status in [order.Submitted, order.Accepted]:
-            # Buy/Sell order submitted/accepted to/by broker - Nothing to do
+            # Buy/Sell order submitted/accepted to/by broker - 现在不重要
             return
-        # Check if an order has been completed
-        # Attention: broker could reject order if not enough cash
+        # 检查一个 order 有没有完成
+        # 注意： broker 可以 reject order 如果没有足够的 cash
         if order.status in [order.Completed]:
-            if order.isbuy():
+            if order.isbuy(): # 买
                 self.log(
                     'BUY EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
                     (order.executed.price,
@@ -55,7 +55,7 @@ class SmaStrategy(bt.Strategy):  # [4]
                      order.executed.comm))
                 self.buyprice = order.executed.price
                 self.buycomm = order.executed.comm
-            else:  # Sell
+            else:  # 卖
                 self.log('SELL EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
                          (order.executed.price,
                           order.executed.value,
@@ -140,5 +140,7 @@ if __name__ == '__main__':
     plt.rcParams['figure.edgecolor'] = 'k'
     cerebro.plot(iplot=False)  # [17]
 ```
+
+代码一大堆，码上上图，
 
 ![backtrader application architecture]({{site.url}}/images/2020-09-09-backtrader-architecture/backtrader_architecture.png "backtrader application architecture")
