@@ -7,6 +7,10 @@ categories: [Trading]
 tags: [backtrader, quantitative, trading]
 ---
 
+> * Author: [Damon Yuan](https://www.damonyuan.com)
+> * Date: 2020-09-27
+> * 微信公众号: [手动拆解《How to Build Your Own Algorithmic Trading Business》（一）](https://mp.weixin.qq.com/s/tE6AHa63TQ37R-SBOCzJbg)
+
 之前介绍了 backtrader 的基本架构和使用方法，今天这个系列从 Ernest Chan 的《Quantitative Trading - How to Build Your Own Algorithmic Trading Business》，手动拆解每一章的同时，用 backtrader 对策略进行实现。
 
 ![Quantitative Trading - How to Build Your Own Algorithmic Trading Business]({{site.url}}/images/2020-09-27-qt-htbyoatb-1/cover.jpg "Quantitative Trading - How to Build Your Own Algorithmic Trading Business")
