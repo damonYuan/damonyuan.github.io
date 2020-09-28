@@ -10,7 +10,9 @@ tags: [backtrader, architecture]
 > * Author: [Damon Yuan](https://www.damonyuan.com)
 > * Date: 2020-09-09
 
-作为一个初学者，剖析一下本工具的基本架构，希望对大家理解代码有所帮助。
+作为一个初学者，剖析一下本工具的基本架构，明白大家都很懒不想看代码，所以制作了一张流程图，希望对大家理解有所帮助。
+
+![我很懒]({{site.url}}/images/2020-09-09-backtrader-architecture/我很懒.jpg "我很懒")
 
 直接上码，
 
