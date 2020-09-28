@@ -11,7 +11,7 @@ tags: [backtrader, quantitative, trading]
 
 这次选择的第一本书是 Ernest Chan 的《Quantitative Trading - How to Build Your Own Algorithmic Trading Business》。
 
-![Quantitative Trading - How to Build Your Own Algorithmic Trading Business]({{site.url}}/images/2020-09-27-qt-htbyoatb-1/cover.png "Quantitative Trading - How to Build Your Own Algorithmic Trading Business")
+![Quantitative Trading - How to Build Your Own Algorithmic Trading Business]({{site.url}}/images/2020-09-27-qt-htbyoatb-1/cover.jpg "Quantitative Trading - How to Build Your Own Algorithmic Trading Business")
 
 为什么选这本书，原因也很简单，就是简单。这本平平无奇的书用平实的语言向读者诠释了量化交易的基本思路，相比那些一上来就开始劝退的大部头，用户体验不是好得一丢丢。话不多说，开始拆解第一章。
 
