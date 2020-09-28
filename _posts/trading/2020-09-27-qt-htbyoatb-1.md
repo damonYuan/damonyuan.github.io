@@ -27,4 +27,4 @@ tags: [backtrader, quantitative, trading]
 
 第一章就是这样，平平无奇的辣鸡，你要是没空，duck 不看。我们再看下章分解。
 
-![平平无奇]({{site.url}}/images/2020-09-27-qt-htbyoatb-1/平平无奇.png "平平无奇")
+![平平无奇]({{site.url}}/images/2020-09-27-qt-htbyoatb-1/平平无奇.jpg "平平无奇")
