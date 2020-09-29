@@ -39,9 +39,9 @@ tags: [backtrader, quantitative, trading]
   * 报纸杂志 Newspaper and magazines
     - [Stocks, Futures and Options magazine](www.sfomag.com)
   
-这里不禁提一句，这本书确实有些年头了，肯定缺失了不少最新的信息源头，比如 [quantopian](https://www.quantopian.com/)。欢迎大家留言补充。
+这里顺便提一句，这本书确实有些年头了，肯定缺失了不少最新的信息源头，比如 [quantopian](https://www.quantopian.com/)，欢迎大家留言补充。
 
-总之难点不是没有 ideas, 难点是培养能发掘适合自己的可盈利的 ideas 的眼光。
+总之第一部分想说的量化的难点不是没有 ideas, 难点是培养能发掘适合自己的可盈利的 ideas 的眼光。
 
 第二部分主要讲判断是不是适合自己的几个要素，
 
@@ -88,7 +88,7 @@ tags: [backtrader, quantitative, trading]
     注意，
     
     * 如果一个策略一年只交易不多几次，那么它的夏普率不会太高，但是并不是说这个策略不能盈利。
-    * 如果一个策略有很长时间或者很大程度的回撤（[backtrader implementation](https://github.com/mementum/backtrader/blob/master/backtrader/analyzers/drawdown.py)），那么它的夏普率也不太可能太高。
+    * 如果一个策略有很长时间或者很大程度的回撤（backtrader 也已经实现 [这里](https://github.com/mementum/backtrader/blob/master/backtrader/analyzers/drawdown.py)），那么它的夏普率也不太可能太高。
     * 如果夏普率小于1，那你基本上可以放弃该策略。如果你想要每个月都有盈利，那么该策略的夏普率应该至少为2。如果一个策略能够做到每天都盈利，那么它的夏普率应该至少为3。
     
   * 最大回撤
