@@ -1,7 +1,7 @@
 ---
 title:  "手动拆解《Quantitative Trading - How to Build Your Own Algorithmic Trading Business》（二）"
 description: "手动拆解《Quantitative Trading - How to Build Your Own Algorithmic Trading Business》（二）"
-date: 2020-09-27 15:04:23
+date: 2020-09-28 15:04:23
 hidden: false
 categories: [Trading]
 tags: [backtrader, quantitative, trading]
