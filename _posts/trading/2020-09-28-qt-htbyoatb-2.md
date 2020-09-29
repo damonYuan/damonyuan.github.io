@@ -9,6 +9,7 @@ tags: [backtrader, quantitative, trading]
 
 > * Author: [Damon Yuan](https://www.damonyuan.com)
 > * Date: 2020-09-28
+> * 微信公众号: [手动拆解《Quantitative Trading - How to Build Your Own Algorithmic Trading Business》（二）](https://mp.weixin.qq.com/s/Bz_OwaA2J_B3_0qfzpQOIg)
 
 本章的内容如下，主要就是告诉大家，找到可行的交易策略并不是一件困难的事情，我们的主要工作是鉴定找到的策略是不是适合我们的所处的环境，最后介绍了一些鉴定指标，就酱紫。
 
