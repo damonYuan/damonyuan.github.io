@@ -18,7 +18,7 @@ tags: [backtrader, quantitative, trading]
 第一部分主要讲，找到可行的策略的途径很多，源头主要分为下面几类：
 
   * 学术 Academic
-    - [Business schools’ finance professors’ web sites](www.hbs.edu/research/research.html)
+    - [Business schools’ finance professors’ web sites](https://www.hbs.edu/research/research.html)
     - [Social Science Research Network](www.ssrn.com)
     - [National Bureau of Economic Research](www.nber.org)
     - [Business schools’ quantitative finance seminars](www.ieor.columbia.edu/seminars/financialengineering)
