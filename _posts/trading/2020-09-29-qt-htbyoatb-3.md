@@ -68,18 +68,82 @@ class TushareDataFrame:
         df.index = pd.to_datetime(df['date'])
         df['openinterest'] = 0
         df = df[['open', 'high', 'low', 'close', 'volume', 'openinterest']]
-        return df
+        return bt.feeds.PandasData(dataname=df.sort_index(),
+                                                 fromdate=pd.to_datetime(self.start),
+                                                 todate=pd.to_datetime(self.end))
 
 # 在 backtrader 主函数中调用
-df = TushareDataFrame(code='600000.SH', 
+data = TushareDataFrame(code='600000.SH', 
                        start='20100331', 
                        end='20200331').get_data()
-data = btfeeds.PandasData(dataname=df.sort_index(), 
-                                         fromdate=pd.to_datetime(self.start), 
-                                         todate=pd.to_datetime(self.end))
 cerebro.adddata(data) 
 ```
 
 ### [富途牛牛](https://github.com/FutunnOpen/py-futu-api)
 
 这是一家券商做的开放式接口，数据质量应该是比较有保证的。该接口不仅含有低频数据接口，同时还有高频数据接口，跟可直接连接交易系统下单。
+
+```
+import futu as ft
+
+
+class FutuDatafeed():
+    def __init__(self, code, start=None, end=None):
+        self.quote_ctx = None
+        self.market = ft.Market.HK
+        self.code = code
+        self.start = '2018-01-01'
+        self.end = '2019-01-01'
+        self.code_list = [self.code]
+
+    def get_data(self):
+        ret, df, page_req_key = self.quote_ctx.request_history_kline(self.code,
+                                                                     start=self.start,
+                                                                     end=self.end,
+                                                                     ktype='K_DAY',
+                                                                     autype='qfq',
+                                                                     max_count=50)  # 获取历史K线
+        df['openinterest'] = 0
+        df = df[['open', 'high', 'low', 'close', 'volume', 'openinterest']]
+        return df
+
+    def __enter__(self):
+        self.quote_ctx = ft.OpenQuoteContext(host="127.0.0.1", port=11111)
+        self.quote_ctx.start()
+        self.quote_ctx.set_handler(ft.TickerHandlerBase())
+        return self
+
+    def __exit__(self, *args):
+        self.quote_ctx.stop()
+        self.quote_ctx.close()
+
+# Add the Data Feed to Cerebro
+with FutuDatafeed(code='HK.00123') as f:
+    feed = f.get_data()
+    cerebro.adddata(data)
+```
+
+### [Quandl](https://www.quandl.com/)
+
+backtrader 内置 [quandl](https://www.backtrader.com/docu/dataautoref/#quandl) 支持，获取股票数据可以如下，
+
+```
+data = bt.feeds.Quandl(
+    dataname='AAPL',
+    fromdate = datetime(2017,1,1),
+    todate = datetime(2018,1,1),
+    buffered= True,
+    apikey="XXXXXXXX"
+    )
+
+# Add the Data Feed to Cerebro
+cerebro.adddata(data)
+```
+
+该平台对其股价计算作出明确的[定义](https://blog.quandl.com/guide-to-stock-price-calculation)，这里为歪果仁治学严谨点个赞。
+
+默认 `adjclose=True` 同时价格数据是前复权。
+
+TODO:
+
+https://teddykoker.com/2019/05/creating-a-survivorship-bias-free-sp-500-dataset-with-python/
