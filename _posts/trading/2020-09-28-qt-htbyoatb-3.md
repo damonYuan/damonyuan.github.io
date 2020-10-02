@@ -18,27 +18,27 @@ tags: [backtrader, quantitative, trading]
 第一部分主要讲，找到可行的策略的途径很多，源头主要分为下面几类：
 
   * 学术 Academic
-    - [Business schools’ finance professors’ web sites](https://www.hbs.edu/research/research.html)
-    - [Social Science Research Network](https://www.ssrn.com)
-    - [National Bureau of Economic Research](https://www.nber.org)
-    - [Business schools’ quantitative finance seminars](https://www.ieor.columbia.edu/seminars/financialengineering)
-    - [Mark Hulbert’s column in the New York Times’ Sunday business section](https://www.nytimes.com)
-    - [Buttonwood column in the Economist magazine’s finance section](https://www.economist.com)
+    - [Business schools’ finance professors’ web sites](www.hbs.edu/research/research.html)
+    - [Social Science Research Network](www.ssrn.com)
+    - [National Bureau of Economic Research](www.nber.org)
+    - [Business schools’ quantitative finance seminars](www.ieor.columbia.edu/seminars/financialengineering)
+    - [Mark Hulbert’s column in the New York Times’ Sunday business section](www.nytimes.com)
+    - [Buttonwood column in the Economist magazine’s finance section](www.economist.com)
   * 财经网站和博客 Financial web sites and blogs
-    - [Yahoo! Finance](https://finance.yahoo.com)
-    - [TradingMarkets](https://www.TradingMarkets.com)
-    - [Seeking Alpha](https://www.SeekingAlpha.com)
-    - [TheStreet.com](https://www.TheStreet.com)
-    - [The Kirk Report](https://www.TheKirkReport.com)
-    - [Alea Blog](https://www.aleablog.com)
-    - [Abnormal Returns](https://www.AbnormalReturns.com)
-    - [Brett Steenbarger Trading Psychology](https://www.brettsteenbarger.com)
-    - [epchan's blogs](https://epchan.blogspot.com)
+    - [Yahoo! Finance](finance.yahoo.com)
+    - [TradingMarkets](www.TradingMarkets.com)
+    - [Seeking Alpha](www.SeekingAlpha.com)
+    - [TheStreet.com](www.TheStreet.com)
+    - [The Kirk Report](www.TheKirkReport.com)
+    - [Alea Blog](www.aleablog.com)
+    - [Abnormal Returns](www.AbnormalReturns.com)
+    - [Brett Steenbarger Trading Psychology](www.brettsteenbarger.com)
+    - [epchan's blogs](epchan.blogspot.com)
   * 交易员论坛 Trader forums
-    - [Elite Trader](https://www.Elitetrader.com)
-    - [Wealth-Lab](https://www.wealth-lab.com)
+    - [Elite Trader](www.Elitetrader.com)
+    - [Wealth-Lab](www.wealth-lab.com)
   * 报纸杂志 Newspaper and magazines
-    - [Stocks, Futures and Options magazine](https://www.sfomag.com)
+    - [Stocks, Futures and Options magazine](www.sfomag.com)
   
 这里顺便提一句，这本书确实有些年头了，肯定缺失了不少最新的信息源头，比如 [quantopian](https://www.quantopian.com/)，欢迎大家留言补充。
 
