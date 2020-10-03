@@ -32,18 +32,16 @@ tags: [backtrader, quantitative, trading]
 首先关于数据质量有几个重点关注对象，
 
 - 数据是否复权，前复权还是后复权
-- 数据是否存在幸存者偏差
 - 策略是否使用最高或者最低价格
+- 数据是否存在幸存者偏差
 
-这里我们会用三个免费数据源：Tushare, 富途牛牛 和 Quandl。
+这里我们会用三个免费数据源：Tushare, 富途牛牛 和 Quandl。这几个免费的数据是有幸存者偏差的，[也就是说它返回的数值只包含没有退市的股票](https://github.com/waditu/tushare/issues/244)，需要手动获取停牌股票信息并处理数据。另外一个简单的处理方案是尽量使用最近的数据进行回测这样回测结果比较不会失真。或者花钱买更好的数据。。。穷，不在讨论范围（[万德](https://www.wind.com.cn/NewSite/wft.html) 和 [Bloomberg](https://www.bloombergchina.com/solution/bloomberg-terminal/)）。
 
 ### [Tushare](https://github.com/waditu/tushare)
 
 主要用于获取国内各种数据。
 
 注意[日线行情](https://tushare.pro/document/2?doc_id=27)是未复权行情。所以请使用[通用行情接口](https://tushare.pro/document/2?doc_id=109)。该接口包含了股票未复权，前复权和后复权数据。
-
-TuShare 数据是有幸存者偏差的，[也就是说它返回的数值只包含没有退市的股票](https://github.com/waditu/tushare/issues/244)，需要手动获取停牌股票信心并处理数据。另外一个简单的处理方案是尽量使用最近的数据进行回测这样回测结果比较不会失真。
 
 最后， TuShare 数据包含了最高或者最低价格。
 
@@ -79,22 +77,37 @@ data = TushareDataFrame(code='600000.SH',
 cerebro.adddata(data) 
 ```
 
+数据的第一个和第二个问题都得到了解决，而针对幸存者偏差，除了上面提到的尽量使用最近的数据进行回测之外，我们还可以手动查询策略中所用到的时间范围内的退市的股票信息，
+
+```
+import tushare as ts
+import pandas as pd
+
+def get_delisted_stocks(self):
+    pro = ts.pro_api()
+    stocks = pro.stock_basic(exchange='', list_status='D', fields='ts_code,symbol,name,list_date,delist_date')
+    df = stocks[(stocks['list_date'] < self.end) & (stocks['delist_date'] > self.start)]
+    print(df)
+```
+
+这里我们得到我们回测时间范围内的所有退市股票，在策略中我们可以按需根据这些信息构建完整的历史数据。
+
 ### [富途牛牛](https://github.com/FutunnOpen/py-futu-api)
 
-这是一家券商做的开放式接口，数据质量应该是比较有保证的。该接口不仅含有低频数据接口，同时还有高频数据接口，跟可直接连接交易系统下单。
+这是一家券商做的开放式接口，数据质量应该是比较有保证的。该接口不仅含有低频数据接口，同时还有高频数据接口，跟可直接连接交易系统下单。但是注意富途 API 有每月获取股票信息额度限制，需要有其他替代接口。
 
 ```
 import futu as ft
+import pandas as pd
+import backtrader as bt
 
 
 class FutuDatafeed():
-    def __init__(self, code, start=None, end=None):
+    def __init__(self, code, start, end):
         self.quote_ctx = None
-        self.market = ft.Market.HK
         self.code = code
-        self.start = '2018-01-01'
-        self.end = '2019-01-01'
-        self.code_list = [self.code]
+        self.start = start
+        self.end = end
 
     def get_data(self):
         ret, df, page_req_key = self.quote_ctx.request_history_kline(self.code,
@@ -102,10 +115,25 @@ class FutuDatafeed():
                                                                      end=self.end,
                                                                      ktype='K_DAY',
                                                                      autype='qfq',
-                                                                     max_count=50)  # 获取历史K线
+                                                                     max_count=50)
+        while page_req_key != None:
+            ret, tmp, page_req_key = self.quote_ctx.request_history_kline(self.code,
+                                                                          start=self.start,
+                                                                          end=self.end,
+                                                                          ktype='K_DAY',
+                                                                          autype='qfq',
+                                                                          max_count=50,
+                                                                          page_req_key=page_req_key)
+
+            df = pd.concat([df, tmp])
+
+        df.index = pd.to_datetime(df['time_key'])
         df['openinterest'] = 0
         df = df[['open', 'high', 'low', 'close', 'volume', 'openinterest']]
-        return df
+        print(df)
+        return bt.feeds.PandasData(dataname=df.sort_index(),
+                                   fromdate=pd.to_datetime(self.start),
+                                   todate=pd.to_datetime(self.end))
 
     def __enter__(self):
         self.quote_ctx = ft.OpenQuoteContext(host="127.0.0.1", port=11111)
@@ -119,7 +147,7 @@ class FutuDatafeed():
 
 # Add the Data Feed to Cerebro
 with FutuDatafeed(code='HK.00123') as f:
-    feed = f.get_data()
+    data = f.get_data()
     cerebro.adddata(data)
 ```
 
@@ -147,3 +175,44 @@ cerebro.adddata(data)
 TODO:
 
 https://teddykoker.com/2019/05/creating-a-survivorship-bias-free-sp-500-dataset-with-python/
+
+## 第三部分
+
+回测结果分析指标。上一章介绍了两个最终要的指标：夏普率和最大回撤（时间和幅度）。鉴于 backtrader 已经实现了这两个参数，这里就不在累赘，直接拿来用即可。有兴趣的话可以参考源代码。
+
+这部分作者有提到一个是否需要在 strategy return 中减去 risk-free rate 来作为计算 Sharpe Ratio 的 excess return 的细节问题。作者认为 dollar-neutral portfolio, 比如 long-short strategy，和日内交易都不需要，因为这些种类的交易都没有带来融资成本。
+
+同时在计算 long-short strategy return 时候，要注意除以2，因为这时候你有双倍的资金（注意 backtrader [Sharpe Ratio 计算](https://github.com/mementum/backtrader/blob/master/backtrader/analyzers/sharpe.py#L135-L141) 代码中并看不出来有没有除以2，如有需要请自行验证）。
+
+## 第四部分
+
+这部分主要介绍了回测容易发生的几大问题。
+
+### Look-ahead bias
+ 
+解决方法是只用前一个休市之前的数据来计算当前策略因子（当然如果你只在休市时候交易，那也可以用当天的数据）。
+
+统计上的验证方法是，删去最近 N 天的数据来计算 position file B, 并与现在的 position file A 做比较，如果 T - N 天前的仓位数据是完全一样的，那说明没有 look-ahead bias, 否则你很有可能用了 T - N 天 内的数据来影响 position file A 中 T - N 天前的仓位数据。
+
+### 过分耦合 Data-snooping bias
+
+诀窍是不在策略中引进过多的参数（作者说他自己不会引进多余 5 个的参数）。其他一些手段包括
+
+#### 保证样本数量足够大
+
+对 tick 单位为每日的交易来说 n = 252 x number of free parameters；对 tick 单位为每分钟的交易来说 n = （252 / trading hours per day / 60）x number of free parameters
+
+#### 样品外测试
+
+其实交易策略的过程和机器学医十分相似，都可以分为，
+
+1. 收集数据
+2. 数据清洗
+3. 数据分析
+4. 训练模型
+5. 测试
+6. 使用
+
+其中 1 和 2 数据源和量化工具已经帮我们做好了，第 3 步就是交易策略，第 4 步属于根据现有真实数据调节参数以达到收益目标，第 5 步也需要根据现有真实数据来验证策略是不是有效，验证成功后第 6 步才是应用于真实的交易环境中。
+
+这里我们可以看到 4 和 5 都用到了真实数据，那么怎么可以保证训练用数据和测试用数据能够相互独立不会因为过拟合导致测试失效呢？作者提出的简单的方法是把数据分成两份（比如奇偶日），然后一份用作训练，一份用作测试。
