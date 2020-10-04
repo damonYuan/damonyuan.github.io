@@ -194,6 +194,39 @@ quandl.ApiConfig.api_key = QUANDL_API_KEY
                                    todate=self.end)
 ```
 
+### Yahoo
+
+差点忘记这个数据大佬，python 有一个叫 pandas-datareader 的包，用以下代码可直接返回backtrader可用的数据，
+
+```
+from pandas_datareader import data
+import backtrader as bt
+
+
+class YahooDatafeed():
+    def __init__(self, code, start, end):
+        self.code = code
+        self.start = start # '2018-01-01'
+        self.end = end # '2019-01-01'
+
+    def get_data(self):
+        df = data.DataReader(self.code,
+                               start=self.start,
+                               end=self.start,
+                               data_source='yahoo')
+        df = df.rename(index={'Date': 'date'},
+                       columns={'Open': 'open',
+                                'Adj Close': 'close',
+                                'High': 'high',
+                                'Low': 'low',
+                                'Volume': 'volume'})
+        df['openinterest'] = 0
+        print(df.head())
+        return bt.feeds.PandasData(dataname=df.sort_index(),
+                                   fromdate=self.start,
+                                   todate=self.end)
+``` 
+
 ## 第三部分
 
 回测结果分析指标。上一章介绍了两个最终要的指标：夏普率和最大回撤（时间和幅度）。鉴于 backtrader 已经实现了这两个参数，这里就不在累赘，直接拿来用即可。有兴趣的话可以参考源代码。
