@@ -1,8 +1,8 @@
 ---
-title:  "手动拆解《Quantitative Trading - How to Build Your Own Algorithmic Trading Business》（三）"
-description: "手动拆解《Quantitative Trading - How to Build Your Own Algorithmic Trading Business》（三）"
+title:  "手动拆解《Quantitative Trading - How to Build Your Own Algorithmic Trading Business》（三）(上)"
+description: "手动拆解《Quantitative Trading - How to Build Your Own Algorithmic Trading Business》（三）（上）"
 date: 2020-09-29 15:04:23
-hidden: true
+hidden: false
 categories: [Trading]
 tags: [backtrader, quantitative, trading]
 ---
@@ -10,9 +10,11 @@ tags: [backtrader, quantitative, trading]
 > * Author: [Damon Yuan](https://www.damonyuan.com)
 > * Date: 2020-09-29
 
-![第三章]({{site.url}}/images/2020-09-28-qt-htbyoatb-3/c3.png "第三章")
+![第三章]({{site.url}}/images/2020-09-28-qt-htbyoatb-3.1/c3.png "第三章")
 
 第三章的基本结构如上。
+
+这部分内容较多，分为上下两个部分。该部分为上。
 
 ## 第一部分
 
@@ -94,7 +96,7 @@ def get_delisted_stocks(self):
 
 ### [富途牛牛](https://github.com/FutunnOpen/py-futu-api)
 
-这是一家券商做的开放式接口，数据质量应该是比较有保证的。该接口不仅含有低频数据接口，同时还有高频数据接口，跟可直接连接交易系统下单。但是注意富途 API 有每月获取股票信息额度限制，需要有其他替代接口。
+这是一家券商做的开放式接口，数据质量应该是比较有保证的。该接口不仅含有低频数据接口，同时还有高频数据接口，跟可直接连接交易系统下单。但是注意富途 API 有每月获取股票信息数量额度限制（每月只可以查询300支股票的信息），需要有其他替代接口。
 
 ```
 import futu as ft
@@ -172,9 +174,25 @@ cerebro.adddata(data)
 
 默认 `adjclose=True` 同时价格数据是前复权。
 
-TODO:
+但是有的时候我们希望加入数据前对数据提前进行处理，这时候要是能把 datafeed 转化成 pandas dataframe就好了，可惜我没有发现这个方法。此时我们可以用另一种方法获取 quandl 数据。
 
-https://teddykoker.com/2019/05/creating-a-survivorship-bias-free-sp-500-dataset-with-python/
+```
+quandl.ApiConfig.api_key = QUANDL_API_KEY
+...
+    def get_data(self):
+        df = quandl.get('WIKI/AAPL')
+        df = df.rename(index={'Date': 'date'},
+                       columns={'Open': 'open',
+                              'Close': 'close',
+                              'High': 'high',
+                              'Low': 'low',
+                              'Volume': 'volume'})
+        df['openinterest'] = 0
+        df = df[['open', 'high', 'low', 'close', 'volume', 'openinterest']]
+        return bt.feeds.PandasData(dataname=df.sort_index(),
+                                   fromdate=self.start,
+                                   todate=self.end)
+```
 
 ## 第三部分
 
@@ -215,4 +233,10 @@ https://teddykoker.com/2019/05/creating-a-survivorship-bias-free-sp-500-dataset-
 
 其中 1 和 2 数据源和量化工具已经帮我们做好了，第 3 步就是交易策略，第 4 步属于根据现有真实数据调节参数以达到收益目标，第 5 步也需要根据现有真实数据来验证策略是不是有效，验证成功后第 6 步才是应用于真实的交易环境中。
 
-这里我们可以看到 4 和 5 都用到了真实数据，那么怎么可以保证训练用数据和测试用数据能够相互独立不会因为过拟合导致测试失效呢？作者提出的简单的方法是把数据分成两份（比如奇偶日），然后一份用作训练，一份用作测试。
+这里我们可以看到 4 和 5 都用到了真实数据，那么怎么可以保证训练用数据和测试用数据能够相互独立不会因为过拟合导致测试失效呢？作者提出的简单的方法是把数据分成两份（比如奇偶日），然后一份用作训练，一份用作测试。Paper trading 就是一种既可以完成真正的样本外测试，又可以让你发现各式各样运行问题的一种交易方法，这个方法会在第五章进行详细阐述。
+
+同时如果你在测试一个从公开刊物发表的策略，从文章发表时间到现在这段时间的数据绝对是样本外数据，是可以放心使用的。
+
+另外一个方法是使用 parameterless trading framework, 来在移动持仓窗口（moving lookback window）中动态的优化参数。这个时候利润帽（profit cap）也会由模型本身决定而不会是一个输入的参数。这块作者在本书中没有详细阐述，有兴趣的人可以查找相关资料学习。
+
+
