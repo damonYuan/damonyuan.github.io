@@ -10,7 +10,7 @@ tags: [backtrader, quantitative, trading]
 > * Author: [Damon Yuan](https://www.damonyuan.com)
 > * Date: 2020-09-29
 
-![第三章]({{site.url}}/images/2020-09-28-qt-htbyoatb-3.1/c3.png "第三章")
+![第三章]({{site.url}}/images/2020-09-29-qt-htbyoatb-3.1/c3.png "第三章")
 
 第三章的基本结构如上。
 
