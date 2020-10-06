@@ -9,6 +9,7 @@ tags: [backtrader, quantitative, trading]
 
 > * Author: [Damon Yuan](https://www.damonyuan.com)
 > * Date: 2020-09-29
+> * 微信公众号：[手动拆解《How to Build Your Own Algorithmic Trading Business》（三）(上)](https://mp.weixin.qq.com/s/NpY4a3T_SBPXXLSgWiFZ3Q)
 
 ![第三章]({{site.url}}/images/2020-09-29-qt-htbyoatb-3.1/c3.png "第三章")
 
