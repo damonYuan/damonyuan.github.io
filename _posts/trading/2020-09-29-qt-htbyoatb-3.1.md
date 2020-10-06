@@ -16,7 +16,7 @@ tags: [backtrader, quantitative, trading]
 
 这部分内容较多，分为上下两个部分。该部分为上。
 
-## 第一部分
+## 第一部分 COMMON BACKTESTING PLATFORMS
 
 主要讲回测工具与平台，
 
@@ -27,7 +27,7 @@ tags: [backtrader, quantitative, trading]
 
 不能说作者用的工具都过时了，因为我不了解所以可能行业内还是很多人用 Excel 做回测吧？这里我主要用 backtrader 进行回测实现，所以这些平台有兴趣的人自己研究吧。
 
-## 第二部分
+## 第二部分 FINDING AND USING HISTORICAL DATABASES
 
 主要讲数据源。
 
@@ -227,7 +227,7 @@ class YahooDatafeed():
                                    todate=self.end)
 ``` 
 
-## 第三部分
+## 第三部分 PERFORMANCE MEASUREMENT
 
 回测结果分析指标。上一章介绍了两个最终要的指标：夏普率和最大回撤（时间和幅度）。鉴于 backtrader 已经实现了这两个参数，这里就不在累赘，直接拿来用即可。有兴趣的话可以参考源代码。
 
@@ -235,7 +235,7 @@ class YahooDatafeed():
 
 同时在计算 long-short strategy return 时候，要注意除以2，因为这时候你有双倍的资金（注意 backtrader [Sharpe Ratio 计算](https://github.com/mementum/backtrader/blob/master/backtrader/analyzers/sharpe.py#L135-L141) 代码中并看不出来有没有除以2，如有需要请自行验证）。
 
-## 第四部分
+## 第四部分 COMMON BACKTESTING PITFALLS TO AVOID
 
 这部分主要介绍了回测容易发生的几大问题。
 
@@ -266,7 +266,7 @@ class YahooDatafeed():
 
 其中 1 和 2 数据源和量化工具已经帮我们做好了，第 3 步就是交易策略，第 4 步属于根据现有真实数据调节参数以达到收益目标，第 5 步也需要根据现有真实数据来验证策略是不是有效，验证成功后第 6 步才是应用于真实的交易环境中。
 
-这里我们可以看到 4 和 5 都用到了真实数据，那么怎么可以保证训练用数据和测试用数据能够相互独立不会因为过拟合导致测试失效呢？作者提出的简单的方法是把数据分成两份（比如奇偶日），然后一份用作训练，一份用作测试。Paper trading 就是一种既可以完成真正的样本外测试，又可以让你发现各式各样运行问题的一种交易方法，这个方法会在第五章进行详细阐述。
+这里我们可以看到 4 和 5 都用到了真实数据，那么怎么可以保证训练用数据和测试用数据能够相互独立不会因为过拟合导致测试失效呢？作者提出的简单的方法是把数据分成两份，然后一份用作训练，一份用作测试。Paper trading 就是一种既可以完成真正的样本外测试，又可以让你发现各式各样运行问题的一种交易方法，这个方法会在第五章进行详细阐述。
 
 同时如果你在测试一个从公开刊物发表的策略，从文章发表时间到现在这段时间的数据绝对是样本外数据，是可以放心使用的。
 
