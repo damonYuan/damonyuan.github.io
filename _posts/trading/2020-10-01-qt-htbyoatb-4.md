@@ -9,7 +9,7 @@ tags: [backtrader, quantitative, trading]
 
 > * Author: [Damon Yuan](https://www.damonyuan.com)
 > * Date: 2020-10-01
-> * 微信公众号：
+> * 微信公众号：[手动拆解《How to Build Your Own Algorithmic Trading Business》（四）](https://mp.weixin.qq.com/s/ToXR5yfqfs-flvnLx9Pibw)
 
 第三章花了好多时间讲了回测这个重要的概念，脑细胞死掉了不少，更可怕的是头发也掉了很多。这个梗虽然都被玩烂了，但是我还是想玩一下。
 
