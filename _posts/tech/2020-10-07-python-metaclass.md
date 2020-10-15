@@ -38,3 +38,7 @@ The syntax to set the metaclass has been changed in Python 3:
 class Foo(object, metaclass=something, kwarg1=value1, kwarg2=value2):
     ...
 ```
+
+## Others 
+
+https://cloud.tencent.com/developer/article/1546310
