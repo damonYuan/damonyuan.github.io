@@ -2,7 +2,7 @@
 title:  "手动拆解《Quantitative Trading - How to Build Your Own Algorithmic Trading Business》（五）"
 description: "手动拆解《Quantitative Trading - How to Build Your Own Algorithmic Trading Business》（五）"
 date: 2020-10-01 15:04:23
-hidden: true
+hidden: false
 categories: [Trading]
 tags: [backtrader, quantitative, trading]
 ---
@@ -27,4 +27,6 @@ tags: [backtrader, quantitative, trading]
 
 首先我们来看一种简单的办法, 一般我们会在 backtrader Strategy `next()` 判断是否需要生成订单。我们可以每天在收市后，收集最新的数据，运行回测。如果有生成订单，我们就可以调用富途牛牛 API 提前生成相应的订单，在第二天会自动执行（TODO: 这里我们要注意如何在第二天真实订单生成之后，重新把订单结果录入到 backtrader 中）。
 
-TODO: 另外一种复杂的方法是利用 backtrader Live Trading 的概念集成 FUTU API。 
+TODO: 另外一种复杂的方法是利用 backtrader Live Trading 的概念集成 FUTU API。backtrader Live Trading 集成主要由 3 个 class 组成：broker, data 和 store。最近进度有点慢，主要就是在理解 backtrader 源代码，之后会开源此部分。
+
+所以这章先讲到这里，之后回头再补上富途牛牛和 backtrader live trading 的代码。
