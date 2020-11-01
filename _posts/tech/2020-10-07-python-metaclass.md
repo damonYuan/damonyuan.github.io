@@ -1,44 +1,122 @@
 ---
-title:  "python metaclass"
-description: "python metaclass"
-date: 2020-10-07 15:04:23
+title:  "Tools for Reliability"
+description: "Tools for Reliability"
+date: 2020-10-31 15:04:23
 hidden: false
 categories: [Tech]
-tags: [python, ruby]
+tags: [Architect, Reliability]
 ---
 
-huh... metaclass, isn't it the **singleton class** in ruby?
+Here is just to generalize my understanding of being an infrastructure Architect.
 
-Just feel more and more the same for Ruby and Python in the class of class, everything is an object, etc.
+First let me clarify the difference between an infrastructure Architect and an application Architect. 
 
-[WOW](https://stackoverflow.com/questions/100003/what-are-metaclasses-in-python?answertab=votes#tab-top)...
+In my mind as an application Architect, we need to care more about the application coding layout for extensibility, the testability,  the design patterns and the integration with other applications, etc. For example, for Ruby on Rails application, we need to understand the convention of the layout and know which folder should be code be placed in; for backend applications, we need to check if the Dependency Injection, AOP, or IOC is used to decouple different parts for easier Unit Tests; for mobile Applications, we need to think about which design pattern to use, MVVM, VIP or MVC; and for microservice applications, we need to care about the client side resilience using circuit breaker pattern, bulkhead pattern, client-side load balancer, etc. In a word it's more about how to provide the scaffolding against which the developers can follow and build their code so that all pieces of the application can fit together.
 
-## In python 2 
+On the other hand as an infrastructure Architect, the main responsibility is to take care the Reliability of the whole system. There is already a role named as Site Reliability Engineer, which I thought is more about maintain the reliability of the system rather than providing the design.
 
-```
-class Foo(Bar):
-    pass
-```
+So the next question is, what is system reliability.
 
-Python will look for __metaclass__ in the class definition. If it finds it, it will use it to create the object class Foo. If it doesn't, it will use type to create the class.
+I think the system reliability include 5 parts, 
 
-1. Is there a __metaclass__ attribute in Foo?
-2. If yes, create in-memory a class object (I said a class object, stay with me here), with the name Foo by using what is in __metaclass__.
-3. If Python can't find __metaclass__, it will look for a __metaclass__ at the MODULE level, and try to do the same (but only for classes that don't inherit anything, basically old-style classes).
-4. Then if it can't find any __metaclass__ at all, it will use the Bar's (the first parent) own metaclass (which might be the default type) to create the class object.
+- Security
+- Performance
+- Availability
+- Scalability
+- Extensibility
 
-Be careful here that the __metaclass__ attribute will not be inherited, the metaclass of the parent (Bar.__class__) will be. If Bar used a __metaclass__ attribute that created Bar with type() (and not type.__new__()), the subclasses will not inherit that behavior.
+So what can be the tools for designing a reliable system which the above 5 characteristics?
 
+## Security
 
-## Metaclasses in Python 3
+- encryption
+  - hash code
+  - symmetric encryption
+  - asymmetric encryption
+  - key management
+  
+- SSO
+  - AD
+  - OAuth
+  
+- anti-spam & information filtering
+  - Text Match
+  - Classification
+  - Blacklist
+  
+- Risk Control
+  - Decision Tree
+  - machine learning / Deep Learning / etc  
 
-The syntax to set the metaclass has been changed in Python 3:
+## Performance
 
-```
-class Foo(object, metaclass=something, kwarg1=value1, kwarg2=value2):
-    ...
-```
+- cpu
+  - queue
 
-## Others 
+- memory
+  - memory leak
 
-https://cloud.tencent.com/developer/article/1546310
+- IO
+  - SSD
+  - RAID
+  - B+ Tree vs LSM Tres
+  - Async IO
+  - RAID vs HDFS
+
+- network
+  - CDN
+  - reverse proxy
+  - Cache
+  - compression
+  - protocol - http/ protobuf
+
+## Availability
+
+- KPI
+  - SLA
+  - Concurrency
+- load balancer
+- message queue
+- session management
+  - stateless
+  - session copy
+  - memcache
+  - redis cluster
+- data
+  - CAP
+- CI/CD
+  - canary release
+  - traffic mirror
+  - green-blue release
+  - A/B test  
+- distributed cache
+
+## Scalability
+
+- spike
+- horizontal separation - business
+- vertical separation - three layer architecture
+- DNS load balancer
+- TCP load balancer
+- HTTP load balancer
+- virtual IP
+- algorithm
+  - round robin
+  - weight round robin
+  - random
+  - least connection
+  - source hashing 
+- consistent hash algorithm  
+- relational database federation, master-slave replication, sharding
+- nosql sharding and replication
+
+## Extensibility  
+
+- Three layer
+  - Application Layer
+  - Service Layer 
+  - Data layer
+- Microservice
+- distributed message queue -> event driven
+- interface driven design
+
