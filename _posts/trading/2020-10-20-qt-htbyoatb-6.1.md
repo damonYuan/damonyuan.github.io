@@ -25,7 +25,7 @@ tags: [backtrader, quantitative, trading]
   
 所以
 
-  \\[ \sqrt[n]{A_N \over A_0} = (1 + bf)^P(1 - f)^{1 - P} \\]  
+  \\[ \sqrt[N]{A_N \over A_0} = (1 + bf)^P(1 - f)^{1 - P} \\]  
   
 即为一次投资的平均回报率。我们要求这个数为最大。对两边取对数，
 
