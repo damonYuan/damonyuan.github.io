@@ -1,0 +1,90 @@
+Sketch 
+===
+
+# Tutorial video (https://www.youtube.com/watch?v=GoO1VMjJ9fk&list=PLZS9rF0GCDI4ulUDut3rt5QrgOd_RW-mJ)
+
+## Chapter 1: Introduction
+
+## Chapter 2: Document Setup in sketch3
+
+1. Toolbar
+
+   * insert new layers
+
+2. Layers' list
+
+from top to bottom is the z-index of the layers
+
+3. Inspector
+
+## Chapter 3: Design Basics of Sketch3
+
+1. insert Artboard
+2. insert rectangle
+3. option key + click and drag 
+   copy current shape
+4. option key and up/down/left/right
+   will show the distance to others
+5. linear gradient color
+6. adding and formatting text
+   the center is two part for T: alignment and top bar
+
+## Chapter 4: Beyond the Basics for Sketch3
+
+1. cmd + 2
+   take the selection and zoom in the view
+
+2. double click to enter editing mode
+
+3. union as a group and then flatten it 
+
+4. mask 
+
+the bottom layer will be the mask
+
+5. shape fill
+
+## Chapter 5: Symbols and Shared Styles in Sketch3
+
+1. symbol
+
+choose the group and press create a symbol
+
+the name can be separated by slash
+
+replace the group with the symbol
+
+use override to customize the instance of a symbol
+
+2. shared styles
+
+click on the style and create new shared style
+
+Text style
+
+## Chapter 6
+
+1. cmd + G 
+
+to create a group
+
+2. click on the group and cmd + R to rename
+
+3. cmd + arrow -> change the size of a shape
+
+
+1. Setup
+
+    1. install the Sketch
+    2. install Craft for Sketch: https://www.invisionapp.com/craft
+    3. https://www.invisionapp.com/
+
+2. Shortcuts
+    
+    1. Cmd + G: group
+    2. Option + Drag: copy an instance
+    3. Option + Cmd + C: copy style
+
+
+
+

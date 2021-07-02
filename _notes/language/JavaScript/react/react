@@ -1,0 +1,4 @@
+React
+=====
+
+1. If the css style do not work, please check whether the webpack has change the class name. For some libs the css class name shoud not be changed. Just like react-infinite-calendar

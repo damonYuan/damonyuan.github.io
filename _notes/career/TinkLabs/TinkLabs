@@ -1,0 +1,300 @@
+TinkLabs
+=======
+
+#1. Apple account: 
+    dev@tinklabs.com
+    Nutmeg1501
+
+    1. dream job?
+    Tink Labs
+
+    2. first name of your first boss?
+    Terence Kwok
+
+    3. name of the street where you grew up?
+    King's Road
+
+    contact number: 36982920
+
+    The D-U-N-S Number for Tink Labs Limited is 663528593.
+
+    Enrollment ID: C7YE4X3K67
+
+#2. email account
+    dev@tinklabs.com
+    nutmeg1501
+
+#4. twillio
+   phil@tinklabs.com
+   Handy123!
+
+#5. aws
+
+https://tinklabs.signin.aws.amazon.com/console
+
+Access Key ID:
+AKIAJFYS6LVKF553PDUA
+Secret Access Key:
+XbQJFaUfsxp3fWAEw9Ztje4Is/gsmLpIZnDcaMSK
+
+damon.yuan password: {R}
+
+
+
+#6. Fabric
+
+#7. dashboard
+   staging: http://api3s.handy.travel/users/login
+   account:admin
+   password:
+
+   prod: http://api3.handy.travel/users/login
+   account: admin
+   password: quince1501!
+
+#8. Code push token:
+
+   Your session token was written to /Users/mac0031/.code-push.config
+
+   app name:  pho-react
+┌────────────┬───────────────────────────────────────┐
+│ Name       │ Deployment Key                        │
+├────────────┼───────────────────────────────────────┤
+│ Production │ XdkZ5TFsNqmyYnjTzNxj7bDE7X0tVJzb-Zpcx │
+├────────────┼───────────────────────────────────────┤
+│ Staging    │ qIXHgXXGet0sm9xsowYOi3qlICMWVJzb-Zpcx │
+└────────────┴───────────────────────────────────────┘
+   app name: app-launcher-react
+┌────────────┬───────────────────────────────────────┐
+│ Name       │ Deployment Key                        │
+├────────────┼───────────────────────────────────────┤
+│ Production │ jCg4RT2xjg7zlNyOGb5tD1Jduc40VJzb-Zpcx │
+├────────────┼───────────────────────────────────────┤
+│ Staging    │ 1oVeAhvS0MwiCKrltF1gQeO7B7ZKVJzb-Zpcx │
+└────────────┴───────────────────────────────────────┘
+
+#9. App Launcher reload password: 4685121
+
+#10. backend2 migration cmd:
+    $ Console/cake Migrations.migration run all
+
+#11. freshdesk account
+​
+tinklabs.freshdesk.com/login/normal
+​
+developers@tinklabs.com
+handy123
+
+#12. staging database
+http://api3s.handy.travel/phpmyadmin
+username: root
+password: (emptY)
+ssh domain: api3s.handy.travel
+ssh pwd: Ten3rnn4
+
+#13. production database
+https://180.150.153.177/phpmyadmin/
+user: tinklabs_db1
+pwd: Watwat6824
+
+#14. OpenX
+
+http://api2.handyhongkong.com/app/webroot/adserver/openx/www/admin/index.php
+admin / mango1501
+
+#15. A2Billing
+
+http://184.173.162.122/a2b_admin/Public/index.php
+admin / 34bUfudr
+
+#16. MixPanel
+damon.yuan@tinklabs.com
+{R}
+
+#17. ssh server
+staging3.handy.travel
+root / Ten3rnn4
+root / Ten3rnn4
+
+#18. sim pwd
+six one six one six four one
+
+#19. hongkong office wifi
+P@ssw0rd
+
+
+#13.pivotal login:
+developers@tinklabs.com / handy123
+
+#14. android tracking
+https://mint.splunk.com
+phil@tinklabs.com / handy123
+
+#15. google play key
+password: 1687366
+
+#16. HANDY NAS
+1)  Username: damon.yuan
+2)  Password: 529230
+
+#17. sentry
+damon.yuan@tinklabs.com 
+<Normal>
+
+#18. standalone staging password: 123456
+
+#19. layer
+developers@tinklabs.com
+Handy123
+
+#20. config override
+
+#21.  Google Play Console
+dev@tinklabs.com
+Tinklabs123
+
+#22. facebook
+handy@tinklabs.com
+tinklabs123
+
+#23 twitter: https://apps.twitter.com
+dev@tinklabs.com
+handy123 or tinklabs123
+
+#24 github
+
+developers-tinklabs
+quince1501!
+
+#25 local machine
+VNC host - 192.168.104.56:5401
+VNC password: tinklabs123
+
+Linux user: kennylam
+Linux password: tinklabs123
+
+You can connect the VNC host within office, or using VPN (edited)
+
+Scripts path:
+
+M370: ~/Desktop/handy_overlay/automated_m370_6.0.sh
+M535: ~/Desktop/handy_overlay/automated_m535.sh
+M812A: ~/Desktop/handy_overlay/automated_m812a.sh
+
+*Workflow explained*
+
+sudo ./automated_blah.sh
+<blah> is the model name, specified in the script
+
+1. That will expand the STOCK rom from “ROM_INPUT/system_blah_stock.sparsed” to the mount point, that represent “/system” on Android device, let’s name that “system root"
+
+2. All files in "system_blah/*" will be copied to the 
+“system root”
+
+3. OTA script will be ran and saved to ota_imei, updated to the OTA files according to the IMEI in automated_blah.sh
+
+4. OTA files will be copied to the “system root”
+
+5. Pack the “system root” to a file in 
+“ROM_OUTPUT/system_blah_handy.sparsed”, which can be flashed via fastboot or MTK SP tool
+
+#https://app.logz.io
+login : henry.lau@tinklabs.com
+password : handy123
+
+#https://henrytinklabs.loggly.com/
+login : henry.lau@tinklabs.com
+password : Handy123
+
+#26 Handy Chat staging key
+    server.pass.key:
+        passphrase: tinklabs123
+
+#27 pbx 
+Server 1:
+184.173.162.122
+asterisk + a2billing + freepbx
+used for international call
+
+Server 2: ssh  root@210.3.85.46 with password V8Eucu4z
+staging3.handy.travel
+asterisk + phpagi
+used for virtual extension
+
+Server 3: sip-staging.handy.travel
+account: damonyuan
+pwd: Tinklabs123
+
+Server 4: sip.handy.travel
+account: damonyuan
+pwd: Tinklabs123!
+
+Voip server: ssh root@119.81.146.235 with password: Ten3rnn4
+
+#28 Redash
+account damon.yuan@tinklabs.com
+pwd: Handy123!
+
+#29 voip_staging
+FRIENDLY NAME voip_staging
+SID SK7719cc73ec9548afd2401994417f7b2b
+SECRET RIUQ28as8jgAMJAundnKdbnAnGJWVeD6
+
+FRIENDLY NAME voip_staging
+APP_SID = 'APdbe456b32682e9cefd8014eb7f485251'
+
+GOOGLE CLOUD MESSAGE
+Server API Key 
+AIzaSyA-5xIdRTv_EhIiQKwzhpgvli64OiPVRFk
+Sender ID 
+998909755641
+
+PUSH CREDENTIAL
+Friendly name: voip_staging
+CREDENTIAL SID CRd2a36ba825566f805b6b882b424e1b08
+
+#28 PUSHY
+developers@tinklabs.com / handy123
+
+#29 staging server
+https://ec2-52-220-56-70.ap-southeast-1.compute.amazonaws.com/phpmyadmin/ 
+admin / mango1501
+
+#30 didww
+my.didww.com
+philyuen@gmail.com
+handy123
+
+#31 callcentric
+philyuen/handy123
+
+#32 ubuntu 
+192.168.104.171
+id: damon
+passwd: 123
+
+#33 google chrome access
+handyowenwen@gmail.com
+tinklabs123
+
+Windows 123456
+Ubuntu 123456 lock screen: handy123
+
+
+URL: https://globalprod.alipay.com/login/global.htm
+Email: handypayment@tinklabs.com
+Password: Tinklabs123
+Payment Password: handypayment
+
+#34 blinktrade
+
+The API Key 'test' has been created successfully. Please make sure to store the credentials below in a secure location.
+
+API Key
+ncqwNVhdIlUpc2OZXMxJdHmfrYVvOHvl3FyLI3AifSM
+API Password
+k8cnpbbyixRY6EK
+API Secret
+EFRonHUQFYSk07Ji9QRfceZ9RfQoRKIhWnFSZejj2eI
+
+

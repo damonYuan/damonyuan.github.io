@@ -1,0 +1,137 @@
+---
+title:  "JHipster"
+description: "JHipster"
+hidden: true
+date: 2019-05-13 15:04:23
+categories: [Tech, Mindmap]
+tags: [Tech, JHipster]
+---
+
+# OAuth
+
+1. > https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth
+
+Access tokens are the token the client uses to access the Resource Server (API). They’re meant to be short-lived. Think of them in hours and minutes, not days and month. You don’t need a confidential client to get an access token. You can get access tokens with public clients. They’re designed to optimize for internet scale problems. Because these tokens can be short lived and scale out, they can’t be revoked, you just have to wait for them to time out.
+
+The other token is the refresh token. This is much longer-lived; days, months, years. This can be used to get new tokens. To get a refresh token, applications typically require confidential clients with authentication.
+
+Refresh tokens can be revoked.
+
+2. Pseudo-Authentication with OAuth 2.0
+
+   > https://developer.okta.com/blog/2018/03/01/develop-microservices-jhipster-oauth
+   
+# J-Hipster 5
+
+## Part 1.
+
+1. Tests
+
+Unit Test: `./gradlew test`
+UI Test: `yarn e2e`
+
+2. Postgres
+
+```
+     psql (9.6.10)
+     Type "help" for help.
+     template1=# create user twentyonepoints with password '21points';
+     CREATE ROLE
+     template1=# create database twentyonepoints;
+     CREATE DATABASE
+     template1=# grant all privileges on database twentyonepoints to twentyonepoints;
+     GRANT
+     template1=#
+``` 
+
+PostgreSQL is case insensitive,
+
+3. Start Prod
+
+`./gradlew -Pprod`
+
+4. there are two common approaches for continuing. The first involves developing the application, then testing and deploying. The second option is to set up continuous integration, deploy, then begin development and testing.
+
+> https://www.jhipster.tech/setting-up-ci-jenkins2/
+
+5. JHipster Market
+
+> https://www.jhipster.tech/modules/marketplace/#/list
+
+6. Create an entity
+
+   * a database table;
+   * a Liquibase change set;
+   * a JPA entity class;
+   * a Spring Data JpaRepository interface;
+   * a Spring MVC RestController class;
+   * an Angular router, controller, and service; or React
+   * a HTML page
+   * Unit Test and Integration Test for Java and React Code
+   * Performance test
+   
+   “ In addition, if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys), and the TypeScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.”
+   
+7. Code Generation
+
+   * entity sub-generator
+   
+     > https://www.jhipster.tech/creating-an-entity/
+     
+     1. `yo jhipster:entity points`
+     
+   * JDL-studio
+   
+     > https://start.jhipster.tech/jdl-studio/
+     > https://www.youtube.com/watch?v=XRREt1KB4Y8
+     
+   * for those who like UML
+   
+     > https://www.jhipster.tech/jhipster-uml/    
+     
+8. Design
+
+   * omnigraffle
+   
+     > https://www.omnigroup.com/omnigraffle     
+     
+   * omnigraffle
+   
+     > https://www.viget.com/articles/twitter-bootstrap-3.0-stencils-for-omnigraffle  
+
+9. Configure your IDE
+
+> https://www.jhipster.tech/configuring-ide/   
+
+10. DAO Pattern and Repository Pattern
+
+> https://thinkinginobjects.com/2012/08/26/dont-use-dao-use-repository/
+
+11. create entity
+
+`jhipster entity book`   
+
+12. principal in Spring
+
+> https://dzone.com/articles/how-to-get-current-logged-in-username-in-spring-se
+
+13. meta-annotation
+
+> https://dzone.com/articles/what-are-meta-annotations-in-java
+
+14. Environment
+
+    * @PropertySource("classpath:/com/soundsystem/app.properties")
+    * @EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
+    
+15. Fix JAVA_HOME
+
+> https://blog.csdn.net/SYT_Boss/article/details/82929655    
+
+16. With spring boot 1.4+ constructors are automatically autowired
+
+> https://stackoverflow.com/questions/43363122/autowire-without-annotation-autowired
+   
+# Full Stack Development with J-Hipster
+
+

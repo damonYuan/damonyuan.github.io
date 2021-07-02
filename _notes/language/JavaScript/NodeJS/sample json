@@ -1,0 +1,44 @@
+sample json
+
+"devDependencies": {
+    "chai": "^2.1.2",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-concurrent": "^1.0.0",
+    "grunt-contrib-jshint": "^0.11.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-deps-ok": "^0.8.0",
+    "grunt-mocha-test": "^0.12.7",
+    "grunt-nodemon": "^0.4.0",
+    "mocha": "^2.2.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.12.0",
+    "braintree": "^1.23.0",
+    "clone": "^1.0.2",
+    "compression": "^1.4.1",
+    "config": "^1.12.0",
+    "errorhandler": "^1.3.4",
+    "express": "^4.12.2",
+    "lamplight-models": "git+https://edf28cffdaec545b16887dfd2544bb3b46c243dd:x-oauth-basic@github.com/LamplightAnalytics/Lamplight-Models.git",
+    "lodash": "^3.5.0",
+    "message-queue": "git+https://edf28cffdaec545b16887dfd2544bb3b46c243dd:x-oauth-basic@github.com/LamplightAnalytics/message-queue.git",
+    "method-override": "^2.3.1",
+    "moment": "^2.10.2",
+    "mongoose": "^4.0.0",
+    "morgan": "^1.5.1",
+    "nano": "^6.1.2",
+    "newrelic": "^1.17.2",
+    "node-uuid": "^1.4.3",
+    "oauth": "^0.9.13",
+    "path": "^0.11.14",
+    "q": "^1.2.0",
+    "request": "^2.53.0",
+    "sanitize-html": "^1.6.1",
+    "tracer": "^0.7.3",
+    "validator": "^4.0.6",
+    "xlsx": "^0.8.0"
+  },
+  "scripts": {
+    "test": "mocha  --harmony"
+  }

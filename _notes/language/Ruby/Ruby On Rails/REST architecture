@@ -1,0 +1,24 @@
+REST architecture
+=================
+
+REST architecture
+
+## REST
+          API                    controller                                      Routes
+      HTTP request    URL          Action    Purpose                             Named route
+   1.     GET        /users        index     page to list all users              users_path
+   2.     GET        /users/1      show      page to show user with id 1         user_path(user)
+   3.     GET        /users/new    new       page to make a new user             new_user_path
+   4.     POST       /users        create    create a new user                   users_path
+   5.     GET        /users/1/eidt eidt      page to eidit user with id 1        edit_user_path(user)
+   6.    PATCH/PUT   /users/1      update    update user with id 1               user_path(user)
+   7.    DELETE      /users/1      destroy   delete user with id 1               user_path(user)
+   8.     GET   /users/1/following following                                     following_user_path(user)
+   9.     GET   /users/1/followers followers                                     followers_user_path(user)
+
+
+## Routes
+   For Resource, the routes are the default as above.
+   For match, the routes are customized by the URI.
+
+## rake routes CONTROLLER=controller_name 

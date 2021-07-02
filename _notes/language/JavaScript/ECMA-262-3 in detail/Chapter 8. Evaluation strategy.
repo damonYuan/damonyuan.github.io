@@ -1,0 +1,13 @@
+Chapter 8. Evaluation strategy.
+====
+
+
+1. evaluation strategy
+
+   - strict, meaning that arguments are calculated before their application
+
+   - non-strict, meaning, as a rule, calculation of arguments on demand when they are required (so-called “lazy” calculations)
+
+2. Call by value
+
+The changes made to the parameter inside the function do not influence the passed object outside.

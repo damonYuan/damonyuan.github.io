@@ -1,0 +1,204 @@
+Android
+=======
+
+1. script 1 (update base url)
+
+tinklabs1001
+mount -o remount,rw /system
+echo 192.168.30.32 > /system/etc/.domain
+sed -i '/<string name\=\"API_Prefix\">/s/>[a-zA-Z0-9\.]\+</>192.168.30.32</g' /data/data/com.tinklabs.launcher/shared_prefs/pref.xml
+if ! grep 192\\.168\\.30\\.32 /system/etc/.handydomains > /dev/null; then sed -i 's/\"handy.travel\"/\"192.168.30.32\",\"handy.travel\"/g' /system/etc/.handydomains; fi
+am force-stop com.tinklabs.launcher
+am start -a android.intent.action.MAIN -n com.tinklabs.launcher/.activities.LauncherActivity
+
+2. Android App Not Install. An existing package by the same name with a conflicting signature is already installed
+
+    1. adb push apk to sdcard /mnt/sdcard/
+       http://log.amitshah.net/2012/05/using-adb-to-copy-files-to-from-your-android-device/
+    2. $ adb shell,  the original file is in 
+       /system/priv-app/  -> system app 
+       
+       Note:
+       You can probably find most of them in:
+       /data/app
+       System apps will be in:
+       /system/app 
+    3. special : to get the root access ??? 
+       $ tinklabs1001 
+    4. $ mount -o remount, rw /system 
+    5. $ cp /sdcard/app-launcher-debug.apk /system/priv-app/app-launcher.apk 
+    6. $ a
+
+    $ ls -l : check permission
+
+    adb push /Volumes/Samsung_T1/TinkLabs/app-activation-launcher/app/build/outputs/apk/app-activation_launcher.apk /mnt/sdcard/base.apk
+
+    mount -o remount, rw /system; cp /mnt/sdcard/base.apk /system/priv-app/com.tinklabs.activateapp/base.apk; reboot;
+
+3. 小米
+   1. mimu version 连续按启动开发者模式
+   2. 在拨号窗口输入*#*#717717#*#*
+
+4. app-activation_launcher.apk /data/local/tmp
+   app name: com.tinklabs.activateapp
+
+5. Settings:
+   1. activate app 
+      1. /system/etc/.activateapp_setting
+         0|0|0|
+         checkedOut|trialActive|staffMode
+      2. /system/etc/.activateapp_trial_setting
+         600
+         TRIAL_TIME_IN_SECONDS
+      3. /system/etc/.activateapp_counter_setting
+         
+6. .whitelist_longd
+   numbers inside this file will be allowed to come in.
+   .blacklist_longd
+   numbers inside this file will be forbidden to go out. such as 001, do not allow user to call 001.
+
+7. Fragment automatically attaches the layout returned from onCreateView. So if you attach it manually in onCreateView then your view gets attached to 2 parents.
+
+8. /system/etc there is a setup-handy.sh (it is not in /system/etc/init.d but it runs by customised kernel)
+   
+   run a script at startup: 
+   http://stackoverflow.com/questions/12973777/how-to-run-a-shell-script-at-startup
+
+9. custpack is a folder for android vendor to put custom apps
+   which won’t be removed while factory reset 
+   maybe in /system/vendor/app
+
+10. When a m370 was updated to Android 6.0, it won’t be able to go back Android 5.1.
+
+11. Problem with linphone .so file
+
+about the HandyPhone problem
+In sum, two problem when run handyphone on handy device which with selinux
+1. dgoenka works on the long term solution, seems linphone 3.2.1 so file is without text relocation
+```problem: text relocation (W linker  : /system/lib/liblinphone-armeabi-v7a.so has text relocations. This is wasting memory and prevents security hardening. Please fix.)
+short term solution:  Damon set targetSdkversion in AndroidManifest.xml as 22, originally it was 23. 
+long term solution: Find or build so file without text relocation, in case we need to set targetSdkversion greater than 23
+root cause: AOSP change runtime linker behavior on AOSP M https://developer.android.com/about/versions/marshmallow/android-6.0-changes.html#behavior-runtime
+```
+2. owen works on the long term solution
+```problem: selinux avc
+short term solution: change so file context from system_file to system_data_file in setup-handy.sh
+long term solution: change so file context from system_file to system_data_file when make system.img or put the so file to the place default labeled with system_data_file
+root cause: AOSP default allow execmod on system_data_file and apk_data_file
+https://android.googlesource.com/platform/external/sepolicy/+/android-6.0.1_r77/app.te#59
+https://android.googlesource.com/platform/external/sepolicy/+/android-6.0.1_r77/app.te#176
+```
+
+12. enable data roaming
+settings put global data_roaming 1
+
+13. push applauncher
+adb push "/Volumes/CaseSensitive/app-launcher_new/applauncher/build/outputs/apk/applauncher-debug.apk" /sdcard/
+adb shell "tinklabs1001 -c \"mount -o remount, rw /system; cd /system/priv-app/com.tinklabs.launcher; rm base.apk; mv /sdcard/applauncher-debug.apk ./base.apk; chmod 0755 ./base.apk; mount -o remount, ro /system; reboot;\""
+
+14. enable debug for VZH
+
+Download this
+https://drive.google.com/a/tinklabs.com/file/d/0B9F49VwPWjCORU11clhRU0FVMjQ/view?usp=drivesdk
+And then
+1. shutdown device
+2. plug usb and wait for the charging battery icon shows
+3. vol down + power, boot to download mode
+4. fastboot flash boot boot-handy-adb-root-debug-signed.img
+6. fastboot reboot
+7. adb pull /sbin/tinklabs1001 ~/Desktop/tinklabs1001
+8. adb push ~/Desktop/tinklabs1001 /data/local/tmp/
+9. chmod 777 /data/local/tmp/tinklabs1001
+10. ./tinklabs1001
+
+15. remove apn settings in android: 
+
+$ rm -rf /data/data/com.android.providers.telephony/
+
+16. change to debug boot image
+
+1. $ adb reboot bootloader
+2. $ fastboot flash boot /Users/damon/Desktop/boot-handy-adb-root-signed.img  (normally 3: normal boot image, adb boot, adb + root boot)
+3. $ fastboot reboot
+4. $ cd /data/local/tmp
+5. $ ./su-handy     
+6. $ mount -o rw,remount /system
+
+
+17. T1 stock rom
+
+* userdata.img: 
+* VZH-0-026A-00WW-boot.img
+* VZH-0-026A-00WW-recovery.img 
+* VZH-0-026A-00WW-system.img
+* VZS-0-026A-00WW-cache.img: only system can write?
+
+* VZS-0-026A-00WW-persist.img
+* VZS-0-026A-00WW-mdtp.img
+* VZS-0-026A-rpm.mbn: 
+* VZS-0-026A-sbl1.mbn: secondary bootloader
+* VZS-0-026A-tz.mbn: trust zone
+* VZH-00WW-004-splash.img: splash view
+
+* VZH-00WW-004-cda.img
+* NvDefinition.xml
+* VZH-00WW-001-sutinfo.img: 
+* VZS-2-026A-NON-HLOS: moderm
+
+Unknown:
+* fver:
+* VZH-026A-0-00WW-A04.md5:
+* VZH-026A-0-00WW-A04.mlf:
+* VZS-0-026A-adspso.bin: 
+* VZS-0-026A-cmnlib.mbn: 
+* VZS-0-026A-cmnlib64.mbn:
+* VZS-0-026A-devcfg.mbn: 
+* VZS-0-026A-emmc_appsboot.mbn:
+* VZS-0-026A-gpt_both0.bin:
+* VZS-0-026A-gpt_main0.bin:
+* VZS-0-026A-hwcfg.img: 
+* VZS-0-026A-keymaster.mbn: 
+* VZS-0-026A-NV-default.mbn:
+* VZS-0-026A-patch0.xml:
+* VZS-0-026A-prog_emmc_firehose_8917_ddr.mbn:
+* VZS-0-026A-rawprogram0.xml: 
+* VZS-00WW-001-keyinfo.img: 
+
+18. T1 AOSP branch
+
+`repo init -u ssh://owen.wen@rom-gerrit-raw.handy.travel:8880/manifest -b handy/master -m VZ1.xml`
+`make iptables -j8 2>&1 | tee ~/disk2/logs/$(date "+%Y%m%d_%T").AOSP.iptables.log`
+
+
+19. T8 flash
+1. Go to C:\Users\user\Desktop\MediaTek_tools\SP_Flash_Tool_exe_Windows_v5.1516.00\flash_tool
+
+this is the one
+
+or
+1. Search “SUT LR” and open it
+
+if it’s img/ txt use SP_Flash_Tool, mif should be SUT LR
+
+
+20. T8 rom path 
+smb://handynas/public/Tech%20Team/ROM%20archive/Cube_T8PlusM
+T8 stock rom,看起來是Kenny dump 出來的
+
+21.
+
+```
+TINKLABS_REPO_URL=s3://tinklabs-lib/maven2
+TINKLABS_REPO_KEY=AKIAIF5UU6YUDSKPYPLA
+TINKLABS_REPO_SECRET=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
+RELEASE_STORE_FILE_PATH=/Users/Damon/.android/tinklabs.keystore
+RELEASE_STORE_PASSWORD=1687366
+RELEASE_KEY_ALIAS=tinklabskey
+RELEASE_KEY_PASSWORD=1687366
+```
+
+
+
+
+
+

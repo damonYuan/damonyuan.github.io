@@ -1,0 +1,388 @@
+PHP
+====
+
+1. Set up the sublime for PHP: http://wasil.org/sublime-text-3-perfect-php- development-set-up 
+
+2. CNAME AND ARECORD 
+
+# XAMPP
+
+3. PHP modules (Core PHP, Zend Engine and Extension Layer)        
+   Core PHP: handles the requests, file streams, error handling and other such operations.
+   Zend Engine: the one which converts human readable code into machine understandable tokens /op-codes. Then it executes this generated code into a VM.
+   Extensions: a bunch of functions, classes, streams made availabl to the PHP scripts, which can be used to perform certain tasks.
+
+   PHP is linked to Apache(SAPI, Server API) using mod_php5.so module.
+
+   Zend Engine executes the generated code -> script require access to a few extensions -> passes the control to the extension module/layer -> after conpletion of tasks, transfer back the control to ZE -> Zend Engine returns back the result to PHP Core, which gives that to SAPI layer, and finally which displays it on browser.
+
+   when start Apache, it also starts PHP interpreter along itself.
+   1. 1st step is to perform initial setup of structures and values that persists for the life of SAPI
+   2. 2nd step is for transient settings that only last for a single page request.
+
+   http://abhinavsingh.com/how-does-php-echos-a-hello-world-behind-the-scene/
+
+4. When running php as CGI in Apache suEXECenvironment, the php.ini needs to be located in the directory housing the script that being executed.
+
+5. MINIT for module init (PHP lifecycle)
+   PHP_MINIT_FUNCTION(extension_name) {
+
+      /* Initialize functions, classes etc */
+
+   }
+
+   RINIT for request initialization module.
+
+   PHP_RINIT_FUNCTION(extension_name) {
+
+      /* Initialize session variables, pre-populate variables, redefine global variables etc */
+
+   }
+
+   RSHUTDOWN can be thought as auto_append_file directive to every PHP script, which no matter what happens, is always executed. RSHUTDOWN method, destroys the symbols table (memory management) by calling unset() on all variables in the symbols table.
+
+   PHP calls the MSHUTDOWN method of every extension, which is basically the last chance for every extension to unregister handlers and free any persistent memory allocated during the MINIT cycle.
+
+   Step 1 of Startup and Step 2 of Shutdown happens when no request is being made to the web servers.
+
+6. Note: http://www.rackspace.com.hk/ in TinkLabs for deployment.
+
+
+1. Chapter 1
+2. chapter 2
+   1. install XAMPP, before start, do
+      $ sudo apachectl stop
+   2. log into a server using ssh
+      $ ssh mylogin@server.com
+
+* PHP API architecture: http://deadlytechnology.com/php/cakephp-api-component/
+
+Chapter 3.
+1. Within single-quoted strings, only the escaped apostrophe (\') and escaped backslash itself(\\) are recognized as escaped character.
+2. echo = print 
+3. echo <<<_END
+   // do multiple things
+   // you don't have to add \n linefeed characters to send a linefeed -- just press Return and start a new line.
+   // Also, unlike either a double quote- or single-quote-delimited string, you are free to use all the single and double quotes you like within a heredoc, without escaping them.
+   _END
+
+   // Once you have closed a multi-line block, you are free to use the same tag name again.
+4. constant:
+   define("ROOT_LOCATION", "/usr/local/www/");
+
+5. Predefined Constants
+   1. __LINE__ the current line number of the file.
+   2. __FILE__ the full path and filename of the file.
+   3. __DIR__  the directory of the file.
+   4. __FUNCTION__ the function name.
+   5. __CLASS__ the class name.
+   6. __METHOD__ the class method name.
+   7. __NAMESPACE__ the name of the current namespace.
+
+6. Different between `echo` and `print`
+   1. echo is faster because it doesn't set a return value.
+   2. echo isn't implemented like a function, it cannot be used as part of a more complex expression, whereas print can.
+      $b ? print "TRUE" : print "FALSE";
+
+7. Variables created within a function are local to that function, and variables created outside of any functions can be accessed only by nonfunction code.
+
+8. Global variables
+   global $is_logged_in;
+
+   Static variables 
+   What if you have a local variable inside a function that you don't want any other parts of your code to have access to, but you would also like to keep its value for the next time the function is called. -- static
+   note that you cannot assign the result of an expression in their definitions. They can be initialized only with predetermined values.
+
+   Superglobal variables, they are provided by the PHP environment but are global within the program, accessible absolutely everywhere.
+   $GLOBALS : All variables that are currently defined in the global scope of the script. The variable names are the keys of the array.
+   $_SERVER : Information such as headers, paths and script locations. The entires in this array are created by the web server, and there is no guarantee that every web server will provide any or all of these.
+   $_GET : Variables passed to the current script via the HTTP Get method.
+   $_POST : Variables passed to the current script via the HTTP Post method.
+   $_FILES : Items uploaded to the current script via the HTTP POST method.
+   $_cookie : Variables passed to the current script via HTTP  cookies.
+   $_SESSION : Session variables available to the current script.
+   $_REQUEST : Contents of information passed from the browser; by default, $_GET, $_POST and $_COOKIE.
+   $_ENV: Variables passed to the current script via the environment method.
+
+   eg: the URL of the page that referred the user to the current web page: 
+       $came_from = $_SERVER['HTTP_REFERER'];
+
+   Note: you should always sanitize superglobals before using them. One way to do this is via the PHP htmlentities function. It converts all characters into HTML entities.
+
+   eg: $came_from = htmlentities($_SERVER['HTTP_REFERER']);
+
+   Using the htmlentities function for sanitization is an important practice in any circumstance where user or other third-party data is being processed for output, not just with superglobals.
+
+Chapter 4
+Chapter 5
+
+1. phpinfo(); Obtain information about current PHP installation.
+   strrev(); Reverse string 
+   str_repeat(); repeat string 
+   strtoupper(); string to uppercase
+   strtolower();
+
+2. Once global is declared, these variables remain global and available to the rest of your program, including its functions.
+
+3. Function names are case-insensitive
+
+4. include; include_once; require and require_once.
+   include and include_once: program execution continues even if the file is not found.
+
+5. function_exists to check all predefined and user-created functions.
+
+6. print_r() : It asks PHP to display information aobut a variable in human-readable form.
+
+7. function __construct()
+   function __destruct()
+   method names beginning with a double underscore are reserved.
+   static methods: User::pwd_string();
+   parent::test();
+   parent::__construct();
+
+Chapter 6
+1. Exception handling 
+   try {} catch (Exception $e) {} finally {}
+
+2. sort will act directly on the supplied array rather than returning a new array of sorted elements.
+   flags: eg. SORT_NUMBERIC, SORT_STRING
+   rsort()
+
+3. When a form is submitted over the Web, the web server unpacks the variables into a global array for the PHP script. If the variables were sent using the Get method, they will be placed in an associative array called $_GET; if they were sent using Post, they will be placed in an associative array called $_POST.
+   extract($_GET, EXTR_PREFIX_ALL, 'fromget');
+
+   reverse -> compact
+
+4. reset(); and end();
+
+Chapter 7
+
+1. echo "<pre>"; // Enables viewing of the spaces
+   echo "</pre>"; // Terminates pre tag
+2. flock is not supported on all systems; thus it is wise to check whether you successfully secured a lock, just in case on could not be obtained.
+3. system calls : exec(); exec(escapeshellcmd($cmd), $output, $status);
+
+Chapter 8
+
+1. VARCHAR is the better and faster data type to use if you need to search the entire contents of a field.
+   If never search more than a certain number of leading characters in  a field, you should use a TEXT data type.
+
+Chapter 9
+
+1. EXPLAIN
+   whenever you have a query that seems to be taking longer than you think it should to execute, try using EXPLAIN to see where you can optimize it. You will discover which keys (if any) are being used, their lengths, and so on, and will be able to adjust your query or the design of your talbles accordingly.
+
+Chapter 10
+
+1. interactive PHP: http://php.net/manual/en/features.commandline.interactive.php 
+2. Warning: require_once(login.php): failed to open stream: No such file or directory xxx
+   http://stackoverflow.com/questions/4219970/warning-mysql-connect-2002-no-such-file-or-directory-trying-to-connect-vi
+
+   chmod: change mode 
+   ln -s : create a symlink.
+
+3. Security
+<?php
+  function mysql_entities_fix_string($conn, $string)
+  {
+    return htmlentities(mysql_fix_string($conn, $string));
+  }
+  function mysql_fix_string($conn, $string)
+  {
+    if (get_magic_quotes_gpc()) $string = stripslashes($string);
+    return $conn->real_escape_string($string);
+  }
+?>
+
+<?php
+  function sanitizeString($var)
+  {
+    $var = stripslashes($var);
+    $var = strip_tags($var);
+    $var = htmlentities($var);
+    return $var;
+}
+  function sanitizeMySQL($connection, $var)
+  {
+    $var = $connection->real_escape_string($var);
+    $var = sanitizeString($var);
+    return $var;
+} ?>
+
+Chapter 12
+
+1. ending a seesion
+<?php
+  function destroy_session_and_data()
+  {
+    session_start();
+    $_SESSION = array();
+    setcookie(session_name(), '', time() - 2592000, '/');
+    session_destroy();
+} ?>
+
+2. session timeout
+To do this, use the ini_set function as follows. This example sets the time-out to exactly one day:
+    ini_set('session.gc_maxlifetime', 60 * 60 * 24);
+If you wish to know what the current time-out period is, you can display it using the following:
+    echo ini_get('session.gc_maxlifetime');
+
+Chapter 13
+
+Chapter 14
+
+1. onerror event & try...catch...finally...(not available in the Internet Explorer)
+2. explicit casting:
+   i = parseInt(n)
+
+Chapter 15
+
+1. <function_name>.arguments array 
+2. substr()
+3. the prototype keyword.
+4. Class.prototype.method vs this.prototype.method
+   * this.constructor === Class 
+   * this.prototype would refer to that instance of the class object. It wouldn't give you much benefit.
+     Class.prototype is adding fuctionality to the Class, not the instance of it.
+5. Class.prototype  is just the same as PHP's static 
+6. PHP: $arrayname[] = "Element 1";
+   JS: arrayname.push("Element 1")
+7. JS array method :
+   forEach; join; push and pop ; sort; reverse;
+
+Chapter 16
+
+1. Browsers with JavaScript disabled or not available will simply ignore the onSubmit attribute, and the HTML will display just fine.
+2. Regex in JS: test and replace
+   test just tells you whether its argument matchees the regular expression
+   replace takes a second parameter: the string the replace the text that matches.
+3. Regex in PHP: preg_match, preg_match_all and preg_replace
+4. Redisplaying a Form after PHP Validation.
+5. Note: MySQL String, Date, Time functions
+
+Chapter 17 Ajax
+
+1. XMLHttpRequest
+   • IE 5: request = new ActiveXObject("Microsoft.XMLHTTP")
+   • IE 6+: request = new ActiveXObject("Msxml2.XMLHTTP")
+   • All others: request = new XMLHttpRequest()
+
+   readyState: 0=Uninitialized, 1=Loading, 2=Loaded, 3=Interactive, 4=Completed.
+
+2. The file_get_contents function is versatile in that it loads in the entire contents of a file or web page from either a local or a remote server; it even takes into account moved pages and other redirects.
+   Incidentally, if we have tried to find a way to fetch the Amazon mobile web page directly view Ajax, we wouldn't have succeeded, because there are security blocks preventing cross-domain Ajax.
+
+3. Some browsers may cache Get requests, whereas Post requsts will never be cached.
+   The solution to this is to use a workaround that add a random parameter to each request, ensuring that each url requested is unique.
+   * It is not necessary to send headers for a Get request.
+   • We call the open method using a Get request, supplying a URL with a string comprising a ? symbol followed by the parameter/value pair url=amazon.com/gp/aw.
+   • We start a second parameter/value pair using an & symbol, and then set the value of the parameter nocache to a random value between 0 and a million. This is used to ensure that each URL requested is different, and therefore that no requests will be cached.
+   • The call to send now contains only a parameter of null, as no parameters are being passed via a Post request. Note that leaving the parameter out is not an option, as it would result in an error.
+
+4. use responseXML instead of responseText property
+   responseXML doesn't simply contain a string of XML text, it is accessible, for example, by the JavaScript getElementsByTagName method.
+
+5. steps: 
+   1. createa a request, open it and set its header.
+   2. configure onreadystatechange
+   3. request.send(params)
+
+6. document.getElementByID = $()
+
+Chapter 18
+
+1. import 
+   1. use @import inside <style></style> tag.
+   2. <link rel='stylesheet' type='text/css' href='styles.css'>
+      it cannot be used from within one style sheet to pull in another. 
+   3. aqua, black, blue, fuchsia, gray, green, lime, maroon, navy, olive, purple, red, silver, teal, white, and yellow.
+
+2. CSS processor specificity calculation.
+
+3. As shown in the preceding example, many CSS rules require browser-specific prefixes such as -moz-, -webkit-, -o-, and -ms- (for Mozilla-based browsers such as Firefox; WebKit-based brows‐ ers such as Apple Safari, Google Chrome, and the iOS and Android browsers; and the Opera and Microsoft browsers
+
+4. An element with absolute positioning is removed from the document, and any other elements that are capable will flow into its released space. 
+   Fixed:
+   The final positioning property setting lets you move an object to an absolute location, but only within the current browser viewport.
+
+5. Pseudoclasses include hover, link, active, and visited, all of which are mostly useful for applying to anchor elements
+
+Chapter 19 Advanced CSS with CSS3
+
+
+
+Chapter 20
+
+Chapter 21 jQuery
+
+1. content delivery network -- CDN
+   An added benefit of using a CDN is that most other websites also do this, so that jQuery may well already be cached in the user's browser, and might not even require re-delivering.
+   2.x series which no-longer supports versions of IE lower than 9.
+2. a: <script src='http://myserver.com/jquery-1.11.1.min.js'></script>
+   b: CDN: <script src='http://code.jquery.com/jquery-1.11.1.min.js'></script>
+           <script src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.1.min.js'></script>
+           <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+   latest version:  <script src='http://code.jquery.com/jquery-latest.min.js'></script>
+                    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js'></script>
+3. To create your own custom build of jQuery, visit projects.jga.me/jquery-builder and simply check the boxes you want and uncheck those that you don’t. 
+4. $('code') : 1. select elements. === jQuery('code')
+5. $.noConflict(), or jq = $.noConflict()
+6. css(); 
+   click();
+   html(); in plain JavaScript, you can use a statement like object = document.getElementByID('result'); object.innerHTML = 'something'.
+            The innerHTML property sets or returns the HTML content (inner HTML) of an element.
+           Note: when accessing an event with jQuery, omit the on prefix that you would use in standard JavaScript. eg, onmouseover -> mouseover, onclick -> click, and so on.
+   ready(); without jQuery it should be onload event;
+            $('document').ready(function() {}) === $(function(){}), if you get used to encapsulating your jQuery statements in one of these two structures, you won't encounter the types of errors that can be generated by trying to access the DOM too soon.
+            Note: Alternatively, another approach is to always place your JavaScript at the end of every HTML page, so that it is executed only after the entire document has loaded. There is a secondary advantage too, in that this ensures the web page contents gets priority with loading --  and so you may well see improvements in user experience. BEST: implement the ready function and place your script at the page end.
+   keypress(); the which property of the event object is normalized by jQuery to return the same character codes across all browsers.
+               key = String.fromCharCode(event.which)
+7. jQuery available events: http://api.jquery.com/category/events
+8. jQuery: $(this).css('background', '#ff0');
+   JavaScript: this.style.background = '#ff0';
+9. when passing a named function to jQuery, remember to supply only the name of the function without parentheses, or it will be called at the wrong time.
+10. document.write function should not be used because the document will erase the current document which has already been fully loaded.
+11. When you do not want the event to trigger any other handlers, you can make a call to the 
+      event.preventDefault()
+    method of event, which then keeps the event from 'bubbling' up to other handlers.
+12. jQuery method chain
+13. jQuery intercept the submit event:
+    <script>
+      $('#form').submit(function(){})
+    </script>
+
+    JavaScript: 
+    <form method="post" action="adduser.php" onsubmit="return validate(this)"> 
+14. $('#fname').val() === $('#fname')[0].value 
+
+15. note: $.each passes arguments to the function in the order index, value, but map uses the order value, index.
+
+Chapter 22.
+
+# $ php --ini: check php init file 
+  $ php -i: check php info 
+  $ php -v: check php version 
+
+
+Others
+
+1. Configure XAMPP PHP for phpStorm
+   /Applications/XAMPP/xamppfiles/bin/php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

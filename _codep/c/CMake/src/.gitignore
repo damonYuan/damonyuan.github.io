@@ -1,0 +1,29 @@
+# cmake .
+*.cmake
+CMakeCache.txt
+DartConfiguration.tcl
+Makefile
+*cbp
+TutorialConfig.h
+CMakeFiles/
+Table.h
+
+# make
+Tutorial
+MakeTable
+*.a
+
+# cpack --config CPackConfig.cmake
+install_manifest.txt
+Tutorial-1.0.1-Darwin.sh
+Tutorial-1.0.1-Darwin.tar.gz
+_CPack_Packages/
+
+# cpack --config CPackSourceConfig.cmake
+Tutorial-1.0.1-Source.tar.bz2
+Tutorial-1.0.1-Source.tar.gz
+Tutorial-1.0.1-Source.tar.xz
+Tutorial-1.0.1-Source.tar.Z
+
+# ctest
+Testing/

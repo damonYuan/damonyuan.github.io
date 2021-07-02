@@ -1,0 +1,14 @@
+Native on React
+======
+
+Is it React Native? No, it is Native on React.
+
+Why not React Native?
+1. Changable api
+2. Still need to write code for Android and ios for some situation
+3. HARD TO DEBUG
+4. PERFORMANCE ISSUE
+
+Why React?
+1. Satisfactory Performance
+2. ONE FOR ALL

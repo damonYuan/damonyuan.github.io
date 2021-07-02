@@ -1,0 +1,177 @@
+---
+title:  "K8S"
+description: "K8S"
+hidden: true
+date: 2019-04-11 15:04:23
+categories: [Tech, Mindmap]
+tags: [K8S]
+---
+
+# Overview
+
+# Core
+
+## Chapter 1
+
+### Introducing Container Technology
+
+
+
+# More
+
+## Best Practices
+
+### All Together
+
+* Defined in the app manifest by the developer
+* Created by a cluster admin beforehand
+* Created automatically at runtime
+
+### Pod's Lifecycle
+
+* initContainers
+* Post-start hooks
+
+  Until the hook completes, the container will stay in the Waiting state with the reason ContainerCreating. Because of this, the pod’s status will be Pending instead of Running. If the hook fails to run or returns a non-zero exit code, the main container will be killed.
+
+  Sadly, if the process started by the hook logs to the standard output, you can’t see the output anywhere. This makes debugging lifecycle hooks painful.
+
+  You can work around that by mount- ing an emptyDir volume into the container and having the hook write to it.
+
+* Pre-stop hooks
+
+  Be sure not to set it to localhost, because localhost would refer to the node, not the pod.
+
+  SIGTERM is the termination signal. The default behavior is to terminate the process, but it also can be caught or ignored. The intention is to kill the process, gracefully or not, but to first allow it a chance to cleanup. SIGKILL is the kill signal.
+
+  Instead of adding a pre-stop hook to send the signal directly to your app, the proper fix is to make sure the shell passes the signal to the app. This can be achieved by handling the signal in the shell script running as the main container pro- cess and then passing it on to the app. Or you could not configure the container image to run a shell at all and instead run the application binary directly. You do this by using the exec form of ENTRYPOINT or CMD in the Dockerfile: ENTRYPOINT ["/mybinary"] instead of ENTRYPOINT /mybinary.  
+
+  A container using the first form runs the mybinary executable as its main process, whereas the second form runs a shell as the main process with the mybinary process executed as a child of the shell process.
+
+  Upon receiving an HTTP DELETE request, the API server doesn’t delete the object yet, but only sets a deletionTimestamp field in it. Pods that have the deletionTimestamp field set are terminating.
+
+  It gives each container time to shut down gracefully, but the time is limited. That time is called the termination grace period and is configu- rable per pod. The timer starts as soon as the termination process starts.
+
+  `terminationGracePeriodSeconds` defaults to 30
+  `kubectl delete po mypod --grace-period=5`
+  `kubectl delete po mypod --grace-period=0 --force` -> be careful to StatefulSet
+
+* DEDICATED SHUT-DOWN PROCEDURE PODS  
+
+### client requests
+
+* starting up
+
+  Readiness Probe
+
+* shut-down
+
+  accept requests?
+  already been received but haven’t completed yet?
+  persistent HTTP connections
+
+  Wait for a few seconds, then stop accepting new connections.
+ 􏰀 Close all keep-alive connections not in the middle of a request. 􏰀
+  Wait for all active requests to finish.
+ 􏰀 Then shut down completely.
+
+ ### App in K8S
+
+   The default file the process needs to write the message to is /dev/termination-log, but it can be changed by setting the terminationMessagePath field in the container definition in the pod spec.
+
+   If the container doesn’t write the message to any file, you can set the terminationMessagePolicy field to FallbackToLogsOnError.
+
+   You can also copy the log file to your local machine using the kubectl cp command.
+
+   On Google Kubernetes Engine, it’s even easier. Check the Enable Stackdriver Logging checkbox when setting up the cluster.
+
+   EFK
+
+   The solution may be to keep outputting human-readable logs to standard output, while writing JSON logs to a file and having them processed by FluentD. This requires configuring the node-level FluentD agent appropriately or adding a logging sidecar container to every pod.
+
+### Development and Testing   
+
+   `eval $(minikube docker-env)`
+   `docker save <image> | (eval $(minikube docker-env) && docker load)` : But make sure the imagePullPolicy in your pod spec isn’t set to Always, because that would cause the image to be pulled from the external registry again and you’d lose the changes you’ve copied over.
+
+## Extending K8S
+
+### Securing the K8S API server
+
+#### Authentication
+
+#### RBAC
+
+##### check the resource of AKS
+
+  https://resources.azure.com/
+
+  `kubectl api-versions | grep rbac` and `kubectl get clusterroles`
+
+### Define custom API object
+
+  The proper way to watch objects through the API server is to not only watch them, but also periodically re-list all objects in case any watch events were missed.
+
+  `kubectl create serviceaccount website-controller`
+
+  If Role Based Access Control (RBAC) is enabled in your cluster, Kubernetes will not allow the controller to watch Website resources or create Deployments or Services. To allow it to do that, you’ll need to bind the website-controller ServiceAccount to the cluster-admin ClusterRole, by creating a ClusterRoleBinding like this
+
+  `kubectl create clusterrolebinding website-controller --clusterrole=cluster-admin --serviceaccount=default:website-controller`
+
+  To have the API server validate your cus- tom objects, you need to enable the CustomResourceValidation feature gate in the API server and specify a JSON schema in the CRD.
+
+### Kubernetes Service Catalog
+
+### Platforms built on top of Kubernetes  
+
+* OpenShift
+* DEIS WORKFLOW
+* Helm
+
+  > https://github.com/helm/charts
+
+  OpenVPN
+
+  `helm ls --all --short | xargs -L1 helm delete --purge`
+  `helm install --dry-run --debug ./mychart`
+
+
+# Kubectl with multiple Cluster
+
+# kubeadm
+
+# Other container runtime
+
+  Unlike Docker, which initially had a client-server based architecture that didn’t play well with init systems such as systemd, rkt is a CLI tool that runs your container directly, instead of telling a daemon to run it.
+
+  `minikube start --container-runtime=rkt --network-plugin=cni`
+
+  `kubectl port-forward` or NodePort
+
+# Cluster Federation
+
+  Kubernetes allows you to combine multiple clusters into a cluster of clusters through Cluster Federation.
+
+# Others
+
+## Azure Price
+
+  > https://azureprice.net
+  > https://aaronmsft.com/posts/azure-vmss-kubernetes-kubeadm/ : low priority and kubeadm
+
+
+# TODO
+
+## Distributed MongoDB   
+
+## Distributed RDMS
+
+## Prometheus and EFK
+
+## Kubeflow
+
+  > https://github.com/kubeflow/kubeflow
+
+## Cluster Federation  
+
+## Fabric8

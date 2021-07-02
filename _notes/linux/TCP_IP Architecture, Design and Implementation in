@@ -1,0 +1,113 @@
+TCP_IP Architecture, Design and Implementation in Linux
+====
+
+# Chapter 1. Introduction
+
+1. Moving Down the Stack
+   1. kernel reaches the socket through VFS (Virtual Filesystem switch)
+      * VFS: mainly be taken advantage by drivers and filesystems
+        > http://www.tldp.org/LDP/khg/HyperNews/get/fs/vfstour.html
+      * system call
+        > https://blog.packagecloud.io/eng/2016/04/05/the-definitive-guide-to-linux-system-calls/
+        1. it is not a goog idea to call system calls by writing your own assembly code because  some system calls have additional code that runs in glibc before or after the system call runs.
+        2. The Linux kernel set aside a specific software interrupt number that can be used by user space programs to enter the kernel and execute a system call.
+           - Linux kernel registers an interrupt handler named ia32_syscall for the interrupt number 128(0x80)
+           - the userland program is expected to put the system call number in the eax register.
+           - system call table list the system call number, and arguments and the corresponding registers.
+        3. `int $0x80` kernel side entry point
+        4. fast system calls
+           - on 32bit systems use: sysenter and sysexit
+             in order for the kernel to receive incoming system calls with sysenter, the kernel must set 3 Model Specific Registers (MSRs). 
+             This MSR is where the kernel should specify the address of the function that will execute when a sysenter instruction is executed by a user program.
+           - On 64bit systems use: syscall and sysret
+        5. __kernel_vsyscall
+           It is implemented in the kernel, but mapped into each user process when the process is started. The address of this function is written into an ELF auxilliary vector where a user program or library (typically glibc) can find it and use it.
+
+           It encapsulates the sysenter calling function.
+        6. vDSO - virtual Dynamic Shared Object
+           It existes to allow programs to execute kernel code in userland. 
+
+
+
+   2. operations specific to so
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           
+
+# Chapter 2. Protocol fundamentals
+
+# Chapter 3. Kernel implementation of sockets
+
+# Chapter 4. Kernel implementation of TCP connection setup
+
+# Chapter 5. sk_buff and Protocol headers
+
+# Chapter 6. Movement of sk_buff across protocol layers
+
+# Chapter 7. TCP send
+
+# Chapter 8. TCP Receive
+
+# Chapter 9. TCP memory management
+
+# Chapter 10. TCP timers
+
+# Chapter 11. TCP core processing
+
+# Chapter 12. TCP state processing
+
+# Chapter 13. Netlink sockets
+
+# Chapter 14. IP routing
+
+# Chapter 15. IP quality of service in Linux
+
+# Chapter 16. IP FILTER AND FIREWALL
+
+# Chapter 17. Net softIRQ
+
+# Chapter 18. Transmission and reception of packets
+
+# Chapter 19. ikcd And DEBUGGING TCP/IP STACK
+

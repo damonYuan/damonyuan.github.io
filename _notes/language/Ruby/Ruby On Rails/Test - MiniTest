@@ -1,0 +1,33 @@
+Test - MiniTest
+===============
+
+## testing tools:
+  1. controller tests : MiniTest -> $ bundle exec rake test
+  2. model tests
+  3. integration tests
+
+## MiniTest
+  1. assert_select -> let us test for the presence of particular HTML tag
+  2. assert_response -> let us know if a response is returned succssfully
+
+  Note: run the test before deploying.
+
+## Advanced testing setup for MiniTest
+  1. MiniTest reporters (in test/test_helper.rb)
+
+     require 'minitest/reporters'
+     MiniTest::Reporters.use!
+
+     Notes: before it, should include the gem in gemfile
+       
+       gem 'minitest-reporters', '1.0.8'
+
+       Then run 
+
+       $ bundle update
+       $ bundle install --without production
+
+       And this gem has been updated and cannot be used in ruby-1.9.3 
+
+  2. Backtrace silencer
+

@@ -1,0 +1,7 @@
+Sinatra with Passenger
+=====================
+
+1. deploy
+   $ rvmsudo passenger-status
+
+2. https://www.phusionpassenger.com

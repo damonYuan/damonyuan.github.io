@@ -1,0 +1,32 @@
+Cocoapods
+=========
+0. gem install cocoapods
+   pod init
+   pod setup
+
+
+1. pod setup
+
+2. pod install
+
+3. Podfile.lock
+   Thanks to the Podfile.lock every machine which runs pod install on the hypothetical project will use RestKit 0.10.3 even if a newer version is available. CocoaPods will honour this version unless the dependency is updated on the Podfile or pod update is called. In this way CocoaPods avoids headaches caused by unexpected changes to dependencies.s
+
+4. # ignore all warnings from all pods
+   inhibit_all_warnings!
+   # ignore warnings from a specific pod
+   pod 'Facebook-iOS-SDK', :inhibit_warnings => true
+
+   Then execute: pod install
+
+5. To include the pods in new build configuration.
+   Warning: please either set the base configurations of the target `ourBillsTests` to `Pods/Target Support Files/Pods/Pods.debug_dev.xcconfig` or include the `Pods/Target Support Files/Pods/Pods.debug_dev.xcconfig` in your build configuration.
+
+   Go into XCode and open your project settings and under the Info tab, you will see "Configurations" where you can set a configuration file for both Debug and Release. You apparently have already set these to some custom config and CocoaPods wants/needs you to use the Pods config.
+
+6. gem which cocoapods
+
+7. KIF
+   1. set up different target should have different xctest cotest
+   2. bundle loader and test host
+   3. podfile configuration for different tasks

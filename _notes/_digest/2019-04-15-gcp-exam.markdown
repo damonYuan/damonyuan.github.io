@@ -1,0 +1,226 @@
+---
+title:  "GCP Exam"
+description: "GCP Exam - PROFESSIONAL CLOUD ARCHITECT"
+hidden: true
+date: 2019-04-15 15:04:23
+categories: [Tech, Mindmap]
+tags: [GCP Exam]
+---
+
+# Certification Exam Guide
+
+> https://cloud.google.com/certification/guides/professional-cloud-architect/
+
+## Section 1: Designing and planning a cloud solution architecture
+
+### 1.1 Designing a solution infrastructure that meets business requirements. Considerations include:
+
+* business use cases and product strategy
+* cost optimization
+* supporting the application design
+* integration
+* movement of data
+* tradeoffs
+
+  - Google Compute Engine vs. Google App Engine
+  - Standard VMs. vs Preemptible VMs
+  - Local SSD vs. SSD Persistent Disks
+  - Global vs. Regional vs. Zonal resources
+  - Google App Engine vs. Google Kubernetes Engine
+  - HTTP Load Balancer vs. Network Load Balancer
+  - Primitive IAM Roles vs. predefined IAM Roles
+  - App Engine Standard vs. App Engine Flex
+  - Cloud Storage vs. BigQuery for Stackdriver Sink
+  
+* build, buy or modify
+* success measurements (e.g., Key Performance Indicators (KPI), Return on Investment (ROI), metrics)
+* Compliance and observability
+
+### 1.2 Designing a solution infrastructure that meets technical requirements. Considerations include:
+
+* high availability and failover design
+* elasticity of cloud resources
+* scalability to meet growth requirements
+
+### 1.3 Designing network, storage, and compute resources. Considerations include:
+
+* integration with on premises/multi-cloud environments
+* Cloud native networking (VPC, peering, firewalls, container networking)
+* identification of data processing pipeline
+* matching data characteristics to storage systems
+* data flow diagrams
+* storage system structure (e.g., Object, File, RDBMS, NoSQL, NewSQL)
+* mapping compute needs to platform products
+
+### 1.4 Creating a migration plan (i.e., documents and architectural diagrams). Considerations include:
+
+* integrating solution with existing systems
+* migrating systems and data to support the solution
+* licensing mapping
+* network and management planning
+* testing and proof-of-concept
+
+### 1.5 Envisioning future solution improvements. Considerations include:
+
+* cloud and technology improvements
+* business needs evolution
+* evangelism and advocacy
+
+## Section 2: Managing and provisioning solution Infrastructure
+
+### 2.1 Configuring network topologies. Considerations include:
+
+* extending to on-premise (hybrid networking)
+* extending to a multi-cloud environment which may include GCP to GCP communication 
+* security
+* data protection
+
+### 2.2 Configuring individual storage systems. Considerations include:
+
+* data storage allocation
+* data processing/compute provisioning
+* security and access management
+* network configuration for data transfer and latency
+* data retention and data lifecycle management
+* data growth management
+
+### 2.3 Configuring compute systems. Considerations include:
+
+* compute system provisioning
+* compute volatility configuration (preemptible vs. standard)
+* network configuration for compute nodes
+* infrastructure provisioning technology configuration (e.g. Chef/Puppet/Ansible/Terraform)
+* container orchestration (e.g. Kubernetes)
+
+## Section 3: Designing for security and compliance
+
+### 3.1 Designing for security. Considerations include:
+
+* Identity and Access Management (IAM)
+
+  - [policy hierarchy](https://cloud.google.com/iam/docs/overview#policy_hierarchy)
+  
+* Resource hierarchy (organizations, folders, projects)
+* data security (key management, encryption)
+* penetration testing
+* Separation of Duties (SoD)
+* security controls
+* Managing customer-supplied encryption keys with Cloud KMS
+
+### 3.2 Designing for legal compliance. Considerations include:
+
+* legislation (e.g., Health Insurance Portability and Accountability Act (HIPAA), Children’s Online Privacy Protection Act (COPPA), etc.)
+* audits (including logs)
+* certification (e.g., Information Technology Infrastructure Library (ITIL) framework)
+
+## Section 4: Analyzing and optimizing technical and business processes
+
+### 4.1 Analyzing and defining technical processes. Considerations include:
+
+* Software Development Lifecycle Plan (SDLC)
+* continuous integration / continuous deployment
+* troubleshooting / post mortem analysis culture
+* testing and validation
+* IT enterprise process (e.g. ITIL)
+* business continuity and disaster recovery
+
+  - > https://cloud.google.com/solutions/dr-scenarios-planning-guide
+
+### 4.2 Analyzing and defining business processes. Considerations include:
+
+* stakeholder management (e.g. Influencing and facilitation)
+* change management
+* team assessment / skills readiness
+* decision making process
+* customer success management
+* cost optimization / resource optimization (Capex / Opex)
+
+### 4.3 Developing procedures to test resilience of solution in production (e.g., DiRT and Simian Army)
+
+## Section 5: Managing implementation
+
+### 5.1 Advising development/operation team(s) to ensure successful deployment of the solution. Considerations include:
+
+* application development
+* API best practices
+  
+  - > https://cloud.google.com/endpoints/docs/openapi/lifecycle-management
+  
+* testing frameworks (load/unit/integration)
+* data and system migration tooling
+
+### 5.2 Interacting with Google Cloud using GCP SDK (gcloud, gsutil and bq). Considerations include:
+
+* local installation
+* Google Cloud Shell
+
+## Section 6: Ensuring solution and operations reliability
+
+### 6.1 Monitoring/Logging/Alerting solution
+
+### 6.2 Deployment and release management
+
+### 6.3 Supporting operational troubleshooting
+
+### 6.4 Evaluating quality control measures
+
+------
+
+## Case Study Pattern
+
+### Company Overview
+
+### Solution Concept
+
+### Existing Technical Environment
+
+### Business Requirements
+
+### Technical Requirements
+
+### Executive Statement
+
+------
+
+# Train Courses
+
+> https://cloud.google.com/certification/cloud-architect
+
+## Core Fundamentals
+
+> https://cloud.google.com/training/courses/core-fundamentals
+
+------
+
+# Experience
+
+1. [5 Tips to Become a Google Cloud Certified Professional Architect](https://thenewstack.io/5-tips-to-become-a-google-cloud-certified-professional-architect/)
+
+  * Understand the Concepts of the Hybrid Cloud
+  * Know How to Move Data to Google Cloud
+  * Learn Google Cloud IAM Inside Out
+  * Choose the Right Storage and Database Offerings
+  * Get a Grip on the Enterprise Case Studies
+  * Practice exam
+  
+2. [GCP-CA考试备考心得](https://blog.xiaket.org/2019/gcp-ca-test.html)  
+
+3. [Google Certified Professional — Cloud Architect — Study Resources](https://medium.com/@agasthi.kothurkar/google-certified-professional-cloud-architect-study-resources-a66f8f52aac5)
+
+4. [Google Cloud的专业架构师和专业云工程师认证经验分享](https://blog.csdn.net/sxb0841901116/article/details/87713664)
+
+------
+
+# questions
+
+1. Q1: Alpine Linux is built around musl libc and busybox. This makes it smaller and more resource efficient than traditional GNU/Linux distributions.
+
+   [9 Common Dockerfile Mistakes](https://runnable.com/blog/9-common-dockerfile-mistakes)
+   
+2. Q3 -> GCP Endpoints   
+
+   [API lifecycle management](https://cloud.google.com/endpoints/docs/openapi/lifecycle-management)
+   
+3. Q4 -> Stackdriver
+
+   [About Stackdriver Trace](https://cloud.google.com/trace/docs/overview)   

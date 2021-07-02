@@ -1,0 +1,67 @@
+---
+title:  "基于区块链的离散型应用"
+date: 2018-01-31 18:00:00
+hidden: true
+categories: [Tech, Todo]
+tags: [Blockchain]
+---
+
+## 引言
+
+> We’re going to see the economy shift more and more toward one based on information, and the market for data will more than likely be the biggest in the world as automation slowly eats away at everything labor based. -- "Decentralized Application"
+
+The blockchain space can be pretty confusing. There is a seemingly endless array of startups, altcoins, ideologies, and buzzwords floating around, and it can be difficult to make sense of it all. It’s useful to subdivide the space into three categories, following Melanie Swan’s book Blockchain (O’Reilly) and others; blockchain 1.0 is currency, blockchain 2.0 adds in contracts (stocks, bonds, financial assets), and blockchain 3.0 encompasses applications beyond pure finance in areas like governance and health (dapps).
+
+As a dapp developer, you just want one thing: the right tools to make your dapp secure, robust, and profitable. This chapter will describe what a flourishing dapp ecosystem would look like; that is, an ecosystem where making dapps is really easy. I’ll also discuss the technical requirements to make a dapp and what is currently possible.
+
+## DApp的技术栈
+
+- 区块链： 一致性算法(PoW, PoS, DPoS)，哈希值
+- P2P网络： DHT table
+
+## 应用方向
+
+### Decentralized Data
+
+### Decentralized Wealth
+
+### Decentralized Identity
+
+### Decentralized Computing
+
+### Decentralized Bandwidth
+
+### Decentralized Markets for Decentralized Assets
+
+https://de.reuters.com/article/uk-banking-trading-blockchain/eleven-big-banks-test-blockchain-based-trading-system-idUKKCN0UY28W
+
+https://newsroom.cisco.com/feature-content?type=webcontent&articleId=1880759
+
+### ICO（Initial Coin Offer）
+
+- 公开链（public chain）
+
+- 智能协议（smart contract）
+
+https://coursetro.com/courses/20/Developing-Ethereum-Smart-Contracts-for-Beginners
+
+### 现有应用展示
+
+- [创世狗](https://github.com/Cryptodog)
+
+### 如何写一个离散型应用
+
+https://www.acchain.org/acchain_dapps_introduction.html
+
+http://liyuechun.org/2017/11/23/ipfs-ethereum-ebay/
+
+### 离散型应用现有的问题
+
+https://steemit.com/cn/@sandstarpod/dapp
+
+### 国内应用现状
+
+[ONO 徐可](http://www.csdn.net/article/a/2018-01-08/15939534)
+
+### 结尾
+

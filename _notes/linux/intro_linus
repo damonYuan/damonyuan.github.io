@@ -1,0 +1,29 @@
+Intro Linux
+========
+
+# chapter 4
+
+1. $ who -r
+check the current run level
+
+2. $ info grub
+find the description of grub
+
+3. $ xterm
+
+4. $ jobs
+show all the jobs
+
+5. $ at 
+
+6. $ cron
+
+7. $ ps auxw | grep bash
+show all process with name of bash
+
+8. $ uptime
+
+9. $  sudo du -sh *
+disk utility show the disk usage
+
+10. [聊聊Linux 五种IO模型](http://www.jianshu.com/p/486b0965c296)

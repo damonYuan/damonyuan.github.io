@@ -1,0 +1,206 @@
+Questions
+====
+
+1. What is a potential pitfall with using 
+
+typeof bar === "object" to determine if bar is an object? How can this pitfall be avoided?
+
+in JavaScript is that null is also considered an object!
+
+test array: toString.call(bar) !== "[object Array]" or use jQuery: $.isArray(bar)
+
+2. === vs == ?
+
+The identity (===) operator behaves identically to the equality (==) operator except no type conversion is done, and the types must be the same to be considered equal.
+
+3.  `undefined` vs 'not defined' ?
+
+If we try to access a variable that is declared but not defined yet, we will get the result `undefined`; If a variable that is neither declared nor defiened, when we try to reference such a variable we'd get the result `not defined`.
+
+4. Note: The if condition statement evaluates using eval.
+
+5. What is the drawback of creating true private methods in JavaScript?
+
+One of the drawbacks of creating true private methods in JavaScript is that they are very memory-inefficient, as a new copy of the method would be created for each instance.
+
+the same to the public instance method declared with this. Using prototype instead.
+
+5. What is a “closure” in JavaScript? Provide an example.
+
+It is related to scope chain and solve :
+
+- upward funarg problem 
+- downwoard funarg problem
+
+accessible through __parent__ in variable object.
+
+6. How to empty an array in JavaScript?
+
+   - arrayList = []; refer to another object
+   - arrayList.length = 0; have impact on other reference to current object
+   - arrayList.splice(0, arrayList.length);
+   - while(arrayList.length){
+       arrayList.pop();
+     }
+
+7. How do you check if an object is an array or not?
+
+toString.call(arrayList) === '[object Array]'
+
+`Array.isArray()` not support by all browser
+
+8. Note: delete operation do not work on local variable: 
+```
+delete object.property
+delete object['property']
+```
+
+and the delete operator doesn't delete prototype property.
+
+9. What is undefined x 1 in JavaScript?
+
+```
+var trees = ["redwood","bay","cedar","oak","maple"];
+delete trees[3];
+```
+
+In Chrome
+
+10. What is the instanceof operator in JavaScript? 
+
+if the object inherits from the Object.prototype, then it will be true.
+
+11. How to calculate the length of the above associative array?
+
+hasOwnProperty method check own property of object
+
+```
+Object.length = function(){
+  	var count = 0;
+  for(key in object){
+    // hasOwnProperty method check own property of object
+    if(object.hasOwnProperty(key)) count++;
+  }
+  return count;
+}
+```
+
+12. var a = b = 3;
+
+If no var key word, the variable will end up being a global variable.
+
+In strict mode, this statement will generate a runtime error of `referenceError: b is not defined`.
+
+13. What is the significance of, and reason for, wrapping the entire content of a JavaScript source file in a function block?
+
+This technique creates a closure around the entire contents of the file which, perhaps most importantly, creates a private namespace and thereby helps avoid potential name clashes between different JavaScript modules and libraries.
+
+14. What is the significance, and what are the benefits, of including 'use strict' at the beginning of a JavaScript source file?
+
+the short and most important answer here is that use strict is a way to voluntarily enforce stricter parsing and error handling on your JavaScript code at runtime. 
+
+- Makes debugging easier.
+- Prevents accidental globals.
+- Eliminates this coercion.
+- Disallows duplicate property names or parameter values. 
+- Makes eval() safer. Most significantly, in strict mode, variables and functions declared inside of an eval() statement are not created in the containing scope (they are created in the containing scope in non-strict mode, which can also be a common source of problems).
+- Throws error on invalid usage of delete. 
+
+15. Note: The reason for this has to do with the fact that semicolons are technically optional in JavaScript (although omitting them is generally really bad form). As a result, when the line containing the return statement (with nothing else on the line) is encountered in foo2(), a semicolon is automatically inserted immediately after the return statement.
+
+16. Note: NaN
+
+- console.log(typeof NaN === "number");  // logs "true"
+- console.log(NaN === NaN);  // logs "false"
+- isNaN() problematic -> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN#Confusing_special-case_behavior
+
+A better solution would either be to use value !== value, which would only produce true if the value is equal to NaN
+
+ES6 offers a new Number.isNaN() function, which is a different and more reliable than the old global isNaN() function.
+
+18. Numbers in JavaScript are all treated with floating point precision
+
+19. Discuss possible ways to write a function isInteger(x) that determines if x is an integer.
+
+```Number.isInteger()``` in ES6
+
+`function isInteger(x) { return (x^0) === x; } `
+`function isInteger(x) { return Math.round(x) === x; }`
+
+problem in parseInt()
+
+20. JavaScript events and timing
+
+http://javascript.info/settimeout-setinterval
+
+21. The stack overflow is eliminated because the event loop handles the recursion, not the call stack. 
+
+22. The reason for this is as follows: When setting an object property, JavaScript will implicitly stringify the parameter value. In this case, since b and c are both objects, they will both be converted to "[object Object]". As a result, a[b] anda[c] are both equivalent to a["[object Object]"] and can be used interchangeably. 
+
+23. a= []; a[10] = '10'; a[9]; // undefined
+
+24. array operations
+
+[].push; [].unshift; [].splice(2, 0, 'a'); [].shift
+
+25. clone object
+
+```
+var obj = {a: 1 ,b: 2}
+var objclone = object.assign({},obj);
+```
+
+26. variable hoisting
+
+var statements are hoisted (without their value initialization) to the top of the global or function scope it belongs to, even when it’s inside a with or catch block.
+
+27. argments has a property defined as length, the scope of arguments[0] becomes the arguments array.
+
+28. javascript paradigms:
+
+- imperative/procedural programming
+- OOP : prototypes
+- functional programming: closures, first class functions, lambdas
+
+https://medium.com/javascript-scene/the-two-pillars-of-javascript-ee6f3281e7f3
+
+https://medium.com/javascript-scene/the-two-pillars-of-javascript-pt-2-functional-programming-a63aa53a41a4
+
+react?
+
+29. Class vs Prototype inheritance
+
+ES6 classes just create the same prototype chains we know and love from previous versions of JavaScript, but with a much saner syntax than Function Constructors.
+
+30. event delegation
+
+attach one event listener to the whole container, and then be able to access each item when it’s actually clicked
+
+31. Debouncing
+
+```
+// debounce function that will wrap our event
+function debounce(fn, delay) {
+  // maintain a timer
+  let timer = null;
+  // closure function that has access to timer
+  return function() {
+    // get the scope and parameters of the function 
+    // via 'this' and 'arguments'
+    let context = this;
+    let args = arguments;
+    // if event is called, clear the timer and start over
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+      fn.apply(context, args);
+    }, delay);
+  }
+}
+```
+
+or throttling
+
+
+
+
+

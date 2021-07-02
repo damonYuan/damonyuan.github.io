@@ -1,0 +1,4 @@
+AFNetworking
+============
+
+1. If using JSON, should use AFJSONRequestSerializer

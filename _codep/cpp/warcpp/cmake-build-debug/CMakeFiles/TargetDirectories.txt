@@ -1,0 +1,2 @@
+/Volumes/CaseSensitive/CodePractice/cpp/warcpp/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Volumes/CaseSensitive/CodePractice/cpp/warcpp/cmake-build-debug/CMakeFiles/edit_cache.dir

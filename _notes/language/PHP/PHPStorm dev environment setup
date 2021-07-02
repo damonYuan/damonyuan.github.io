@@ -1,0 +1,41 @@
+PHPStorm dev environment setup
+==============================
+
+1. Languages & Frameworks -> PHP
+   configure the PHP from "/Applications/XAMPP/xamppfiles/bin/php"
+
+2. setup environment php
+   export PATH=/Applications/XAMPP/xamppfiles/bin:$PATH
+
+3. install xdebug:
+   http://blog.laaz.org/tech/2010/08/27/xdebug-with-xampp-on-mac-os-x/
+   1. git clone git://github.com/derickr/xdebug.git
+   2. cd xdebug
+   3. /Applications/XAMPP/xamppfiles/bin/phpize
+   4. 64bit: ./configure --enable-xdebug --with-php-config=/Applications/XAMPP/xamppfiles/bin/php-config
+   5. make
+   6. Copy files
+   7. Configure PHP.ini (note the version)
+
+4. configure
+   1. check if php version is thread-safe or not: 
+      $ php -i | grep Thread
+   2. https://www.jetbrains.com/help/phpstorm/2016.1/configuring-xdebug.html#d38568e112
+
+5. debug in phpStorm
+   https://confluence.jetbrains.com/display/PhpStorm/Zero-configuration+Web+Application+Debugging+with+Xdebug+and+PhpStorm
+
+   TODO: remote debug configuration
+
+   Intellij PHP remote debugging: Failed to execute validation script:
+   github: http://stackoverflow.com/questions/24869916/intellij-php-remote-debugging-failed-to-execute-validation-script
+
+6. add .ctp support in phpStorm
+   https://www.jacoballred.com/web-dev/configuring-phpstorm-for-use-with-cakephp/
+
+7. 2016.1 phpStorm crack: http://www.cnblogs.com/buyucoder/p/5291771.html
+
+8. If want the debug work, the url should be localhost:34567. Need to set it up in Virtual-Host
+
+9. JetBrains crack: https://www.haxotron.com/jetbrains-intellij-idea-crack-123/
+

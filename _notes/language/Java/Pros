@@ -1,0 +1,16 @@
+Pros
+
+1. Function of infinite scroll is finished.
+2. EndlessRecyclerViewScrollListener.java is generic and has taken three layouts into consideration.
+3. Has taken local data source and remote data source into consideration.
+4. MVP.
+5. Will check the network connection.
+
+Cons
+
+1. No tests.
+2. No pagination. It will lead to memory leak if loading many different images, now the array refer to the same image so that won't crash.
+3. CityGuideFragment.java L116 use application context, not good but minor.
+4. Once enter RemoteDataSource.java L45, cannot load data any more, and only kill the app make it revive.
+
+2.0/3.0

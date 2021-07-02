@@ -1,0 +1,67 @@
+Holidays
+=======
+
+1. Requirement
+   * ALs should at least double the holidays and more that two days
+
+2. Algorithm
+   1. A is the public holiday range
+   2. B is the most recent public holiday range, it decides that if the direction is forward or backward
+   3. x = |min(A) - max(B) - 1| is the number of AL that need to take to maximum the efficiency of holidays
+      y = |max(A) - min(B) + 1| is the number of holidays
+      
+      If y / x >=2 && x > 2
+          take ALs
+      else 
+          do not take the ALs    
+   4. continue with the same direction until requirement not satisfied and join those that meet the requirement
+   5. continue with the Other direction and finish
+
+3. Implementation
+
+4. support xx countries
+
+5. support most recent 10 years
+
+6. keep updated every year based open api
+
+7. native language support
+
+8. Hybrid react app in iOS has problem in using history api, so still have to use a local server and reload when navigation between pages. iOS do not allow use js to manipulate the history api outside the react application itself.
+https://github.com/ReactTraining/react-router/issues/2565
+
+9. load WKWebview using javascript and html5 history api
+```
+if HhCalendarViewController.shared != nil {
+            if HhCalendarViewController.shared!.loadUrl.absoluteString != "http://localhost:8080/_about" {
+//                HhCalendarViewController.shared!.load(url: URL(string: "http://localhost:8080/_about"))
+                HhCalendarViewController.shared!.webView.evaluateJavaScript("window.history.pushState(null, '_about', '/_about');location.reload();", completionHandler: { (result, error) in
+                    if (error == nil)
+                    {
+                        HhCalendarViewController.shared!.loadUrl = URL(string: "http://localhost:8080/_about")
+                    }
+                })
+            } else {
+                // do nothing
+            }
+        } else {
+            HhCalendarViewController.shared = HhCalendarViewController(url: URL(string: "http://localhost:8080/_about"))
+        }
+        addChildViewController(HhCalendarViewController.shared!)
+        self.view.addSubview(HhCalendarViewController.shared!.view)
+        HhCalendarViewController.shared!.view.autoPinEdgesToSuperviewEdges()
+        HhCalendarViewController.shared!.didMove(toParentViewController: self)
+```
+but the effect is not good, still loading data when back to home page, and slower
+
+10. use sessionStorage to make data persistent in react application
+
+11. in iOS use WkWebview instead of UIWebView, much better performance, and consistent api.
+
+12. fastlane in iOS: Fastlane failed to run pod install
+    cocoapods(use_bundle_exec: false)
+    Not sure why
+
+13. todo: ios notification; settings page
+
+

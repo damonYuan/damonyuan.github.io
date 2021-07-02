@@ -1,0 +1,20 @@
+---
+title:  "Istio"
+description: "Istio"
+hidden: true
+date: 2019-04-12 15:04:23
+categories: [Tech, Mindmap]
+tags: [Istio K8S]
+---
+
+# Concepts
+
+## What is Istio
+
+### Core features
+
+- Traffic management
+- Security
+- Observability
+- Platform support
+- Integration and customization

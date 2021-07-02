@@ -1,0 +1,113 @@
+Test - Rspec
+============
+
+# Rspec
+   
+   1. $ rails generate rspec:install -> generate with RSpec
+   2. $ rails generate controller StaticPages home help --no-test-framework
+      Note: --no-test-framework -> to suppress the generation of the default RSpec tests.
+   3. generate an integration test
+      $ rails generate integration_test static_pages
+   4. modify the generated static_pages_spec.rb
+   5. $ bundle exec rspec spec/requests/static_pages_spec.rb
+      -> run the test; bundle exec to ensure that RSpec runs in the environment specified by Gemfile.
+
+# Note
+  Files in the spec/support directory are automatically included by RSpec
+
+# subject { page } # telling RSpec that page is the subject of the test using
+
+# the default behavior of rake is to run the test suite
+  
+  $ rake
+
+# RSpec let function
+  It creates a variable corresponding to its argument
+  note memorize the var it created.
+  The name defined in let statements are only available within before and it blocks, not within the outer level of the describe blocks.
+
+# One way to check that the links on the layout go to the right pages:
+  use visit and click_link inside the RSpec integration test
+
+# pending "add some examples to (or delete) #{__FILE__}"
+  It shall show a pending in the test result
+
+# @user.should respond_to(:name) == @user.respond_to?(:name)
+  It accepts a symbol and returns true if the object responds to the given method or attribute and false otherwise. 
+
+# Even though we created a development database with 
+  
+  $ rake db:migrate
+  
+  The tests fail because the test database doesn't yet know about the data model. We can create a test database with the correct structure, and thereby get the tests to pass.
+  
+  $ bundle exec rake db:test:prepare
+  
+  This just ensures that the data model from the development database is reflected in the test database. (be sure to run it if your test suite is mysteriously breaking.)
+
+# should be_valid && should_not be_valid
+  Whenever an object responds to a boolean method foo?, there is a corresponding test method called be_foo.
+
+# $ bundle exec rspec spec/requests/user_pages_spec.rb -e "signup page"
+  The -e here arranges to run just the examples whose description strings match "signup page".
+
+# Error:  undefined method `model_name' for NilClass:Class
+  This is caused by not define a varialble in controller action corresponding to view's call.
+
+# should have_content("afdasd")
+
+# If the generator not work --> refer to config/application.rb
+
+# If no adapter is set, the job is immediately executed.
+  config.active_job.queue_adapter = :delayed_job
+
+# $ rails generate factory_girl:model event
+
+# rspec inline and not-inline
+  the inline versions will create 2 independent sequences
+
+# hash symbolized key not work for json
+  JSON, being a subset of JavaScript, does not have a notion of symbols. All keys are strings--thus, when you parse JSON with Ruby, the hash is created with strings as the keys.
+
+  If you're used to working with Ruby on Rails, you may be used to working with HashWithIndifferentAccesses, which allow you to use either strings or symbols for your keys.
+
+  [Update] As mentioned by akuhn in the comments, you can force the JSON module to symbolize all the keys by passing symbolize_names: true to the options for JSON.parse:
+
+  JSON.parse(json_string, symbolize_names: true)
+  This will make the keys symbols, which means you cannot use strings as the key when accessing the hash.
+
+# the structure:
+  1. it / specify with a block
+  2. should / expect().to
+
+# post method should be accessible from inside a it block, and it is available in controller test only.
+
+# rails api test 
+  1. Custom Rspec Helper for api scope
+  config.include Rack::Test::Methods -> no @app local var
+  fix:
+  module ApiHelper
+    include Rack::Test::Methods
+
+    def app
+      Rails.application
+    end
+  end
+
+  RSpec.configure do |config|
+    config.include ApiHelper, :type => :api #apply to all spec for api folder
+  end
+# note: do not put your apis folder underneath controllers folder, otherwise, it will inherited with controller ActionController::TestCase::Behavior, Rake::Test::Methods cannot be apply accordingly.
+
+
+
+
+
+
+
+
+
+
+
+
+

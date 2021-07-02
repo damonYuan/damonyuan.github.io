@@ -1,0 +1,37 @@
+Art of Java Web Development
+====
+
+# Part I evolution and design patterns
+
+### Chapter 1. State-of-the-art web design
+
+1. console applications -> event-driven applications -> stateless applications
+
+2. evolution
+   
+   * servlets
+   * JSPs (JavaServer Pages): JSPs are parsed only once, converted to a servlet, and then exec.
+
+3. a pattern has the following characteristics:
+
+   * the pattern name is a succinct, easy-to-remember moniker for the pattern
+   * the problem is a statement describing the difficulty and its context
+   * the solution describes the software artifacts that solve this problem
+   * the consequences are the results and the trade-offs of applying the pattern
+
+4. MVC
+
+5. Model 2
+   
+   * In Model 2 for Java web applications, JavaBeans represent the model. Notice that this may include simple JavaBeans, Enterprise JavaBeans (EJBs), or JavaBeans that act as proxies for EJBs.     
+   * the view is rendered with JSP, which makes sense because JSP is closely tied to HTML
+   * the controller is a servlet, well suited to executing Java code  
+
+     - One of the key concepts in this design mandates that no real logic be per- formed by the JSP.
+     - The model beans in this design should not be aware that they are being used in a web application.
+
+ 6. traditional without the use of design patterns or other refine techniques. -> JSP tags -> Model 2
+
+# Part II frameworks
+
+# Part III Best practise

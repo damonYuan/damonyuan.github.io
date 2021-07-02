@@ -1,0 +1,42 @@
+React Native
+=============
+
+1. iOS should disable 
+   `Dead Code Stripping`
+   in target settings.
+
+2. componentDidMount  is a function of React components that React will call exactly once, just after the component has been loaded.
+
+3. The way React works is that setState actually triggers a re-render and then the render function will notice that this.state.movies is no longer null.
+
+4. Always make sure to call done() at the end of the promise chain, or any errors thrown will get swallowed.
+
+5. examples:
+   http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/
+
+6. https://github.com/enaqx/awesome-react
+
+7. run on android device
+   $ ./gradlew :Examples:Movies:android:app:installDebug (in current dir)
+   $ ./packager/packager.sh  // run in simulator
+
+   cd into the project dir and run: 
+   $ react-native run-android
+
+8. run react-native sample: 
+   https://github.com/facebook/react-native/blob/master/ReactAndroid/README.md#prerequisites
+
+9. flexbox for layout
+   https://css-tricks.com/snippets/css/a-guide-to-flexbox/ 
+
+10. 1. $npm install react-native-cli -g
+    2. $react-native init <project name>
+       1. react-native-cli install react-native
+       2. react-native/cli.js -> local-cli -> cli.js -> init.js use yoman to create a new project.
+
+11. Event Emitter
+    https://colinramsay.co.uk/2015/07/04/react-native-eventemitters.html
+
+12. Rubymine configure
+    1. add node module as lib
+    2. exclude node modules

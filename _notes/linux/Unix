@@ -1,0 +1,5 @@
+Unix
+======
+
+1. $ more /etc/services
+   To check the default ports configuration.

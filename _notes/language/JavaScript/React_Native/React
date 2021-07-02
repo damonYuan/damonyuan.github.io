@@ -1,0 +1,25 @@
+React
+=======
+
+1. React provides the dangerouslySetInnerHTML property to skip XSS protection and render anything directly.
+2. Custom Factories????
+3. Style names are camel cased in order to be consistent with DOM properties (e.g. node.style.backgroundImage)
+4. A form component with a value or checked prop is called a controlled component. In a controlled component, the value rendered inside the element will always reflect the value of the prop
+5. If you want to set up an initial value for an uncontrolled form component, use the defaultValue prop instead of value.
+6. use non-destructive methods
+methods that will return an array with the desired mutations instead of actually changing the original one. map, filter, and concat are just a few examples of non-destructive array methods.
+There are also alternatives for generating new objects with mutations in JavaScript, like using Object.assign.
+7. whatwg-fetch
+enable all browsers support fetch function
+8. babel-polyfill
+enable all browsers support Object.assign function
+array.prototype.find
+array.prototype.findIndex
+9. React Immutability Helper
+var update = require('react-addons-update');
+upadte function: eg: let newStudent = update(student, {grades:{$push: ['A']}})
+10. Optimistic updating and rollback is not a trivial task and can unfold in many outcomes, but it’s easy to cover the basic rollback scenario right now because of a side effect of working with immutable structures: you can keep a reference to the old state and revert it back in case of problems.
+11. &#9776; is the HTML Entity for the ☰ utf-8 symbol (aka "Hamburger Menu")
+12. npm install --save react-addons-css-transition-group.
+13. You must provide the key attribute for all children of ReactCSSTransitionGroup, even when only rendering a single item because this is how React will determine which children have entered, left, or stayed.
+14. the React Drag’nDrop supports different back ends.

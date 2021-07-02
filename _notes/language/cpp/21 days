@@ -1,0 +1,23 @@
+21 days
+====
+
+### Chapter 1
+
+1. What is C++ inline functions?
+
+   http://www.cplusplus.com/articles/2LywvCM9/
+
+2. Const member functions in C++
+
+   https://www.geeksforgeeks.org/const-member-functions-c/
+
+   > The idea of const functions is not allow them to modify the object on which they are called. 
+
+3. In C++, a struct is the same as a class, except that its members are public by default. 
+
+   C has structures, although C structures don’t have class methods.
+
+### Chapter 2
+
+1.          
+

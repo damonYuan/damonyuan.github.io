@@ -1,0 +1,15 @@
+---
+title:  "Calico"
+description: "Calico"
+hidden: true
+date: 2019-04-13 15:04:23
+categories: [Tech, Mindmap]
+tags: [Calico, K8S]
+---
+
+## Introduction
+
+> https://www.projectcalico.org/calico-ipam-explained-and-enhanced/
+
+  The simplest approaches, such as that built into Kubernetes, assume the static allocation of a fixed set of addresses to each node. More advanced solutions, such as Calico, provide users more control and allow much finer-grained, dynamic IPAM.
+  

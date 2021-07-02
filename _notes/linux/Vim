@@ -1,0 +1,21 @@
+touVim
+=====
+
+1. https://github.com/VundleVim/Vundle.vim
+2. http://sourabhbajaj.com/mac-setup/Vim/README.html to install The Ultimate vimrc
+3. http://blog.decaywood.me/2016/09/15/vim/
+4. http://www.iterm2.com/features.html
+5. https://oli.me.uk/2013/06/29/equipping-vim-for-javascript/ 
+   for Javascript, note to put .jshintrc into ~/.jshintrc, and add 'esversion': 6.
+   this configuration will be applied globally.
+6. brew install vim --with-lua --with-override-system-vi
+7. YouCompleteMe plugin need CMake installed: brew install CMake
+   Note: https://github.com/Valloric/YouCompleteMe
+8. Vim smart search: TODO
+9. 自動對齊
+
+$ =G
+
+10. delete lines
+:startingline, last line d
+:7,20 d

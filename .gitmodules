@@ -1,0 +1,6 @@
+[submodule "_notes"]
+	path = _notes
+	url = git@github.com:damonYuan/DyNotes.git
+[submodule "_codep"]
+	path = _codep
+	url = git@github.com:damonYuan/DyCodePractice.git

@@ -1,0 +1,4 @@
+CALayer and Core Graphic
+========================
+
+1. <%= image_tag(image_title, alt: slide_title, class: 'carousel_background') %>

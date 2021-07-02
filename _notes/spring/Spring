@@ -1,0 +1,27 @@
+Spring
+====
+
+1. web.xml
+
+```
+<servlet>
+    <servlet-name>springweb</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>    
+</servlet> 
+``` 
+will load beans in springweb-servlet.xml for servlet context.
+
+```
+<context-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value>/WEB-INF/spring/root-config.xml</param-value>
+</context-param>
+````
+will load beans in root-config.xml for root application context. `ContextLoaderListener` is required.
+
+```
+<listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
+````
+will load beans in applicationContext.xml for root application context by default.

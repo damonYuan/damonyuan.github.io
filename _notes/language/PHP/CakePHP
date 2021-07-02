@@ -1,0 +1,24 @@
+CakePHP
+=======
+
+1. afterFilter is called after view is rendered. 
+   beforeRender is called before view is rendered.
+
+2. When a request specifies a controller but not an action, the default CakePHP behavior is to execute the index() method of that controller.
+
+3. If a controller method has been prefixed with an underscore, the method will not be accessible directly from the web but is available for internal use.
+
+4. If primary key’s name is not id, then you must set the Model.primaryKey attribute.
+
+5. The getReady() function of the PeopleController class will look for a view template in /app/View/People/get_ready.ctp.
+
+6. If you do not wish to use a Model in your controller, set public $uses = array(). This will allow you to use a controller without a need for a corresponding Model file. However, the models defined in the AppController will still be loaded. You can also use false to not load any models at all. Even those defined in the AppController.
+
+7. • If you return a string, or an object that can be converted to a string from your controller action, it will be used as the response body.
+• You can return a CakeResponse object with the completely created response.
+
+8. echo $this->element('latest_comments', array(), array('cache' => true));
+
+9. Although CakePHP will automatically call it after every action’s logic (unless you’ve set $this->autoRender to false)
+
+10. Since both Models and Components are added to Controllers as properties they share the same ‘namespace’. Be sure to not give a component and a model the same name.

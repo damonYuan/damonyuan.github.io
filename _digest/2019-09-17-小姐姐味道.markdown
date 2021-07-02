@@ -1,0 +1,47 @@
+---
+title:  "小姐姐味道"
+description: "小姐姐味道"
+hidden: true
+date: 2019-09-17 15:04:23
+categories: [Tech]
+tags: [Blog]
+---
+
+# Linux之《荒岛余生》
+
+## [Linux之《荒岛余生》（一）准备篇](https://juejin.im/post/5bed239251882502df7f1e8e)
+
+* 查看/etc/shells文件看一下你安装过的shell
+
+  `cat /etc/shells`
+  
+## [Linux之《荒岛余生》（二）CPU篇](https://juejin.im/post/5bf0b52df265da611b57f0e6)
+
+* 这一行Shell的意思是，找到使用CPU最高的进程之使用CPU最高的线程的16进制号。
+
+  `ps -eo %cpu,pid |sort -n -k1 -r | head -n 1 |  awk '{print $2}' |xargs  top -b -n1 -Hp | grep COMMAND -A1 | tail -n 1 | awk '{print $1}' | xargs printf 0x%x`  
+  
+## [Linux之《荒岛余生》（三）内存篇](https://juejin.im/post/5c00aee06fb9a049be5d3641)
+
+## [Linux之《荒岛余生》（四）I/O篇](https://mp.weixin.qq.com/s/khhOSLYDQLF8pdholZAxuA)
+
+## [Linux之《荒岛余生》（五）网络篇](https://mp.weixin.qq.com/s/h8t4zUUNTAK4wxF_YMvkMQ)  
+----
+
+# [万万没想到，JVM内存结构的面试题可以问的这么难](https://juejin.im/post/5d4789afe51d453b386a62ac)
+
+----
+
+# [127.0.0.1和0.0.0.0地址的区别](https://juejin.im/post/5d258b6ae51d454f73356dcf)
+
+----
+
+# [一声叹息，jdk竟然有4个random](https://juejin.im/post/5d1d5e60f265da1b67212b20)
+
+----
+
+# [在终端画画、炒股、玩游戏](https://juejin.im/post/5ca32d16f265da30bb5807a2)
+   
+----
+
+# [从一道简单的“SpringBoot配置文件”相关面试题，我就能知道你的水平](https://juejin.im/post/5c07ce306fb9a049f06a0c62)   

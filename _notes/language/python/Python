@@ -1,0 +1,47 @@
+Python
+======
+
+#### virtualenv [virtualenv github]
+	1. create virtualenv ENV: `$ source ~/ENV/bin/activate`
+	2. exit the env: $ deactivate
+	3. install Anaconda: [Anaconda], specify the location: /Users/Damon/ENV/anaconda2
+	   and cloud for Anaconda: https://anaconda.org
+
+#### iPython
+	1. upgrade with Jupyter
+	2. installation: http://jupyter.readthedocs.io/en/latest/install.html
+	3. `$ jupyter notebook`
+	4. `$ pip install ipyparallel` and `$ ipcluster nbextension enable` to enable it
+
+
+[virtualenv github]: (https://virtualenv.pypa.io/en/latest/userguide)
+[Anaconda]: (https://www.continuum.io/downloads#_macosx)
+
+#### Functional Language
+
+1. language features that aid functional programing:
+   * immutable data
+   * first class functions
+   * tail call optimisation
+
+2. programming techniques used to write functional code:
+   * mapping 
+   * reducing 
+   * pipelineing
+   * recursing
+   * currying 
+
+3. advantageous properties of functional programs
+   * parallelization
+   * lazy evaluation
+   * determinism
+
+### Mastering Python for Finance
+
+1.    
+
+### [How Does Python Find Packages](https://leemendelowitz.github.io/blog/how-does-python-find-packages.html)
+
+1. The file attribute is not present for C modules that are statically linked into the interpreter, sys module is statically linked to the interpreter - it is essentially part of the interpreter!
+
+

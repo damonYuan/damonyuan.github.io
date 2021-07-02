@@ -1,0 +1,39 @@
+Chapter 5. Functions 
+====
+
+1. Function Declaration
+   
+   - has a required name
+   - in the source code position it is positioned: either at the Program level or directly in the body of another function (FunctionBody);
+   - is created on entering the context stage;
+   - influences variable object;
+   - and is declared in the following way:
+   ```
+   function exampleFunc() {
+   ...
+   }
+   ```
+
+2. function can be declared:
+   - directly in the global context
+   - or inside the body of another function
+
+3. Function Expression:
+   - in the source code can only be defined at the expression position;
+   - can have an optional name;
+   - it’s definition has no effect on variable object;
+   - and is created at the code execution stage.
+
+4. assignment expression and optional name
+
+5. encapsulating pattern:
+
+```
+(function () {
+  
+  // initializing scope
+  
+})();
+```
+
+6. bound functions

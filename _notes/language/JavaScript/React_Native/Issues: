@@ -1,0 +1,47 @@
+Issues:
+
+Android:
+
+1. cannot release the focus on TextInput
+   clear the text on focus
+
+2. no alertDialog
+   make module to make use of native component.
+
+3. return button turn to next magically and will lead to crash.
+   Fixed by 0.12.0
+
+4. TextInput scrollView contentOffset not work.
+   ???
+
+5. HUD
+   workaround using modal view
+
+6. no modal view
+
+7. cannot resign text field first responder
+
+8. textField cannot go to next
+
+9. text cannot have bottom line
+
+10. localization
+
+11. disable button when loading
+
+
+
+iOS:
+5. One downside to that approach is that you'd have to manually set the tintColor of the image when the button is disabled; there isn't a good way for the button component to set the tintColor of its children at this time (when React 0.14 comes out this will become possible).
+   https://github.com/ide/react-native-button/issues/2
+
+
+iOS:
+
+
+
+Server:
+
+1. express and react native promise syntax
+
+2. mongoDB

@@ -1,0 +1,152 @@
+AOSP
+====
+
+#M370
+1. fastboot -i 0x489 flash boot FAO-0-0000-0001-boot.img
+2. fastboot -i 0x489 flash rpm FAO-0-cxmx-turbo-rpm.mbn
+3. fastboot -i 0x489 reboot
+
+#M812a
+1. recovery
+http://forum.xda-developers.com/showpost.php?p=64391758&postcount=228
+
+#Idol S
+1. Idol 2S in fastboot mode, = turn off -> Vol Down + Power button
+2. fastboot -i 0x1bbb flash boot cwm_recovery_6050y.img 
+
+#How to chcke if a device bootloader is unlocked
+1. connect device in fastboot mode
+2. $ fastboot devices
+3. $ fastboot oem device-info
+
+#How to unlock a bootloader
+$ fastboot oem unlock
+
+#How to flash
+$ fastboot flash recovery recovery.img
+For Infocus
+$ fastboot -i 0x489 flash boot FAO-0-0000-0001-boot.img
+
+#Open Settings from adb
+$ adb shell am start -n com.android.settings
+
+#ADB reboot into bootloader
+$ adb reboot-bootloader
+
+#ADB reboot into recovery
+$ adb reboot recovery
+
+#Fastboot common command
+$ fastboot flash recovery recovery.img
+$ fastboot flash boot boot.img
+$ fastboot flash cache cache.img
+$ fastboot flash userdata userdata.img
+$ fastboot flash system system.img
+$ fastboot reboot
+$ fastboot format userdata  
+$ fastboot oem unlock or $ fastboot flashing unlock
+
+#Busybox
+https://github.com/daliworks/busybox-osx
+
+# /system/etc/prefer-apps has xml files
+https://wenchiching.wordpress.com/2017/05/06/how-to-set-my-phone-app-as-default-phone-dialer-in-android-rom-level/
+
+# Android source code
+http://androidxref.com
+
+#. Adnroid Images
+
+* cache.img
+* userdata.img
+* boot.img: contain the kernel; fastboot flash boot <boot image file name>.img
+* bootloader.img: the interface that you're using to flash images with Fastboot commands; fastboot flash bootloader <bootloader image file name>.img; fastboot reboot-bootloader
+* radio.img: This one controls connectivity on your device, so if you're having problems with Wi-Fi or mobile data; fastboot flash radio <radio image file name>.img
+* recovery.img: fastboot flash recovery <recovery file name>.img
+* system.img: This one contains all of the files that make up the actual Android OS. As such, it's the most essential part of any update. In other words, if you flash this image and nothing else, it will undo any changes you made with root access and put everything back the way it was. fastboot flash system <system file name>.img
+* vendor.img: fastboot flash vendor <vendor file name>.img
+
+#. Virtualbox shared folders: do not have permissions to view the content
+
+$ sudo adduser xxxxxxx vboxsf
+
+and then reboot 
+# Android AOSP build error: 'run_soong_ui' failed
+
+============================================
+PLATFORM_VERSION_CODENAME=REL
+PLATFORM_VERSION=8.0.0
+TARGET_PRODUCT=aosp_arm
+TARGET_BUILD_VARIANT=eng
+TARGET_BUILD_TYPE=release
+TARGET_ARCH=arm
+TARGET_ARCH_VARIANT=armv7-a
+TARGET_CPU_VARIANT=generic
+HOST_ARCH=x86_64
+HOST_2ND_ARCH=x86
+HOST_OS=linux
+HOST_OS_EXTRA=Linux-4.4.0-21-generic-x86_64-Ubuntu-16.04.2-LTS
+HOST_CROSS_OS=windows
+HOST_CROSS_ARCH=x86
+HOST_CROSS_2ND_ARCH=x86_64
+HOST_BUILD_TYPE=release
+BUILD_ID=OC
+OUT_DIR=out
+============================================
+
+// TODO:
+
+# Output after run $ make -j4
+
+```
+Creating filesystem with parameters:
+    Size: 2147483648
+    Block size: 4096
+    Blocks per group: 32768
+    Inodes per group: 8192
+    Inode size: 256
+    Journal blocks: 8192
+    Label: system
+    Blocks: 524288
+    Block groups: 16
+    Reserved block group size: 127
+Created filesystem with 2218/131072 inodes and 174500/524288 blocks
+[100% 59368/59368] Install system fs image: out/target/product/generic/system.img
+out/target/product/generic/system.img+ maxsize=2192446080 blocksize=2112 total=2147483648 reserve=22146432
+```
+
+# boot process
+
+qcom process
+
+// cpu manufacture
+1. pbl: primary boot loader -> cpu run this program, inside cpu, cannot be replaced, cpu manufacture makes it
+
+// device manufacture
+2. sbl: secondary boot loader -> redsea
+3. rpm: resource & power manager -> redsea
+4. tz: trust zone -> where you can put the secrets, password to check if the user can read it
+5. little kernel: aboot.image, load the kernel's 0x8000, device manufacture made
+
+// Can be customized
+6. kernel: boot.image, 0x8000 is the first memory to load, -> zimage (cannot be revised) & ramdisk.img (revised) (Note: superuser)
+
+zimage is the kernel binary;
+ramdisk.img is the setup settings document
+
+7. init.rc:  system/core/init/README.md -> important
+
+8. zygote: parent process id is 1 -> init deamon; 
+
+Note: 5, 6,7, 8 -> https://www.codeaurora.org/
+
+Note: mount remote disk
+
+22. android modes
+
+https://tektab.com/2015/10/31/android-bootloaderfastboot-mode-and-recovery-mode-explained/
+
+1. recovery mode: $ adb reboot recovery
+2. download mode: $ adb reboot download
+3. bootloader mode: $ adb reboot-bootloader or $ adb reboot bootloader
+

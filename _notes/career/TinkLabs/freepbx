@@ -1,0 +1,319 @@
+1. init a new instance
+   1.5 create swap
+   https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04
+   
+2. installing a LAMP Web Server
+   $ sudo apt-get update
+   $ sudo apt-get upgrade
+   $ sudo apt-get install apache2
+   $ sudo apt-get install mysql-server php5-mysql #do not set the password here
+   $ sudo apt-get install php5 libapache2-mod-php5 php5-mcrypt
+   $ sudo apt-get install phpmyadmin
+
+   Finsh the Configuration of Apache
+   http://www.chrishjorth.com/blog/free-aws-ec2-ubuntu-apache-php-mysql-setup/
+
+   $ service apache2 restart
+   $ sudo /etc/init.d/apache2 restart
+   Note: service calls scripts loacated in /etc/init.d, so there are no differences in the result.
+
+3. follow 
+   http://wiki.freepbx.org/display/FOP/Installing+FreePBX+13+on+Ubuntu+Server+14.04.2+LTS#InstallingFreePBX13onUbuntuServer14.04.2LTS-InitialSystemSetup
+
+4. Remember to install fail2ban
+
+   sudo service fail2ban stop
+   sudo service fail2ban start
+
+5. Remember to load
+   $ module load res_rtp_asterisk.so
+   $ module load chan_sip.so
+
+4. Office number: 85236982920
+   idox; 85230561044
+
+5. remember: 
+   1. Settings -> Allow Anonymous Inbound SIP Calls : set to Yes
+
+6. $ core show applicaitons like dial
+   $ core show applications describing dial
+   $ core show application dial
+
+7. Cannot connect to asterisk
+   $ sudo fwconsole restart
+
+# relaod asterisk
+$ dialplan re
+$ dialplan reload
+
+# Error: 
+
+Sometimes Display Name in Extension will make the call fail
+
+# Error:
+
+Sometimes NAT set to NO will make the phone call failed
+
+# Error: 
+Request from '"85268565682" <sip:85268565682@46.19.209.14>' failed for '46.19.209.14:5060' (callid: 10-69843564-582E827700082B16-7F852700) - No matching endpoint found
+
+Reason: port error, should use Chan sip and set the port to 5060 or whatever in didww
+
+# Error: 
+Your system has no swap space. This should be fixed as soon as possible. Once fixed issue a reload to remove this message
+
+Reason: no swap on linux. https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04
+
+Note: this step should before installation.
+
+# Note: restart asterisk cli
+$ sudo service asterisk restart
+or
+$ sudo amportal restart
+
+http://community.freepbx.org/t/amportal-restart-vs-service-asterisk-restart/17562
+
+# Note: enter asterisk cli
+> $ asterisk -r 
+
+# Note: install codecs
+Ref: https://www.voip-info.org/wiki/view/Installing+free+G729+codec+as+pass+thru+
+
+# idd:
+30561000
+
+# Asterisk show applications
+$ core show application Goto
+
+# GoSub
+eg:
+exten => 1234,1,GoSub(timecheck,s,1)
+exten => 1234,n,Goto(phones,200,1)
+
+# TODO: voice mail 16 -19
+
+# <dial plan>
+
+[from-didww]
+exten => s,1,Verbose(caller ${CALLERID(all)} from-didww)
+ same => n,Goto(from-internal,start,1)
+
+[to-didww]
+exten => _852XXXXXXXX,1,Verbose(caller ${CALLERID(all)} to-didww)
+ same => n,Dial(SIP/to-didww/${EXTEN})
+
+# Transfer: important to add Ttr 
+ same => n,Dial(SIP/3000,30,Ttr)
+
+# FreePBX "General Options"
+Make sure that you set "t" option for "Asterisk Dial Command Options" in FreePBX's "General Settings" Menu, and for "Outbound Dial Command option" always use "T". If you are using "trwkhTRWKH" for both the options (which i was using for sometime and then i accidently found out one day) then even the person dialling in your number, or the person you called can transfer your call to any extension in that context.This is also a feature, as you can have your Agent on mobile be able to transfer the call to someone in office, but still it is very dangerous to allow people to fork calls from outside.
+
+# prepend *67 to hide the didww number
+
+#AMI staging
+Action: Login
+Username: Admin
+Secret: 8c677a14693b74dc20c7b26554f8f7be
+
+
+# Asterisk mysql connection settings
+
+http://clients.stabiliservers.com/knowledgebase.php?action=displayarticle&id=9
+
+
+# check /var/log/asterisk if space is not enough
+
+# ubuntu@ip-10-0-0-40:~$ sudo update-rc.d asterisk defaults
+Adding system startup for /etc/init.d/asterisk ...
+  /etc/rc0.d/K20asterisk -> ../init.d/asterisk
+  /etc/rc1.d/K20asterisk -> ../init.d/asterisk
+  /etc/rc6.d/K20asterisk -> ../init.d/asterisk
+  /etc/rc2.d/S20asterisk -> ../init.d/asterisk
+  /etc/rc3.d/S20asterisk -> ../init.d/asterisk
+  /etc/rc4.d/S20asterisk -> ../init.d/asterisk
+  /etc/rc5.d/S20asterisk -> ../init.d/asterisk
+
+added to start on boot
+
+# How do I register a G729 license
+http://kb.digium.com/articles/Configuration/How-do-I-register-a-G729-license
+http://my.digium.com/en/docs/G729/g729-download/
+
+Need to purchase a license before using it.
+
+https://www.voip-info.org/wiki/view/Installing+free+G729+codec+as+pass+thru+
+http://asterisk.hosting.lv/
+
+
+# WebRTC
+1. http://wiki.freepbx.org/display/FPG/WebRTC+Phone-UCP#WebRTCPhone-UCP-ServerSide
+
+2. DTLS failure due to reason 'sslv3 alert handshake failure'
+   https://github.com/onsip/SIP.js/issues/345 [not work]
+   
+   update openssl to 1.0.2g: http://stackoverflow.com/questions/39116098/asterisk-sslv3-alert-handshake-failure [it works, remember to restart the asterisk]
+
+   https://community.asterisk.org/t/dtls-failure-occurred-on-rtp-instance-due-to-reason-sslv3-alert-handshake-failure/67899/2 by ijasnahamed
+
+   check openssl version: $ openssl version
+
+3. https://wiki.asterisk.org/wiki/display/AST/Asterisk+WebRTC+Support [useless]
+   https://wiki.asterisk.org/wiki/display/AST/WebRTC+tutorial+using+SIPML5 [good tutorial]
+
+4. create key for webrtc
+   $ sudo find . -name "ast_tls_cert"
+   $ cd /etc/asterisk/keys
+   $ sudo ./usr/src/asterisk-13.12.2/contrib/scripts/ast_tls_cert -C sip-staging.handy.travel -O "Tinklabs Ltd" -d /etc/asterisk/keys
+   $ enter pass phrase for the key
+
+5. webrtc asterisk configuration
+
+  Enable AVP: Whether to Enable AVPF. Defaults to no. The WebRTC standard has selected AVPF as the audio video profile to use for media streams. This is not the default profile in use by Asterisk. As a result the following must be enabled to use WebRTC
+
+  Force AVP: Force 'RTP/AVP', 'RTP/AVPF', 'RTP/SAVP', and 'RTP/SAVPF' to be used for media streams when appropriate, even if a DTLS stream is present.
+
+  Enable ICE Support: Whether to Enable ICE Support. Defaults to no. ICE (Interactive Connectivity Establishment) is a protocol for Network Address Translator(NAT) traversal for UDP-based multimedia sessions established with the offer/answer model. This option is commonly enabled in WebRTC setups.
+
+  Enable Encryption: hether to offer SRTP encrypted media (and only SRTP encrypted media) on outgoing calls to a peer. Calls will fail with HANGUPCAUSE=58 if the peer does not support SRTP. Defaults to no.
+
+  Enable DTLS: Enable or disable DTLS-SRTP support. Configure the certificate.
+
+  Normal sip peer configuration:
+  ```
+  [2116]
+  deny=0.0.0.0/0.0.0.0
+  secret=tinklabs123!
+  dtmfmode=rfc2833
+  canreinvite=no
+  context=from-internal
+  host=dynamic
+  defaultuser=
+  trustrpid=yes
+  sendrpid=no
+  type=friend
+  session-timers=accept
+  nat=force_rport,comedia
+  port=5060
+  qualify=yes
+  namedcallgroup=
+  namedpickupgroup=
+  dial=SIP/2116
+  permit=0.0.0.0/0.0.0.0
+  callerid=2116 <2116>
+  callcounter=yes
+  faxdetect=no
+  ```
+
+  Webrtc sip peer configuration: 
+  ```
+  [1062]
+  deny=0.0.0.0/0.0.0.0
+  secret=123456
+  dtmfmode=rfc2833
+  canreinvite=no
+  context=webrtc-test
+  host=dynamic
+  defaultuser=
+  trustrpid=yes
+  sendrpid=pai
+  type=friend
+  session-timers=accept
+  nat=force_rport
+  port=5060
+  qualify=yes
+  qualifyfreq=60
+  transport=wss,udp,tcp
+  avpf=yes
+  force_avp=yes
+  icesupport=yes
+  encryption=yes
+  videosupport=yes
+  namedcallgroup=
+  namedpickupgroup=
+  dial=SIP/1062
+  permit=0.0.0.0/0.0.0.0
+  callerid=1062 <1062>
+  callcounter=yes
+  faxdetect=no
+  dtlsenable=yes
+  dtlsverify=no
+  dtlscertfile=/etc/asterisk/keys/sip-staging.handy.travel.crt
+  dtlsprivatekey=/etc/asterisk/keys/sip-staging.handy.travel.key
+  dtlssetup=actpass
+  dtlsrekey=0
+  ```
+
+# ICE standard (Interactive Connectivity Establishment: https://tools.ietf.org/html/rfc5245)
+
+# SIP protocol: https://tools.ietf.org/html/rfc3261#page-9
+
+1. Each proxy uses the Via header field to determine where to send the response and removes its own address from the top. As a result, although DNS and location service lookups were required to route the initial INVITE, the 180 (Ringing) response can be returned to the caller without lookups or without state being maintained in the proxies.
+
+2. A proxy server can also send an INVITE to a number of locations at the same time.  This type of parallel search is known as forking.
+
+3. During the session, either Alice or Bob may decide to change the characteristics of the media session.  This is accomplished by sending a re-INVITE containing a new media description. This re-INVITE references the existing dialog so that the other party knows that it is to modify an existing session instead of establishing a new session.
+
+4. add to the INVITE a required routing header field known as Record-Route that contained a URI resolving to the hostname or IP address of the proxy.
+
+5. Registration is one way that the biloxi.com server can learn the current location of Bob.
+
+6. sip trunk configuration:
+  there are two parts: sip_additional.conf for general configuration and sip_registrations.conf for registration if required. Some provider do not require registration (HGC) because they authenticate the trunk based on ip, etc.
+
+  example: 
+  ```
+  register=hdtest:hdtest3612288@125.89.67.178:5061/hdtest
+
+  [to-unicom2]
+  username=hdtest
+  defaultuser=hdtest
+  fromuser=hdtest
+  secret=hdtest3612288
+  host=125.89.67.178
+  port=5061
+  type=friend
+  rtpkeepalive=60
+  sendrpid=yes
+  qualifyfreq=60
+  qualify=yes
+  insecure=port,invite
+  dtmfmode=rfc2833
+  dtmf=rfc2833
+  context=to-unicom2
+  canreinvite=yes
+  registertimeout=20
+  registerattempts=0
+  ```
+7. For Fail2ban, the ufw should be started. But ensure the 22 port is enabled so that can ssh into the machine, normally allow all inbound because the firewall rule can be controlled at the AWS side.
+
+8. Roamability ok for sip; KPN cannot be used for sip
+
+9. original sip.handy.travel 52.74.51.154 
+   original sip-jp.handy.travel 52.199.252.98
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

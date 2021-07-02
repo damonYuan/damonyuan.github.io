@@ -1,0 +1,64 @@
+Bindo backend
+==============
+
+1. start memcached server (with Dali)
+   $ memcached &
+   
+2. brew Symlink
+   $ brew link --force xxx(such as readline)
+
+3. Bindo call sequence:
+   1. config.ru
+   2. environment.rb
+   3. routes.rb : Here it separate the Web application and API application.
+
+4. Faye based on webSocket
+   WAMP based on webSocket
+   XMPP
+
+   How to implement Faye.
+   Method One: https://github.com/TheNotary/faye_rails_example (for rails 4)
+   1. 
+
+   Method Two: http://code.tutsplus.com/tutorials/how-to-use-faye-as-a-real-time-push-server-in-rails--net-22600 (for rails 3)
+   1. private_pub
+
+
+   
+5. TODO: foreman with sidekiq
+
+6. Rails load
+   $ Rails server (/bin/rails)
+   1. script/rails
+   2. config/boot (bundle and gem setup)
+   3. rails gem: commands.rb (note: here a rails server is created and then start)
+   4. lib/rails/commands/server.rb (note: subclass of Rack server, create the @app)
+   5. lib/rack/builder.rb (config/environment is used here and then run Bindo::Application)(config/environment to initialize the @app, will load the files in config/initializers)
+   6. config.ru (here the same thing is also done here: 1. require config/environment, and then run Bindo::Application)
+   7. lib/rack/builder.rb -> initialize
+   8. config/application: rails/application < Engine < Railtie
+
+   $ Rackup
+   1. ruby/bin/rackup
+   2. rack/bin/rackup
+   3. rack/lib/rack/server.rb (note: start the server and create the app)
+   4. lib/rack/builder.rb
+   5. config.ru
+   6. lib/rack/builder.rb -> environment and initialize
+
+7. sidekiq
+   Note: code used by sidekiq should be thread-safe, in general you should avoid data that is sharing between mutable instances, in Ruby it means the data at class level. such as define @foo = 'foo' under include Sidekiq::worker is not a good idea.
+
+   Note: the pool size in database.yml should be changes to larger than 5 such as 25.
+
+   Note: SomeWorker.perform_in(1.hour, params) can be use to clean cache or something.
+
+   Note: bundle exec sidekiq -q high,5 default
+
+   Note: for bindo, eg. $ bundle exec sidekiq -C config/sidekiq-faye.yml
+
+8. clear rails log
+   $ rake log:clear
+
+
+

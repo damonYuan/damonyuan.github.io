@@ -1,0 +1,6 @@
+StrongLoop
+=========
+
+# Auto migration
+  in /server/bin/, run
+  $ node automigrate.js

@@ -1,0 +1,86 @@
+Professional Linux Programming
+================
+
+#### Chapter 1. working with Linux
+
+1. GNOME is the default graphical desktop environment used by both the Fedora and Ubuntu projects
+2. It’s available via the Fedora website, but you’ll usu- ally perform a “yum update” (after uncommenting the development YUM repository entries in /etc/yum.repos.d) from the most recent stable release in order to switch over, rather than trying to perform an install of rawhide directly.
+3. You will usually “apt-get upgrade” your system to unstable after modifying /etc/apt/sources.list).
+4. To use sudo, you’ll need to ensure that your regular user account is listed in /etc/sudoers. 
+5. Fedora, Debian -> `$ yum update`
+   Ubuntu, -> `$ apt-get upgrade`
+
+#### Chapter 2. Toolchains (compiler, linker, assembler, debugger)
+
+1. GNU Autoconf
+2. GNU make
+3. CNU Compiler Collection
+	1. calling the actual C compiler (internal part of GCC). compile to assembly language: `$ gcc -S hello.c`
+	2. GNU assembler tools (external) -> executable object code : `$ as -o hello.o helloc.s`
+	3. GNU linker tools (external); the inclusion happens at this stage : `$ gcc -o hello hello.o`
+
+	stage 1 & 2: eg: `$ gcc -c message.c`
+	stage 3: eg: `$ gcc -o goodbye message.o main.o`
+	or 
+	stage 1 & 2 & 3: eg: '$ gcc -o goodbye message.c main.c'
+4. GNU C library forms a thin layer on top of the Linux kernel and provides many useful routines.
+   In fact, GCC will assume that GLIBC is to be included in your programes by default in any compilation you ask it to perform.
+5. the -lm option : tell the GCC to look in the system-supplied math library (libm), typically live in /lib or /usr/lib
+6. [Swap partition]
+7. Shared Library: 
+   eg. 
+   1. `$ gcc -fPIC -c message.c`
+   the PIC command line flag tells GCC to produce code that does not contain references to specific memory locations for functions and variables, since it is not yet possible to know where the message code will be linked into the memory address space of any application that uses it. 
+   2. `$ gcc -shared -o libmessage.so message.o`
+   3. `$ gcc -o goodbye -lmessage -L. main.o`
+   The -L. flag informs GCC that libraries may be located within the current directory, as the GNU linker will otherwise look in the standard system library directories and (in this case) find no usable library.
+8. To discover which libraries are required by a particular application, use ldd command.
+   **ldd** searchs the standard system library paths and shows which libaray versions would be used by a particular program.
+9. The runtime dynamic linker/loader provided on modern Linux system - ld-linux will be automatically invoked whenever an application using shared libraries is loaded. Normally /lib and /usr/lib and can be overriden using the /etc/ld.so.conf
+10. GCC options groups:
+	1. General options
+		* -S : stop at stage 1 and emit assembly language code as output
+	2. Language options
+	3. Warning levels
+		* eg: `$ gcc -o hello -Wall -pedantic-errors hello.c`
+	4. Debugging
+		* -g
+	5. Optimization
+		* -O0 to -O3
+		* -Os
+	6. Hardware options
+		* [Cross Compiler]
+11. compile *.s assembly code -> *.o file : eg. `$ as -o hello.o hello.s`
+12. To build an executable, source code must first be compiled, assembled, and then linked into standard container that is understood by the target linux system. eg. ELF or Executable and Linking Format.
+13. GNU linker: ld
+14. ABI: Application Binary Interface
+15. objdump and objcopy
+16. Makefile: $(CC) -> C compiler, is set to GCC by default
+17. use gdb: remember to to use -g debugging symbol's gcc flag
+18. Core file for crash logs. **TODO**: build the kernel running in the station. [page 43]
+19. inline assembly code
+20. memory alignment of variables within Linux kernel
+    [unaligned memory access]
+21. custom linker scripts
+22. cross-compilation
+23. Build a GNU toolchain (scripts: Dan Kegel's [crosstool])
+	1. GCC <- GNU library <- compiler
+	2. binutils
+	3. GLIBC
+	4. GDB
+
+[Swap partition]: (https://www.linux.com/news/all-about-linux-swap-space)
+[Cross Compiler]: (https://en.wikipedia.org/wiki/Cross_compiler)
+[unaligned memory access]: (https://www.kernel.org/doc/Documentation/unaligned-memory-access.txt)
+[crosstool]: (http://kegel.com/crosstool)
+
+#### Chapter 3. Portability
+
+1. use Redhat: $ yum install rpm-build 
+2. `rpm -qa | grep gcc` to show if you have install the gcc
+3. [linux from scratch]
+4. Upstream Source: Community software source code release
+
+[linux from scratch]: (www.linuxfromscratch.org)
+
+   

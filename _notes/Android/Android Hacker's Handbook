@@ -1,0 +1,25 @@
+Android Hacker's Handbook
+==========================
+
+1. You can  nd de nitions for AIDs in system/core/include/private/android_filesystem_config.hintheandroidOpenSource Project (AOSP) tree.
+
+2. the permission of protection level
+    android:protectionLevel="signature"
+   this limits which other applications can request this permission to jsut those signed by the same key.
+
+3. Vendor-specic libraries, namely those that provide support for hardware uniquetoadevicemodel,arein /vendor/lib (or/system/vendor/lib).
+
+4.  Instead of executing run-level-based shell scripts from / e t c / i n i t . d , Android executes commands based on directives found in / i n i t . r c . 
+    For device-speci c direc- tives,theremaybea lecalled/init.[hw].rc,where[hw] isthecodenameof the hardware for that speci c device.
+
+5.  debuggerd
+    logging facility - debuggerd - socket - debugger_signal_handler - crash signal
+                                 - socket - debugger_signal_handler - crash signal
+
+6. reboot to factory reset
+   $ adb shell
+   $ reboot bootloader // reboot to bootloader
+   $ fastboot devices // check devices
+   $ fastboot erase userdata // erase and factory reset
+
+ 

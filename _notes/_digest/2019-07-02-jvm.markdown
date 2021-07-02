@@ -1,0 +1,26 @@
+---
+title:  "JVM"
+description: "JVM"
+hidden: true
+date: 2019-06-30 15:04:23
+categories: [Tech]
+tags: [JVM, Java]
+---
+
+# Java  虚拟机
+
+## 第一部分 走进Java
+
+## 第二部分 自动内存管理机制
+
+## 第三部分 虚拟机执行子系统
+
+## 第四部分 程序编译与代码优化
+
+## 第五部分 高效并发
+
+
+----
+
+# Inside Java Virtual Machine 
+

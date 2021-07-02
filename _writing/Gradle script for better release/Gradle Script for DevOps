@@ -1,0 +1,207 @@
+How to prepare a release in Android
+======
+
+## 1. Version Control Script in android
+
+In android there is a versionName and a version code. Normally we will define them as below:
+
+```
+# build.gradle
+versionName = "1.0.0"
+versionCode = 1
+```
+
+Every time before releasing a version, we need consider several things:
+
+1. If the changes in this version are kind of breakthrough in your application?
+
+If yes, we can upgrade the versionName from "1.0.0" -> "2.0.0"; otherwise, we can upgrade the versionName from "1.0.0" -> "1.1.0".
+
+2. If the release is a hotfix for current version, we can upgrade the versionName from "1.0.0" -> "1.0.1". In this method, we can understand current version is the first hotfix for release 1.0.0 without asking other persons.
+
+3. the versionCode should alway increased by 1 everytime you build an apk file, no matter it is debug version or release version. In this way, we can always distinguish the apk by versionCode.
+
+------
+
+Normally the versionName won't change frequently and need more delibrate consideration, thus it can be manually managed. But as to versionCode, we want some kind of script to help us manage it automatically. Any script language can get it done easily, and within android we can use gradle to get it done with a breeze.
+
+Here is the script (build-release.gradle):
+
+```
+# build-release.gradle
+ext {
+    getCommitHash = this.&getCommitHash
+    getVersionCodeProp = this.&getVersionCodeProp
+    getVersionNameProp = this.&getVersionNameProp
+}
+
+def getCommitHash() {
+    def stdout = new ByteArrayOutputStream()
+    try {
+        exec {
+            commandLine 'git', 'rev-parse', '--short' , 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    } finally {
+        stdout.close()
+    }
+}
+
+def getVersionCodeProp() {
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.exists() && versionPropsFile.canRead()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(versionPropsFile))
+        return props.getProperty('VERSION_CODE')
+    }
+    else {
+        throw new GradleException("Could not read version.properties!")
+    }
+}
+
+def getVersionNameProp() {
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.exists() && versionPropsFile.canRead()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(versionPropsFile))
+        return props.getProperty('VERSION_NAME')
+    }
+    else {
+        throw new GradleException("Could not read version.properties!")
+    }
+}
+
+def getFileNameProp() {
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.exists() && versionPropsFile.canRead()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(versionPropsFile))
+        return props.getProperty('FILE_NAME')
+    }
+    else {
+        throw new GradleException("Could not read version.properties!")
+    }
+}
+
+def renameApk() {
+    // change apk name
+    android.applicationVariants.all { variant ->
+        if (variant.buildType.name == "release") {
+            variant.outputs.each { output ->
+                def file = output.outputFile
+                def fileName = getFileNameProp() + "-" + getVersionNameProp() + "(" + getVersionCodeProp() + ")_" + getCommitHash() + ".apk"
+                output.outputFile = new File(file.parent, fileName)
+            }
+        } else if (variant.buildType.name == "debug") {
+            variant.outputs.each { output ->
+                def file = output.outputFile
+                def fileName = getFileNameProp() + "_debug.apk"
+                output.outputFile = new File(file.parent, fileName)
+            }
+        } else {
+            // do nothing
+        }
+    }
+}
+
+task checkDirty {
+    doFirst {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'status', '--porcelain'
+            standardOutput = stdout
+        }
+        def result = stdout.toString().trim();
+        if (result != null && result.length() > 0) {
+            throw new GradleException("Please commit your code before build!")
+        }
+    }
+}
+
+task bumpVersion {
+    doFirst {
+        def versionPropsFile = file('version.properties')
+        if (versionPropsFile.exists() && versionPropsFile.canRead()) {
+            def stdout = new ByteArrayOutputStream()
+            try {
+                Properties props = new Properties()
+                props.load(new FileInputStream(versionPropsFile))
+                def code = props['VERSION_CODE'].toInteger() + 1
+                props['VERSION_CODE'] = code.toString()
+                props.store(versionPropsFile.newWriter(), null)
+
+                exec {
+                    commandLine 'git', 'commit', '-am', String.format("bump version to %s(%s)", props['VERSION_NAME'], code.toString())
+                    standardOutput = stdout
+                }
+                exec {
+                    commandLine 'git', 'push'
+                    standardOutput = stdout
+                }
+            } finally {
+                stdout.close()
+            }
+        } else {
+            throw new GradleException("Could not read version.properties!")
+        }
+    }
+}
+bumpVersion.dependsOn checkDirty
+
+task renameApkTask << {
+    renameApk()
+}
+preBuild.dependsOn renameApkTask
+
+tasks.whenTaskAdded { task ->
+    if (task.name.startsWith('assemble')) {
+        task.dependsOn bumpVersion
+    }
+}
+```
+
+This script mainly does two things:
+
+First of all, we applied an renameApkTask before preBuild task through preBuild.dependsOn renameApkTask. In this task, we will rename the apk for release and debug build. The relase build will include the versionName, versionCode and commit short hash so that it is easy for us to find the corresponding commit for that version in case we want to check in the future.
+
+Secondly, it check whether the gradle task is kind of assemble task to  generate an apk. For other tasks we do not want it have the bumpVersion task run beforehand. The bumpVersion task depends on checkDirty task for the goal of checking if there are code not committed yet. If there are code not commit yet, the build will be aborted and an error is thrown to remind the programmer to commit all the changes first. After that the script automatically increase the versionCode by one and automatically commit the update with bump message.
+
+------
+
+To integrate this script into your project, just add a file named build-release.gradle in "${rootProject.rootPath}/app" folder, and at the top of "${rootProject.rootPath}/app/build.gradle" file, insert this line:
+
+```
+# build.gradle
+apply from: "build-release.gradle"
+```
+
+and change the versionName, versionCode in build.gradle respectively as follows: 
+
+``` 
+# build.gradle
+versionCode getVersionCodeProp() as Integer
+versionName getVersionNameProp()
+```
+
+Finally, add a file named "version.properties" under "${rootProject.rootPath}/app" folder, this file contains three properties that the build-release.gradle script will make use of. Remember to include this file in your git and commit it to the remote.
+
+The file's content as follows and the init value should be defined before hand when the project is created:
+
+```
+# version.properties
+FILE_NAME=MyApp
+VERSION_NAME=1.0.0
+VERSION_CODE=1
+```
+
+The generated file's name for release apk will be MyApp-1.0.0(1)_{COMMIT_HASH}}.apk. And for debug apk, the name will just be MyApp-debug.apk.
+
+------
+
+Great, now we have the version control script set up and from now on, we do not need to manually change the versionCode every time we build an apk and the apk's name will automatically include versionName, versionCode and short commit hash for your information. Let move to the next discuss: How to apply git flow to version control/release process.
+
+
+## 2. Git flow
+
+## 3. DevOps

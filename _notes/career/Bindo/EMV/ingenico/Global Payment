@@ -1,0 +1,134 @@
+1. Application Samples Demo -> Question
+   No access to it. Have tried the account provided in the email.
+
+2. Drivers 
+   The same as the one downloaded from Ingenico website, used to set the configuration of ingenico device.
+   Do we need to set it or it will be set by Global Payment before the Ingenico devices are distributed?
+
+3. Important tib -> Questions
+   3.1 ICO-OPE-02725-IN-EN_TIB_SDK 9.20.2_Use of iPP3xx in emulation mode_V2.pdf  
+       We are targeting at iCMP so this pdf should be useless. Please confirm.
+
+   3.2 SSLv3 communication.docx
+       Consider the communication is handled by the SDK, should it be handled by the SDK rather than Bindo application?
+
+   3.3 ICO-OPE-01683-IN-EN_TIB_SecurityAlert_HeartBleed.pdf
+       It memtions about the TELIUM SDK. Does the POSgate iOS SDK falls into this scope?
+
+   3.4 ICO-OPE-00983_TIB_WarningForUseOfLinkLayer.pdf
+       Ok.
+
+   3.5 ICO-PE-00788-IN-EN_TIB_WarningIngeDev.pdf
+       This file is related to JAVA SDK only. Please confirm.
+
+   3.6 ICO-OPE-0619-IN-EN_TIB_980_963_reboot.pdf
+       This file targets at iPP480 and E532 and EFT93oS. Ignore because we are using iCMP. Please confirm.  
+
+   3.7 ICO-PE-00132-IN-EN.pdf
+       No downward issue for Bindo now. Ignore.   
+
+   3.8 SDK8.2-ICO-PE-504-IN-EN-V1.pdf
+       Issue about CAD30. Ignore.
+
+   3.9 PCI v3  FAQ v1.7.pdf
+       Does the PosGate SDK use online PIN or offline PIN.
+       Where is the PKI used? The communication between Ingenico device with Global Payment gateway or Ingenico device with Bindo POS? 
+       If it is used in the SDK, what version is it?
+
+   3.10 ICO-PE-273-IN-EN-V2.pdf
+        OK.
+
+4. PosGate_SDK
+   4.1 POSgate iOS SDK v1.21.zip
+       There is a Dependencies folder inside. Not sure what it is for. (CompanionTestSample and InteractivePayment)
+
+   4.2 PosGatePos.xcodeproj
+       4.2.1 After Built and Ingenico iCMP is connected to ipad, click GetStatus, responseText is "PINpad Not Connected"
+
+             (Tried on RBA SDK, it shows connected.)
+
+       4.2.2 Deployment Target 7.0 -> crash
+
+   4.3 In Companion Selection View controller I can find 20197434, but Still PINpad Not Connected.
+
+   4.4 appdelegate: [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"posgate_host_force_internal_comms"]; // now uses posgate_host_enabled
+
+   What's the meaning of the comment.
+
+   4.5 [ICISMPDevice setWantedDevice:companion]; : what is the meaning ?
+
+   4.6 prese Capture in Capture page, crash because of EXC_BAD_ACCESS when sending msg [TerminalSSL Connect]. I think it is cause by the terminal not detected by the app.
+
+   4.7 Where to find the Catid and Caid -> how to configure a merchant.
+
+   4.8 
+
+5. Telium_Tools
+   Related to JAVA, ignore.
+
+6. Add-on PCL
+   Strange it would be .exe file: Add-on_PCL_for_iOS_2.10.02_setup.exe
+   Is it included in PosGate SDK?
+
+7. EP2DEV
+   No access to it. 
+
+8. ISO8583 Protocol
+   No access to it.
+
+Note: 
+
+1. Configure merchant : catid and caid
+2. Initialise
+
+
+# iSMP GPAP EMV Credit Functional Specifications V1.94.pdf
+
+page 17. download the application (GPAP and CUP) into the iSMP terminal using the LLT 
+
+Q1: should I do it?
+
+# SYSTEM PASSWORD: 123456
+  SUPERVISOR PASSWORD: ????
+
+# Device connected, but in SDK responseText=PINpad Not Connected? 
+  (can get the catid=12345678 caid=123456789012345)
+
+# Way to find a way to pair the device to an iPad
+1)   Enable iPad bluetooth
+2)   In iCMP main menu, Press “F”, then press “Enter”, then press”0”
+3)   You can see iCMP will display function menu
+4)   Select “1 – BT Pairing”; 4 for unpairing
+5)   Select “0 – Pair Device (iOS)
+6)   Select “0 – Search Devices”
+7)   iCMP will search for iOS device
+8)   Connect to iCMP in iPad
+9)   Enter the passcode display on iCMP in iPad
+10)  Connect success
+
+F to show the password screen
+password: 62624371 enter pairing and unpairing menu
+
+# Recode
+1) dash + yellow clear 
+2) power on button -> green light is flashing
+
+# for iOS communication settings 
+- ;9906; configure xxx; change to serial; com0; 115200;
+
+# process transaction
+
+1. Transaction
+2.
+
+
+
+
+
+
+
+
+
+
+
+

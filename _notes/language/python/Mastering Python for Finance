@@ -1,0 +1,34 @@
+Mastering Python for Finance
+===
+
+### Chapter 1. Python for Financial Applications
+
+### Chapter 2. The Importance of linearity in Finance
+
+1. CAPM - capital asset pricing model
+
+   Ri = Rf +βi (Rmkt − Rf )
+
+2. APT - Arbitrage Pricing Theory model
+
+3. Multivariate linear regression of factor models
+
+4. Linear Optimization (using pulp: https://github.com/coin-or/pulp)
+
+##### Solving linear equations using matrices
+
+5. The LU decomposition
+
+6. Cholesky decomposition method： only works for symmetric and positive definite matrices
+
+7. The QR decomposition
+
+##### iterative methods
+
+8. Jacobi method
+
+9. Gauss-Seidel method
+
+10. SOR method
+
+### Chapter 3. Nonlinearity in Finance

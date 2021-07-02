@@ -1,0 +1,14 @@
+Linux內核源代碼情景分析
+====
+
+# Chapter 1
+
+1. 尋址方式
+
+    * 實地址模式 real address mode
+    * 保護模式/段式內存管理 protection mode
+    * 頁式內存管理
+
+2. C
+
+3. Assembly    

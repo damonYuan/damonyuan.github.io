@@ -1,0 +1,7 @@
+Redash
+======
+
+1. after setup the instance: use $ pwgen 32 -1 to generate the secret key
+2. restart all service: $ sudo supervisorctl restart all
+3. Not setup google OAuth
+4. Not setup email host

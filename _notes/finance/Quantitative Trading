@@ -1,0 +1,23 @@
+Quantitative Trading
+====
+
+## Chapter 1: The whats, Whos and Whys of QT
+
+## Chapter 2: Fishing for ideas
+
+1. How to identify a strategy that suits you
+
+* In reality, maximum long-term growth is achieved by finding a strategy with the maxi- mum Sharpe ratio (defined in the next section), provided that you have access to sufficiently high leverage.
+
+2. A taste for plausible strategies and their pitfalls
+
+* Information Ratio = (Average of Excess Returns) / (Standard Deviation of Excess Returns),
+
+where
+ 
+  Excess Returns = Portfolio Returns - Benchmark Returns
+
+* The Sharpe ratio is actually a special case of the information ratio, suitable when we have a dollar-neutral strategy, so that the benchmark to use is always the risk-free rate.
+
+* As a rule of thumb, any strategy that has a Sharpe ratio of less than 1 is not suitable as a stand-alone strategy. For a strategy that achieves profitability almost every month, its (annualized) Sharpe ratio is typically greater than 2. For a strategy that is profitable al- most every day, its Sharpe ratio is usually greater than 3.
+

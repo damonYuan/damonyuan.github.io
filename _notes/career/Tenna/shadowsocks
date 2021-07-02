@@ -1,0 +1,209 @@
+shadowsocks (http://www.jianshu.com/p/b5c4fbadbfae)
+==========
+
+1. After install in Mac client using brew: brew install shadowsocks-libev
+   To have launchd start shadowsocks-libev now and restart at login:
+      brew services start shadowsocks-libev
+   Or, if you don't want/need a background service you can just run:
+      /usr/local/opt/shadowsocks-libev/bin/ss-local -c /usr/local/etc/shadowsocks-libev.json
+
+2. Server configuration
+china damonyuan.com
+{
+    "server":"0.0.0.0",
+    "server_port":8388,
+    "local_address":"127.0.0.1",
+    "local_port":1080,
+    "password":"damonyuan123!",
+    "timeout":300,
+    "method":"rc4-md5",
+    "fast_open": false
+}
+singapore 52.220.104.129
+{
+    "server":"0.0.0.0",
+    "server_port":8388,
+    "local_address": "127.0.0.1",
+    "local_port":1080,
+    "password":"damonyuan",
+    "timeout":300,
+    "method":"aes-256-cfb",
+    "fast_open": true,
+    "workers": 2
+}
+
+singapore 52.221.85.231 sip-sg.handy.travel
+{
+    "server": "0.0.0.0",
+    "server_port": 8988,
+    "local_address": "127.0.0.1",
+    "local_port": 1080,
+    "password": "handy321!",
+    "timeout": 300,
+    "method": "rc4-md5",
+    "fast_open": true,
+    "workers": 2
+}
+
+{
+    "server":"52.221.85.231",
+    "server_port":8988,
+    "local_address":"127.0.0.1",
+    "local_port":1080,
+    "password":"handy321!",
+    "timeout":300,
+    "method":"rc4-md5"
+}
+
+JPN server
+{
+    "server":"13.230.89.169",
+    "server_port":9388,
+    "local_address":"127.0.0.1",
+    "local_port":1080,
+    "password":"handy321!",
+    "timeout":300,
+    "method":"rc4-md5"
+}
+
+ssserver -c /etc/shadowsocks.json -d start
+
+3. use shadowsocks on server implementation in mainland China, you need a virtual machine outside the mainland china, like aws
+
+    * server configuration
+
+      1. because run in shadowsocks need to create a .pid file for socket the it used to listen to the port, shadowsocks need to be installed in root.
+      ```
+          $ sudo -i
+          $ python --version
+          Python 2.6.8
+          $ pip install shadowsocks
+          $ vi /etc/shadowsocks.json
+          {
+              "server":"0.0.0.0", // many tutorial tell you to input the real ip of your vm, but actually you should put "0.0.0.0" here. Reason??? However in client side you need to fill the relastic ip into the proxy server configuration.
+              "server_port":8388, // the remote port, you will fill it in client proxy server configuration
+              "local_address":"127.0.0.1", // the local ip
+              "local_port":1080,  // the local port
+              "password":"damonyuan123!", // password
+              "timeout":300, // timeout
+              "method":"rc4-md5", // encryption method
+              "fast_open": false， // https://github.com/shadowsocks/shadowsocks/wiki/TCP-Fast-Open and https://en.wikipedia.org/wiki/TCP_Fast_Open
+              "workers": 2
+          }
+          $ ssserver -c /etc/shadowsocks.json -d start // start server in detach mode
+          $ echo 'sudo ssserver -c /etc/shadowsocks.json -d start' >> /etc/rc.d/rc.local // start the ss server when system reboot
+          $ exit
+      ```
+
+    * client configuration
+    ```
+        $ sudo -i
+        $ python --version
+        Python 2.6.8
+        $ pip install shadowsocks
+        $ vi /etc/shadowsocks.json
+        {
+              "server":"xxxx", // here is the relastic ip of your server
+              "server_port":8388, // the remote port, you will fill it in client proxy server configuration
+              "local_address":"127.0.0.1", // the local ip
+              "local_port":1080,  // the local port
+              "password":"damonyuan123!", // password
+              "timeout":300, // timeout
+              "method":"rc4-md5", // encryption method
+        }
+        $ exit
+    ```
+
+    eg: 52.220.104.129
+    ```
+    {
+    "server":"0.0.0.0",
+    "server_port":8388,
+    "local_address": "127.0.0.1",
+    "local_port":1080,
+    "password":"damonyuan",
+    "timeout":300,
+    "method":"aes-256-cfb",
+    "fast_open": true,
+    "workers": 2
+    }
+    ```
+    then you can start the client by
+    ```
+    $ sudo sslocal -c /etc/shadowsocks.json -d start
+    ```
+
+    check if the client work
+    ```
+    $ sudo systemctl status rc-local.service
+    ```
+
+4. it is not easy to run client and server in one instance
+
+5. shadowsocks terminal
+
+http://droidyue.com/blog/2016/04/04/set-shadowsocks-proxy-for-terminal/index.html
+
+http://www.cnblogs.com/tianhei/p/7428622.html
+
+e.让终端也走代理的方法:
+
+在~/.bashrc文件中增加以下两句，表示bash终端中的http和https的请求也通过socks5协议进行代理转发。
+
+export http_proxy="socks5://127.0.0.1:1080"
+export https_proxy="socks5://127.0.0.1:1080"
+
+
+全局代理： https://jingsam.github.io/2016/05/08/setup-shadowsocks-http-proxy-on-ubuntu-server.html
+http://droidyue.com/blog/2016/04/04/set-shadowsocks-proxy-for-terminal/
+
+export http_proxy="http://127.0.0.1:8123/"
+export https_proxy="http://127.0.0.1:8123/"
+
+proxy for docker : https://blog.codeship.com/using-docker-behind-a-proxy/  /etc/default/docker ; service docker restart
+proxy for git : 
+proxy for brew
+
+6. use curl ip.gs to get current ip
+
+7. docker cn 加速器 https://ieevee.com/tech/2016/09/28/docker-mirror.html
+
+{
+  "registry-mirrors": ["http://1bea6b0c.m.daocloud.io", "http://hub-mirror.c.163.com", "https://registry.docker-cn.com", "https://{your_id}.mirror.aliyuncs.com", "https://eu3j0tie.mirror.aliyuncs.com"]
+}
+
+{
+  "registry-mirrors": ["http://f2d6cb40.m.daocloud.io"]
+}
+
+8. https://deeponion.org/community/threads/vpnss-ssr.901/
+
+9. docker proxy to pull images: http://blog.csdn.net/styshoo/article/details/55657714
+http://www.jianshu.com/p/26d0ebd86673
+
+解决方案三： 可以成功连上shadowsocks， 这个情况下不需要docker cn加速器
+
+10. proxy
+
+git config --global http.proxy 'http://127.0.0.1:8123' 
+git config --global https.proxy 'http://127.0.0.1:8123'
+
+11. 国内镜像 ruby source
+
+https://gems.ruby-china.org/
+
+12. write a simple shadowsocks
+
+https://juejin.im/post/59fea01c518825293b4fb098
+
+13. [Linux 守护进程的启动方法](http://www.ruanyifeng.com/blog/2016/02/linux-daemon.html)
+
+14. [In the shell, what does “ 2>&1 ” mean?](https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean)
+15. [Node 应用的 Systemd 启动](http://www.ruanyifeng.com/blog/2016/03/node-systemd-tutorial.html)
+
+
+
+
+
+
+    

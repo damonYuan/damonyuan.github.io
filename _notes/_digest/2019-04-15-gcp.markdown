@@ -1,0 +1,851 @@
+---
+title:  "GCP"
+description: "Google Cloud Platform"
+hidden: true
+date: 2019-04-15 15:04:23
+categories: [Tech, Mindmap]
+tags: [GCP]
+---
+
+# Part 1. Getting start
+
+1. https://cloud.google.com/security/compliance/#/
+2. https://cloud.google.com/products/calculator/
+
+## Chapter 1. What is Cloud
+
+### TCO: Total Cost of Ownership
+
+### Google Cloud SDK
+
+  - `gcloud compute instances list`
+  - `gcloud compute ssh <NAME>` : Under the hood, Google is using the credentials it obtained when you ran `gcloud auth login`, generating a new public/private key pair, securely putting the new public key onto the virtual machine, and then using the private key generated to connect to the machine.
+  - `gcloud config list --format 'value(core.project)' 2>/dev/null`: get project id
+
+## Chapter 2. Try it out
+
+1. `gcloud sql instances list`   
+
+2. In fact, the size of your disk auto- matically increases as needed.
+
+3. `gcloud sql users set-password root "%" --password "my-changed-long-password-2!" --instance wordpress-db`
+
+  Reset the password for the root user across all hosts. (The MySQL wildcard character is a percent sign.)
+
+4. `mysql -h 104.197.207.227 -u root -p` : my-very-long-password!
+
+5. database
+
+   - `CREATE DATABASE wordpress;`
+   - `CREATE USER wordpress IDENTIFIED BY 'very-long-wordpress-password';`
+   - `GRANT ALL PRIVILEGES ON wordpress.* TO wordpress;`
+   - `FLUSH PRIVILEGES;` : Finally let’s tell MySQL to reload the list of users and privileges. If you forget this com- mand, MySQL would know about the changes when it restarts, but you don’t want to restart your Cloud SQL instance for this.
+
+## Chapter 3. The Cloud Datacenter
+
+1. Key questions about Cloud Datacenter
+
+  - where are these data centers?
+  - Are they safe?
+  - Should you trust the employees who take care of them?
+  - Couldn’t someone steal your data or the source code to your killer app?
+
+  - Secure facilities
+  - Encryption
+  - Replication
+  - Backup
+
+2. Standards
+
+  - industrywide standards
+
+    such as strict security to enter the premises
+
+  - google cloud Standards  
+
+3. oxymoronic; amorphic
+
+4. various levels of isolation   
+
+  - Zones
+  - Regions
+
+5. Services are available, and can be affected, at several different levels:
+
+  - Zonal
+  - Regional
+  - Multiregional
+  - Global: At this point, you typically want to use multiple cloud providers (for example, Amazon Web Services alongside Google Cloud) to protect the service against disasters spanning an entire company.
+
+6. securing resources
+
+  - Privacy
+  - Availability
+  - Durability   
+
+7. If you have special legal issues to consider (HIPAA, BDSG, and so on), check with a lawyer before storing information with any cloud provider.
+
+# Part 2. Storage
+
+Lacking a section to talk about the Memorystore, Filestore and Firestore
+
+## Chapter 4. Cloud SQL
+
+1. SQL `SOUNDEX`
+
+  The SOUNDEX() converts the string to a four-character code based on how the string sounds when spoken.
+  `SOUNDEX(`todoitems`.`name`) LIK CONCAT(SUBSTRING(SOUNDEX("egg"), 1, 2), "%");`
+
+2. SSL
+
+  `mysql -u root --password=really-strong-root-password -h 104.196.23.32 \
+  --ssl-ca=server-ca.pem \
+  --ssl-cert=client-cert.pem \
+  --ssl-key=client-key.pem`  
+
+3. Maintenance Window
+
+  The last option allows you to choose whether you want updates to arrive earlier or later in the release cycle. Earlier timing means that your instance will be upgraded as soon as the newest version is considered stable, whereas setting this to later will delay the upgrade for a while. In general, only choose earlier if you’re dealing with test instances.
+
+4. MySQL configuration
+
+  max_heap_table_size -> large in-memory temporary tables
+
+  By default, there’s a limit to how big those tables can be, which is 16 MB. If you end up going past that limit, MySQL automatically converts that in-memory table to an on-disk MyISAM table.
+
+5. Scale up and down
+
+  A larger disk not only can store more bytes, it provides more IOPS to access those bytes.
+
+  The key thing to remember here is that you may find yourself in a situation where you’re running low on disk space, or where your data isn’t grow- ing in size, but it’s being accessed more frequently and needs more IOPS capacity. In either situation, the answer’s the same: make your disk bigger.   
+
+  Note that you can increase the size of your database, but you can’t decrease it.  
+
+6. high availability (Replication)  
+
+  A fundamental component to designing highly available systems is removing any single points of failure, with the goal being that your system continues running without any service interruptions, even as many parts of your system fail (usually in new and novel ways every time).
+
+  failover replica
+
+  read replica : you can use a different instance type; a couple of operations are only possible with read replicas: promoting and disabling replication.
+
+7. backup
+
+  Always have last 7 days' backups
+
+  The backup itself is a disk-level snapshot, which begins with a special user (cloudsqladmin) sending a FLUSH TABLES WITH READ LOCK query to your instance. This command tells MySQL to write all data to disk and prevents writes to your database while that’s happening.   
+
+  Restore backup:
+
+  `gcloud sql backups list --instance=todo-list --filter "status = SUCCESSFUL"`
+  `gcloud sql instances restore-backup todo-list`
+
+8. Google Cloud Storage Backup
+
+  `mysqldump` :  This means that everything you’ve come to expect from mysqldump applies to this export process, including the convenient fact that exports are run with the --single-transaction flag (meaning that at least InnoDB tables won’t be locked while the export runs).
+
+  backups are a good fit for the Nearline storage class, as it’s less expensive for infrequently accessed data.
+
+  make sure to choose the SQL format (not CSV), which includes all of your table definitions along with your schema, rather than the data alone.
+
+  If you put .tgz at the end of your export file name, it’ll be automatically compressed using gzip.
+
+9. Price
+
+  Google Cloud considers two basic principles of pricing for computing resources: computing time and storage.
+
+  sustained-use discounts: but the short version is that running instances around the clock costs about 30% less than the sticker price.
+
+10. Scorecard
+
+  Trading data, which is likely to be much larger than the customer data, wouldn’t be well suited for relational storage, but instead would fit better in some sort of data warehouse. (large-scale analytics using BigQuery.)
+
+  PostgreSQL 9.5’s native JSON type support)
+
+  MySQL’s advanced scalability features, such as multimaster or circular replication.  
+
+## Chapter 5. Document storage
+
+These documents are arbitrary sets of key-value pairs, and the only thing they must have in common is the document type, which matches up with the collection.  
+
+### Data Locality
+
+In the world of storage, the concept of where to put data is called data locality. Datastore is designed in a way that allows you to choose which documents live near other documents by putting them in the same entity group.
+
+### Result Set Query Scale
+
+To deal with this, you’d probably want to index emails as they arrive so that when you want to search your inbox, the time it takes to run any query (for example, searching for specific emails or listing the last 10 messages to arrive) would be proportional only to the number of matching emails (not the total number of emails).
+
+This idea of making queries as expensive, with regards to time, as the number of results is sometimes referred to as scaling with the size of the result set. Datastore uses indexing to accomplish it.
+
+Index(TODO):
+
+  - MongoDB - B-tree indexes, Fractal Tree Indexes (3rd party)
+  - BigTable, HBase, Apache Cassandra - LMS-tree
+
+### Automatica Replication
+
+### Keys
+
+Datastore’s keys contain both the type of the data and the data’s unique identifier.
+
+keys themselves can be hierarchical. If two keys have the same parent, they’re in the same entity group. and the kind (type) of the data is the kind of the bottom- most piece.
+
+### Entities
+
+### Consistency and Replication
+
+two key requirements: to be always available and to scale with the result set.
+
+Data Replication: One protocol that Cloud Datastore happens to use involves something called a two-phase commit.
+
+In this method, you break the changes you want saved into two phases: a preparation phase and a commit phase. In the preparation phase, you send a request to a set of replicas, describing a change and asking the replicas to get ready to apply it. Once all of the replicas confirm that they’ve prepared the change, you send a second request instructing all replicas to apply that change. In the case of Datastore, this second (commit) phase is done asynchronously, where some of those changes may hang around in the prepared but not yet applied state.
+
+Any strongly consistent query (for example, a get of an entity) will first push a replica to execute any pending commits of the resource and then run the query, resulting in a strongly consistent result.
+
+when you use the put operation, under the hood Datastore will do quite a bit of work (figure 5.1):
+ Create or update the entity.
+ Determine which indexes need to change as well.
+ Tell the replicas to prepare for the change.
+ Ask the replicas to apply the change when they can.
+
+This concept is called eventual consistency, which means that eventually your indexes will be up to date (consistent) with the data you have stored in your entities. It also means that although the operations you learned about will always return the truth, any queries you run are running over the indexes, which means that the results you get back may be slightly behind the truth.
+
+`get` through ID is a strong consistent query while `get` through query/index is not.
+
+combining querying with data locality to get strong consistency. Or the Entity Update and Index Update might be consistent with each other.
+
+### Consistency with Data Locality
+
+queries inside a single entity group are strongly consistent (not eventually consistent).
+
+an entity group, defined by keys sharing the same parent key, is how you tell Datastore to put entities near each other.
+
+Telling Datastore where you want to query over in terms of the locality gives it a specific range of keys to consider. It needs to make sure that any pending operations in that range of keys are fully committed prior to executing the query, resulting in strong consistency.
+
+The reason for this is that a single entity group can only handle a certain number of requests simultaneously—in the range of about 10 per second.
+
+CAP theory:
+
+- Consistency: Relational Database
+- Availability: Google Cloud Datastore
+- Partition Tolerance: Google Cloud Datastore, Relational Database
+
+### Backup and restore
+
+1. Create the Bucket
+
+  `gsutil mb -l US gs://my-data-export`
+
+2. Disable Writes  
+
+3. Export
+
+  `gcloud datastore export gs://my-data-export/export-1`
+
+4.`gsutil ls gs://my-data-export/export-1`  
+
+5. Import
+
+  `gcloud beta datastore import gs://my-data-export/export-1/export- 1.overall_export_metadata`
+
+### Price
+
+1. Google determines Cloud Datastore prices based on two things: the amount of data you store and the number of operations you perform on that data.
+
+2. Datastore offers full ACID (atomicity, consistency, isolation, durability) transaction semantics, you never have to worry about multiple updates accidentally ending up in a half-committed state.
+
+3. HBase’s parent system, Bigtable
+
+### Note (Like the Elasticsearch)
+
+1. Scalability: Shards
+2. Durability / Availability: Replicas
+3. Node: a running Google Cloud Datastore instance
+4. Cluster: a group of instances that can communication with each other
+5. Data will be written into of of the shards. Primary is a concept above the shard and replica.
+
+## Chapter 6. Large-Scale SQL  
+
+1. Spanner instances feature two aspects: a data-oriented aspect and an infrastructural aspect.
+
+2. Spanner’s guarantees are focused on:
+  - rich querying
+  - globally strong consistency
+  - high availability
+  - high performance
+
+3. Tables have a few other constraints, such as a maximum cell size of 10 MiB, but in general, Spanner tables shouldn’t be surprising.   
+
+4. a few prerequisites exist for what types of changes are allowed.
+
+  - First, the new column can’t be a primary key.
+  - Next, the new column can’t have a NOT NULL requirement.
+
+5. You can perform three different types of column alterations:
+
+  - Change the type of a column from STRING to BYTES (or BYTES to STRING).
+  - Change the size of a BYTES or STRING column, so long as it’s not a primary key column.  
+  - Add or remove the NOT NULL requirement on a column.
+
+6. When interleaving tables, the parent’s primary key must be the start of the child’s primary key (for instance, the paychecks primary key must start with the employee_id field) or you’ll get an error.
+
+7. Spanner makes a big assumption: if you didn’t say that things must stay together, they can and may be split.
+
+8. Datastore has the same concept but talks about entity groups as the indivisible chunks of data, whereas Spanner talks about the points between the chunks and calls them split points.
+
+9. a terrible primary key to use: timestamps.
+
+10. The moral of this story is that when writing new data, you should choose keys that are evenly distributed and never choose keys that are counting or incrementing (such as A, B, C, D, or 1, 2, 3). Instead of using counting numbers of employees, you might want to choose a unique random number or a reversed fixed-size counter. A library, such as Groupon’s locality-uuid package (see https://github.com/groupon/locality-uuid.java), can help with this.
+
+11. Whenever you update an employee’s name (or create a new employee), however, you need to update the row in the table along with the data in each index that references the name column.
+
+12.  Like you can interleave one table into another, indexes can similarly be interleaved with a table.
+
+13. Data- bases that support ACID transactional semantics are said to have atomicity (either all the changes happen or none of them do), consistency (when the transaction finishes, everyone gets the same results), isolation (when you read a chunk of data, you’re sure that it didn’t change out from under you), and durability (when the transaction fin- ishes, the changes are truly saved and not lost if a server crashes).
+
+14. read-only lock and read-write lock: the locking is at the cell level,
+
+15. Isolation Levels
+
+16. Cloud Spanner pricing has three different components: computing power, data stor- age, and network cost.
+
+## Chapter 7. Cloud BigTable
+
+1. 2 phase reading
+
+2. Design goals
+
+   - LARGE AMOUNTS OF (REPLICATED) DATA
+   - LOW LATENCY, HIGH THROUGHPUT
+   - RAPIDLY CHANGING DATA
+   - HISTORY OF DATA CHANGES
+   - STRONG CONSISTENCY
+   - ROW-LEVEL TRANSACTIONS
+   - SUBSET SELECTION
+
+3. multirow transactional semantics
+
+4. Data model concepts
+
+   - Row Key
+
+     This key can be anything you want, but as you’ll read later, you should choose the format of this key carefully.
+
+     Bigtable allows you to quickly find data using a row key, but it doesn’t allow you to find data using any secondary indexes (they don’t exist).
+
+   - ROW KEY SORTING
+
+     - String IDs
+     - Timestamps
+
+       Do not use a timestamp as the key itself (or the start of the key)! Doing so ensures that all write traffic will always be concentrated in a specific area of the key space, which would force all traffic to be handled by a small number of machines (or even a single machine).
+
+     - Combined values
+     - Hierarchical structured content
+
+5. Columns and Column Families
+
+  Each of these belongs to a single family, which is a grouping that holds these column qualifiers and act much more like a static column in a relational database.      
+
+  column qualifiers can be anything you want and can be thought of as data—something you’d never do in a relational database.
+
+  Using this type of struc- ture also means that when you visualize data in Bigtable as a table, most of the cells will be empty, or you call a sparse map.
+
+6. TALL VS. WIDE TABLES
+
+wide table, which is a table having rel- atively few rows but lots of column families and qualifiers.  
+
+a tall table is one with relatively few column families and col- umn qualifiers but quite a few rows, each one corresponding somehow to a particular data point.
+
+This table style contains quite a few differences compared to what we’ve discussed so far. The first and most obvious difference is that rather than growing wider as more items are completed, it will grow longer (or taller) instead.
+
+Although these two tables do ultimately allow you to ask similar questions, it would appear that the tall version allows you to be a bit more specific at the cost of more single- entry lookups to get bulk information.
+
+7. Infrastructure concepts
+
+  1. Bigtable is one of the more confusing ser- vices, particularly when it comes to how replication is handled.
+
+  2. Another tricky area is that Bigtable itself has a concept of a tablet, which isn’t directly exposed via the Cloud Bigtable API.
+
+  3. Elasticsearch
+
+     - Cluster
+     - Node: A node is an instance of Elasticsearch
+     - Shards and Replicas
+
+  4. BigTable
+
+    the basic structure here is that an instance is the top-most concept and can contain many clusters, and each cluster contains several nodes (with a minimum of three).
+
+    That said, Bigtable will almost cer- tainly support replication with multiple clusters per instance in the future.
+
+8. Unlike a traditional relational database, updating the schema later isn’t quite as simple as running an ALTER TABLE statement. Instead, you must update every single row you have stored to fit your new schema, similar to how you would with any other key-value storage system.
+
+9. Bigtable offers the ability to both export data and reimport data using Hadoop sequence files as the format.
+
+Hadoop, as you may remember, is Apache’s open source version of Google MapReduce and is commonly used alongside HBase, Apache’s open source version of Bigtable.
+
+Google Cloud Dataproc, a managed Hadoop service.
+
+Because Bigtable can (and often does) store petabytes worth of data, asking a single machine to copy all of it somewhere is not exactly going to be a fast process. Therefore, to import or export quickly you’ll rely on the magic of dis- tributed systems and turn on many machines under the hood to make this happen.
+
+10. Bigtable’s row-level atomicity means that when writing a row, the write either persists or fails, so losing data isn’t something to worry about.  
+
+11. First, a few of the advanced features aren’t available with Bigtable, such as co-processors, where HBase allows you to deploy some Java code to be run on the server with your HBase instance. Bigtable is written in C, so it would be tricky to connect HBase co-processors (written in Java) to the Bigtable service (written in C).
+
+Second, due to an underlying design difference between Bigtable and HBase, Big- table (currently) is able to scale more easily to a larger number of nodes and, as a result, can handle more overall throughput for a given instance. HBase’s design requires a master node to handle fail-overs and other administrative operations, which means that as you add more and more nodes (in the thousands) to handle more and more requests, the master node will become a performance bottleneck.
+
+Last are the typical cloud-like benefits, in particular the automatic upgrade of bina- ries (you don’t have to upgrade Bigtable like you do on HBase nodes), as well as easy and stable resizing of your cluster (you can change how much serving capacity you have with zero downtime), and the obvious “pay for what you use” principle applies to data storage.
+
+12. Bigtable doesn’t support the ability to change multiple rows in a single transaction.     
+
+13. OLAP vs OLTP
+
+
+## Chapter 8. Google Cloud Storage
+
+1. Difference between Google Cloud Storage and Google Cloud Firestore
+
+Google Cloud Storage has some specific features that differentiate it from a proper file system:
+
+It doesn't actually provide directories/folders, it only implements buckets and objects, i.e there's no concept of folders, nested directories, etc... See doc here for more details about that.
+It doesn't implement file modification. When you upload an update to an existing object, it actually replaces that object altogether with the new version (versioning is available though).
+Google Cloud Filestore provides managed NFS file servers as a fully managed service on GCP. It is meant to provide high-performance file storage capabilities to applications running on Compute Engine and Kubernetes Engine instances.
+
+2. `gsutil ls`
+
+3. Nearline
+
+the key difference is that in addition to the other pricing components you’ll learn about, per-operation cost is slightly higher (for example, overhead of run- ning a “get”), data retrieval is not free like it is with regional or multiregional storage, and there’s a 30-day minimum cliff for data in this class. On the other hand, the cost for data in this class is around 60% less per GB stored, which means it’s a great deal when it matches your system’s needs.
+
+4. Coldline storage has a 90-day minimum and is about 30% cheaper than Nearline on a per-GB basis, making it about 70% cheaper than multiregional storage.
+
+5. `gsutil acl get gs://damon-first-bucket-jjg/public.txt`
+`gsutil acl set public-read gs://my-public-bucket/public.txt`
+
+6. In general, it’s best to use one of the more strict predefined ACLs as your object default, such as project-private or bucket-owner-full-control if you’re on a small team and private or bucket-owner-read if you’re on a larger team.
+
+7. In any version-enabled bucket, every object will have a generation (tracking the object version) along with a metageneration (tracking the metadata version).
+
+8. https://letsencrypt.org/getting-started/
+
+9. erasure coding
+
+This is done using erasure coding—a form of error correction that chops up data into lots of pieces and stores that data redundantly on many disks spread out across lots of failure domains (considering both network failure and power failure). For example, even if two disks fail with your data on them, your data is still safe and hasn’t been lost.
+
+10. IAM with service account for signed URLs
+
+11. Lifecycle Management
+
+# Part III Computing
+
+Lacking of Cloud Run
+
+## Chapter 9. Compute Engine
+
+> https://cloud.google.com/compute/docs/disks/add-persistent-disk
+
+1. Create
+
+  `gcloud compute instances create test-instance-1 --zone us-central1-a`
+
+  `gcloud compute ssh --zone us-central1-a test-instance-1`
+
+2. Persistent Disk
+
+  read-write mode is exclusive  
+
+  When it comes to choosing a location, remember that to be attached to an instance, a disk must live in the same zone as that instance; otherwise, you would risk latency spikes when accessing data.
+
+  SSDs have much faster random operations, and traditional drives are adequate for large sequential operations.
+
+  disk size and performance are directly related, such that larger disks can handle more input/output operations per second (IOPS). Typically, applications that don’t store a lot of data but have heavy access pat- terns (lots of reads and writes) will provision a larger disk, not for the storage capacity but for the performance characteristics.
+
+  The key thing to remember here is that you may find yourself in a situation where you’re running low on disk space, or where your data isn’t grow- ing in size, but it’s being accessed more frequently and needs more IOPS capacity. In either situation, the answer’s the same: make your disk bigger.
+
+  > http://techgenix.com/what-affects-iops-storage-system/
+
+  `gcloud compute disks list`
+
+  remember that when you create an instance, GCE also has to create a disk, and it comes with a preset value of 10 GB for the total storage size.
+
+  `gcloud compute instances attach-disk instance-2`
+
+3. B+ Tree and LSM Tree
+
+  [数据库从0到0.1 (一)： LSM-Tree VS B-Tree](https://juejin.im/entry/5b0cbc0c51882515631dd2bc#5-sstables-and-lsm-trees)
+  [数据库从0到0.1 (二)： OLTP VS OLAP VS HTAP](https://blog.bcmeng.com/post/oltp-olap-htap.html)
+  [畅想TiDB应用场景和HTAP演进之路](https://blog.bcmeng.com/post/tidb-application-htap.html#5-tidb-htap-%E6%BC%94%E8%BF%9B%E4%B9%8B%E8%B7%AF)
+
+  [MySQL索引背后的数据结构及算法原理](http://blog.codinglabs.org/articles/theory-of-mysql-index.html)
+
+  Red-black tree 或者AVL tree保证有序
+
+  LSM-Tree（Log-Structured Merge-Tree）的3个组件：SSTable，Memtable，Write-Ahead-Log
+
+4. RAID  
+
+  RAID0 RAID1 RAID10 RAID3 RAID5 RAID6
+
+5. mount
+
+  As with any brand-new drive, before you can do anything else, you have to mount the disk device and then format it. In Ubuntu, you can do this with the mount command as well as by calling the mkfs.ext4 shortcut to format the disk with the ext4 file system.
+
+  Only the file systems that start with a /dev are actual devices or partitions. SSH into instance-1 and look at the disks, which are conveniently located in /dev/disk/by-id/.
+
+  1. List the disks
+
+    `ls -l /dev/disk/by-id/`
+
+  2. Format
+
+    `sudo mkfs.ext4 -F -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/disk/by-id/google-disk-1`
+
+  3. Make mount point
+
+    `sudo mkdir -p /mnt/disks/disk-1`
+
+  4. Mount
+
+    `sudo mount -o discard,defaults /dev/disk/by-id/google-disk-1 /mnt/disks/disk-1`  
+
+  5. Change the owner
+
+    At this point, the disk is ready, but root still owns it, which could be irritating because you can’t write to it without taking on superuser privileges, so it may be worthwhile to change the owner to yourself.
+
+    `cd /mnt/disks/disk-1`
+    `sudo mkdir workspace`  
+    `sudo chown damon:damon workspace/`
+
+6. Resizing disks
+
+  1. umount
+
+    `sudo umount /mnt/disks/disk-1/`   
+
+  2. force the filesystem check
+
+    `sudo e2fsck -f /dev/disk/by-id/google-disk-1`   
+
+  3. resize
+
+    `sudo resize2fs /dev/disk/by-id/google-disk-1`   
+
+7. check mount disks
+
+  `df -h | grep disk-1`     
+
+8. Google’s Persistent Disks
+
+   - because snapshots act like checkpoints rather than copies of your disk, they end up costing you much less than a full backup. This works because snapshots use differential storage, storing only what’s changed from one snapshot to the next.  
+
+   - once you have a snapshot of a disk, you can create a new disk based on the content from the snapshot.
+
+   - mount a disk created from a snapshot will not require to format the disk
+
+   - To avoid the types of problems that can come up when you take a snapshot at a bad time, you have to tell your virtual machine to flush any data that’s stored in memory but not yet on the disk. That only gets you so far; anything running on the machine might continue storing data in memory but not flushing it to the disk.
+
+   The end result is that to avoid a potentially disastrous snapshot, you should shut down your applications that are writing data (for example, stop your MySQL server binary), flush your disk buffers (using the sync command), freeze the disk (using fsfreeze) and only then take the snapshot:
+
+   ```
+   sudo sync
+   sudo fsfreeze -f /mnt/disks/disk-1
+   sudo fsfreeze -u /mnt/disks/disk-1   
+   ```
+
+9. Images
+
+  - The primary difference is that an image doesn’t rely on differential storage like snapshots do,   
+
+10. Performance
+
+  - IOPS and Throughput
+
+    Throughput- Data transfer speed in megabytes per second is often termed as throughput. Earlier, it was measured in Kilobytes. But now the standard has become megabytes. IOPS- The time taken for a storage system to perform an Input/Output operation per second from start to finish constitutes IOPS.
+
+11. Encryption
+
+  - You’ll start the process by getting a random key to use. To do this, you’ll use /dev/urandom in Linux combined with the tr command to put a random chunk of bytes into a file called key.bin. To see what these bytes look like, use the hexdump command:
+
+  `head -c 32 /dev/urandom | tr '\n' = > key.bin`
+  `hexdump key.bin`   
+
+  At this point, you can decide either to use RSA encryption to wrap your key or leave the key as is. In the world of cryptography, wrapping a key involves encrypting it with a public encryption key so that it can only be decrypted by the corresponding private key.
+
+  > https://cloud.google.com/compute/docs/disks/customer-supplied-encryption#rsa-encryption
+
+  Without wrapping the key, All you have left to do is to put the key in base64 format, which you can do with the base64 com- mand in Linux:
+
+  `base64 key.bin`
+
+12. Auto Scale
+
+  - Stress testing
+
+    `sudo apt-get install stress`  
+    `stress -c 1`
+
+  - thrashing, where machines continually get terminated and never make any progress.
+
+  - GCE doesn’t charge for VMs that are forcibly terminated within their first 10 minutes.
+
+13. Load Balancing
+
+  - In an instance group, you used things like target CPU usage to tell GCE when it should turn on more instances. In a load balancer, these things describe when the sys- tem should consider the backend to be over capacity. If the backend as a whole goes over these limits, the load balancer will consider it to be unhealthy and stop sending requests to it. As a result, you should choose these targets carefully to make sure you don’t have the load balancer unnecessarily returning errors that say the system is over capacity when it isn’t.
+
+  target CPU usage of load balancer > target CPU usage of auto-scaling
+
+  - Health checks are similar to the measurements that are taken to decide whether you need more VMs in an instance group, but are less about the metrics of the virtual machine (such as CPU usage) and instead focus on asking the application itself if everything is OK.       
+
+14. Cloud CDN
+
+  - Google Cloud CDN that can automatically cache responses from backend services and is designed to work with GCE and the load bal- ancer that you just created.
+
+  - In addition to this sequence, if a request appears that it could be cached but the given Cloud CDN endpoint doesn’t have a response to send back, it can ask other Cloud CDN endpoints if they’ve handled the same request before and have a response.
+
+  - By default, Cloud CDN will attempt to cache all pages that are allowed. This definition mostly follows IETF standards (such as RFC-7234), meaning that the rules are what you’d expect if you’re familiar with HTTP caching in general.
+
+      Cloud CDN must be enabled.
+      The request uses the GET HTTP method.
+      The response code was “successful” (for example, 200, 203, 300).
+      The response has a defined content length or transfer encoding (specified in the standard HTTP headers).  
+
+  In addition to these rules, the response also must explicitly state its caching prefer- ences using the Cache-Control header (for example, set it to public) and must explic- itly state an expiration using either a Cache-Control: max-age header or an Expires header.
+
+  - Furthermore, Cloud CDN will actively not cache certain responses if they match other criteria, such as
+
+     The response has a Set-Cookie header.
+     The response size is greater than 10 MB.
+     The request or response has a Cache-Control header indicating it shouldn’t be cached (for example, set to no-store).   
+
+15. price
+
+You need to consider three factors for pricing with GCE:
+1 Computing capacity using CPUs and memory
+
+  That capacity is a set amount of CPU time, which is measured in vCPUs (a virtual CPU measurement), and memory, which is measured in GB.
+
+2 Storage using persistent disks
+3 Network traffic leaving Google Cloud    
+
+16. it’s currently not possible to bring your own hardware into a cloud data center, which means you won’t be able to run your own hardware-based load balancer (such as one of the products from F5).
+
+## Chapter 10. Kubernetes Engine
+
+1. Benchmark with `ab`
+
+   `sudo apt-get install apache2-utils`
+   `ab -c 1000 -n 50000 -qSd http://104.154.231.30:8080/`
+
+2. Your Kubernetes cluster has two distinct pieces that Kubernetes Engine manages: the master node, which is entirely hidden (not listed in the list of nodes), and your cluster nodes.  
+
+3. First, upgrading from an older version to a new version on the Kubernetes Engine cluster’s master node is a one-way operation.
+
+4. If you suddenly receive a spike of traffic in the middle of the upgrade, you won’t be able to run kubectl scale, which could result in downtime for some of your customers.
+
+5. Also, unlike with the master node, the version of Kubernetes that’s running on these managed VMs isn’t automatically upgraded every so often. It’s up to you to decide when to make this change.
+
+6. Resize
+
+  `gcloud container clusters resize first-cluster --zone us-central1-a --size=3`
+
+7. In addition to the cost of the nodes themselves, remember the Kubernetes master node, which is entirely hidden from you by Kuber- netes Engine. Because you don’t have control over this node explicitly, there’s no charge for overhead on it.
+
+8. Kubernetes Engine has other limitations as well, such as the requirement that your cluster nodes’ Kubernetes version be compatible with the version of your master node, or the fact that you lose your boot disk data when you upgrade your nodes.
+
+## Chapter 11. App Engine
+
+1. App Engine uses four organizational concepts to understand more about your application: applications, services, versions, and instances.
+
+2. Because App Engine Flex is built on top of Compute Engine and Docker contain- ers, it uses Compute Engine instances to run your code, which comes with a couple important caveats.
+
+  First, because Compute Engine VMs take some time to turn on, Flex applications must always have at least a single VM instance running.
+
+3. To develop locally using App Engine (and specifically using App Engine Standard’s Python runtime), you’ll need to install the Python extensions for App Engine, which you can do using the gcloud components subcommand.
+
+  `gcloud components install app-engine-python`
+
+4. App Engine development server, which was installed as dev_appserver.py when you installed the Python App Engine extensions.    
+
+5. `gcloud app services list`
+
+6. App Engine Standard is limited to some of the pop- ular programming languages and runs inside a sandbox environment.
+
+7. `gcloud app deploy default-flex`
+
+8. `gcloud app versions list --service=default`
+
+9. These replacements update Apache to listen on port 8080 instead of 80 (because App Engine expects HTTP traffic on the container to be on 8080).
+
+```
+# Set Apache to listen on port 8080
+# instead of 80 (what App Engine expects)
+RUN sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf
+RUN sed -i 's/:80/:8080/' /etc/apache2/sites-enabled/000-default.conf
+```
+
+10. If you deployed an application using App Engine Flex, compute resources are running under the hood regardless of whether anyone is send- ing requests to your application.
+
+11. The default scaling option is automatic, so App Engine will decide when to turn on new instances for you based on a few metrics, such as
+
+  - the number of concurrent requests,
+  - the longest a given request should wait around in a queue to be handled,
+  - and the number of instances that can be idle at any given time.
+
+12. As you can see, up until the minimum pending latency mark, App Engine will keep looking for an available instance and won’t create a new one because of a request. After that minimum pending latency point has passed, App Engine will keep looking for an available instance but will consider itself free to create a new one if it makes sense to do so. If the request is still sitting in the queue by the maximum latency time, App Engine (if allowed by other parameters) will create a new instance to handle the request.
+
+13. By default, App Engine will aim to handle eight requests concurrently on your instances, and although you can crank this all the way up to 80, it’s worth testing and monitoring your instances to tune this number.
+
+14. App Engine Flex auto-scaling
+
+  - As you’ve learned, at least one instance must be running at all times, but it’s rec- ommended to have a minimum of two instances to keep latency low in the face of traf- fic spikes (which happens to be the default). You also can set a maximum number of instances to avoid your application scaling out of control. By default, Flex services are limited to 20 instances, but you can increase or decrease that limit.
+
+  - By default, App Engine Flex services will aim for a 50% utilization (0.5) across all of the running instances.
+
+  - App Engine Flex has a way to control how aggressively it ter- minates instances when the overall utilization comes in below the target amount, which is called the cooldown period.  
+
+15. Another general rule for choosing an instance class is that having more resources typ- ically doesn’t reduce the overall latency of requests (because of the typical pattern involving lots of I/O).   
+
+16. As with Compute Engine, memory and CPU are related and are limited so they don’t stray too far from each other. For these instances, RAM in GB can be anywhere from 90% to 650% of the number of CPUs, but App Engine uses some of the memory (about 0.4 GB) for overhead on your instance. For the two CPUs you requested before, your VMs are limited to anywhere from 1.8 GB to 13 GB of RAM, so you can only access between 1.4 GB (1.8 - 0.4) and 12.6 GB (13 - 0.4) in this configuration.
+
+17. In the case of Python, App Engine Standard provides a Datastore API package called ndb, which acts as an ORM (object-relational mapping) tool.
+
+18. Storing data with Cloud Datastore
+
+App Engine has libraries for Java, Python, and Go, each of which has a different API to interact with your data in Datastore.
+
+19. Caching ephemeral data
+
+First, your Memcached instance will be limited to about 10,000 operations per sec- ond.
+
+Next, you have to address the various limits. The largest key you can use to store your data is 250 bytes, and the largest value you can store is 1 MB. If you try to store more than that, the service will reject the request.
+
+Additionally, because Memcached sup- ports batch or bulk operations, where you set multiple keys at once, the most data you can send in one of those requests (the size of the keys combined with the size of the values) is 32 MB.
+
+Finally, you must consider the shared nature (by default) of the Memcached ser- vice and how that affects the lifetime of your keys. Because the Memcached service is shared by everyone (though it’s isolated so only you have access to your data), App Engine will attempt to retain keys and values as long as possible but makes no guaran- tees about how long a key will exist.
+
+Memcached will evict keys on a least-recently-used (LRU) basis, meaning that a rarely accessed key is far more likely to be evicted ahead of a frequently accessed key.
+
+20. Generally, the Cookie strategy is best for user-facing services, so the same user won’t see a mix of versions; instead, they’ll stick with a single version per session.
+
+## Chapter 12. Google Functions
+
+1. At its core, a function is an arbitrary chunk of code that can run on demand. It also comes with extra configuration that tells the Cloud Functions runtime how to execute the function, such as how long to run before tim- ing out and returning an error (defaulting to one minute, but configurable up to nine minutes) and the amount of memory to allocate for a given request (defaulting to 256 MB).
+
+2. Concepts
+
+  * Event
+  * Trigger
+  * Function
+
+3. Cloud Source Repositories are nothing more than a hosted code repository, like a slimmed-down version of what’s offered by GitHub, Bitbucket, or GitLab. They’re also a place where you can store the code for your Cloud Functions.   
+
+## Chapter 13. Google Cloud DNS
+
+1. A vs AAAA
+
+> https://www.wpoven.com/blog/need-know-aaaa-record/
+
+2. Further, anyone can turn on their own DNS server (using a piece of software called BIND) and tell a registrar of domain names that the records for that domain name are stored on that particular server.
+
+3. zone is defined by nothing more than a name (e.g., mydomain.com), a record set stores a name (e.g., www.mydomain.com), a “type” (such as A or CNAME), and a “time to live” (abbreviated as ttl), which instructs clients how long these records should be cached.
+
+4. We have a name server (NS) record, which is responsible for delegating ownership to other servers; a few “logical” (A or AAAA) records, which point to IP addresses of a server; and a “canonical name” (CNAME) record, which acts as an alias of sorts for the domain entry.
+
+NS stands for ‘name server’ and this record indicates which DNS server is authoritative for that domain (which server contains the actual DNS records). A domain will often have multiple NS records which can indicate primary and backup name servers for that domain.
+
+5. For any records to be official (and discovered by anyone asking for the records of mydomain.com), a higher-level authority needs to direct them to your records. You do this at the domain registrar level, where you can set which name server to use for a domain that you currently own.
+
+6. dig with customized DNS
+
+  `dig demo.damonyuan.com @ns-cloud-c1.googledomains.com`
+
+7. Unlike some other APIs, the way we update records on DNS entries is by using the concept of a “mutation” (called a change in Cloud DNS). The purpose behind this is to ensure that we can apply modifications in a transactional way.   
+
+# Part 4. Machine Learning
+
+## Chapter 14. Cloud Vision
+
+## Chapter 15. Cloud Natural Language
+
+1. How it works
+
+   * Synctax
+   * Entities
+   * Sentiment
+
+2. hash-tagging suggestions
+
+## Chapter 16. Cloud Speech
+
+1. First, you’ll need to tell the Cloud Speech API the format of the audio, Next, the API needs to know the sample rate of the file. Finally, if you know the language spoken in the audio, it’s helpful to tell the API what that is so the API knows which lingual model to use when recognizing content in the audio file.
+
+2. generating hashtag suggestions for InstaSnap videos.
+
+## Chapter 17. Cloud Translation
+
+1. One way would be to try to teach the computer all of the different word pairs (for example, EnglishToSpanish('home') == 'casa') and grammatical words (“English uses subject verb object (SVO) struc- ture”
+
+Another way (and the way that Google Translate uses for many languages) uses something called statistical machine translation (SMT). This method has a drawback, however: sentences are translated piece by piece rather than as a whole.
+
+This type of result led Google to focus on some newer areas of research, including the same technology underlying the Natural Language API and the Vision API: neural networks.
+
+2. Google’s Neural Machine Translation (GNMT) system relies on a neural network, uses custom Google-designed and -built hardware to keep things fast, has a “coverage penalty” to keep the neural network from “forget- ting” to translate some parts of the sentence, and has many more technical optimiza- tions to minimize the overall cost of training and storing the neural network handling translation.1
+
+https://arxiv.org/pdf/1609.08144v2.pdf
+
+3. As of this writing, Google Translate and the Cloud Translation API both use neural networks for translating common languages (between English and French, German,Spanish, Portuguese, Chinese, Japanese, Korean, and Turkish—a total of eight lan- guage pairs) and rely on SMT (“the old way”) for other language pairs.
+
+4. automatic translation at view-time
+
+## Chapter 18. Cloud Machine Learning Engine
+
+1. In addition to varying the weights between nodes throughout training, you can also adjust values that are external to the training data entirely. These adjustments, called hyperparameters, are used to tune the system for a specific problem to get the best predictive results.
+
+2. fundamental point (something takes input, looks at output, and makes adjustments)
+
+3. It provides abstractions to track the different variables, utilities like matrix multiplication, neural network optimization algorithms, and vari- ous estimators and optimizers that give you control over how all of those adjustments are applied to the system itself during the learning period.
+
+4. A machine-learning model is sort of like a black-box container that conforms to a specific interface that offers two primary functions: train and predict.
+
+Models are designed to ingest data of a specific format.
+
+If invalid data (such as an unknown image format) was the input during a prediction request, you’d likely see a bad guess for the number drawn or an error. On the other hand, if you were to use this invalid data during the training process, you’d likely reduce the overall accuracy because the model would be training itself on data that doesn’t make much sense.
+
+It’s important to remember that a model is defined by the contract it ful- fills, which means that all versions of a given model should accept the same inputs and produce the same outputs.
+
+Also keep in mind that a specific version of a model is defined both by the code written as well as the data used to train the model.
+
+a model version represents a specific instance of a model that you interact with by training it and using it to make predictions.
+
+5. ML Engine is now AI Platform
+
+6. You’ll also need to make sure the bucket is located in a single region rather than dis- tributed across the world. You do this to avoid cross-region data transfer costs, which could be large if you have a lot of data and are sending it from a multiregional bucket to your ML Engine jobs.
+
+7. You can grant read-only access to this service account in the Cloud Console by editing the bucket permissions and making the service account listed an “object viewer” and an “object creator.”
+
+8. When creating a training job on ML Engine, you have the option to specify something called a scale tier, which is a predefined configuration of computing resources that are likely to do a good job of handling your training workload.
+
+9. It’s important to remember that online prediction shouldn’t be used as a replacement for batch prediction. Online prediction is great for kicking the tires and sending a steady stream of prediction requests that may fluctuate a bit but won’t ever spike to extreme levels with little warning.
+
+10. Price
+
+`gcloud ml-engine jobs describe census1`
+`gcloud ml-engine jobs describe prediction1`
+
+# Part 5. Data Processing and Analytics
+
+## Chapter 19. BigQuery
+
+1. First, if you need to filter billions of rows of data, you need to do billions of comparisons, which require a lot of computing power. Second, you need to do the comparisons on data that’s stored somewhere, and the drives that store that data have limits on how quickly it can flow out of them to the computer that’s doing those com- parisons.
+
+2. BigQuery can accept a unique identifier called insertId, which acts as a way of de-duplicating rows as they’re inserted.
+
+## Chapter 20. Dataflow
+
+1. Generally, the pipeline is the first thing you create when you write code that uses Apache Beam. In more technical terms, a pipeline is a directed acyclic graph (sometimes abbreviated to DAG)—it has nodes and edges that flow in a certain direction and don’t provide a way to repeat or get into a loop.
+
+2. By definition, a PCollection can be either bounded or unbounded.
+
+3. Because Apache Beam allows you to define pipelines using the high-level con- cepts you’ve learned about so far, you can keep the definition of a pipeline separate from the execution of that pipeline. Although the definition of a pipeline is specific to Beam, the underlying system that organizes and executes the work is abstracted away from the definition. You could take the same pipeline you defined using Beam and run it across a variety of execution engines, each of which may have their own strategies, optimizations, and features.

@@ -1,0 +1,242 @@
+Javascript - The core
+====
+
+1. An object
+
+
+## execution context
+
+1. There are three types of ECMAScript code: global code, function code and eval code. 
+
+## A prototype chain
+
+1. If the property is not found after the whole prototype chain lookup, then undefined value is returned.
+
+2. Notice: ES5 standardized an alternative way for prototype-based inheritance using Object.create function:
+
+``` 
+var b = Object.create(a, {y: {value: 20}});
+```
+
+## Constructor
+
+1. Besides creation of objects by specified pattern, a constructor function does another useful thing — it automatically sets a prototype object for newly created objects. 
+
+2. constructor inheritance
+
+```
+function SuperHuman (name, superPower) {
+    this.name = name;
+    this.superPower = superPower;
+}
+
+SuperHuman.prototype.usePower = function () {
+    console.log(this.superPower + "!");
+};
+
+function SuperHero (name, superPower) {
+    // Reuse SuperHuman initialization
+    SuperHuman.call(this, name, superPower);
+    this.allegiance = "Good";
+}
+```
+
+3. a combination of the constructor function and the prototype object may be called as a “class”. 
+
+Actually, e.g. Python’s first-class dynamic classes have absolutely the same implementation of properties/methods resolution. From this viewpoint, classes of Python are just a syntactic sugar for delegation based inheritance used in ECMAScript.
+
+## Execution context stack (runtime program execution)
+
+1. three type of ECMAScript code:
+
+   - global code
+   - function code
+   - eval code
+
+2.  Then the global code provides some initialization, creates needed objects and functions. During the execution of the global context, its code may activate some other (already created) function, which will enter their execution contexts, pushing new elements onto the stack, and so on. After the initialization is done, the runtime system is waiting for some event (e.g. user’s mouse click) which will activate some function and which will enter a new execution context.
+
+3. eval uses either global’s variable object, or a variable object of the caller (e.g. a function from which eval is called).
+
+## Execution context
+
+1. contains: 
+
+   - Variable object: vars, fucntion declarations, arguments
+   - Scope chain: Variable object + all parent scopes
+   - thisValue: Context object
+
+2. divided into a creation and execution phase.
+
+## Variable object (activation object)
+
+1. It's a special object that stores variables and function declarations defined in the context.
+
+2. Notice, that function expressions (in contrast with function declarations) are not included into the variable object.
+
+3. In the global context the variable object is the global object itself.
+
+4. [Fundamentally, scope is function-based while context is object-based. In other words, scope pertains to the variable access of a function when it is invoked and is unique to each invocation. Context is always the value of the this keyword which is a reference to the object that “owns” the currently executing code.](http://ryanmorr.com/understanding-scope-and-context-in-javascript/)
+
+5. ECMAScript 6 (ES6/ES2015) introduced the let and const keywords that support the declaration of block scope local variables. This means the variable will be confined to the scope of a block that it is defined in, such as an if statement or for loop and will not be accessible outside of the opening and closing curly braces of the block.
+This is contrary to var declarations which are accessible outside blocks they are defined in. 
+The difference between let and const is that a const declaration is, as the name implies, constant - a read-only reference to a value. This does not mean the value is immutable, just that the variable identifier cannot be reassigned.
+
+6. When called as an unbound function, this will default to the global context or window object in the browser. However, if the function is executed in strict mode, the context will default to undefined.
+
+7. This is where confusion often sets in, the term “execution context” is actually for all intents and purposes referring more to scope and not context as previously discussed.
+
+8. Accessing variables outside of the immediate lexical scope creates a closure.
+
+9.  module pattern; it allows you to emulate public, private, and privileged members:
+
+```
+var Module = (function() {
+    var privateProperty = 'foo';
+
+    function privateMethod(args) {
+        // do something
+    }
+
+    return {
+
+        publicProperty: '',
+
+        publicMethod: function(args) {
+            // do something
+        },
+
+        privilegedMethod: function(args) {
+            return privateMethod(args);
+        }
+    };
+})();
+```
+
+10. immediately-invoked function expression (IIFE): 
+
+```
+(function(window) {
+          
+    var foo, bar;
+
+    function private() {
+        // do something
+    }
+
+    window.Module = {
+
+        public: function() {
+            // do something 
+        }
+    };
+
+})(this);
+```
+
+11. call and apply
+```
+function user(firstName, lastName, age) {
+    // do something 
+}
+
+user.call(window, 'John', 'Doe', 30);
+user.apply(window, ['John', 'Doe', 30]);
+```
+
+12. bind in ES5
+```
+if(!('bind' in Function.prototype)){
+    Function.prototype.bind = function() {
+        var fn = this;
+        var context = arguments[0];
+        var args = Array.prototype.slice.call(arguments, 1);
+        return function() {
+            return fn.apply(context, args.concat([].slice.call(arguments)));
+        }
+    }
+}
+```
+
+It is commonly used where context is commonly lost; object-orientation and event handling. This is necessary because the addEventListener method of a node will always execute the callback in the context of the node the event handler is bound to, which is the way it should be. However if your employing advanced object-oriented techniques and require your callback to be a method of an instance, you will be required to manually adjust the context, this is where bind comes in handy:
+
+```
+function Widget() {
+    this.element = document.createElement('div');
+
+    // if do not add bind(this), the callback will be executed in the context of element, but we want it to be in the context of Widget.
+    this.element.addEventListener('click', this.onClick.bind(this), false);
+}
+
+Widget.prototype.onClick = function(e) {
+    // do something
+};
+```
+
+13. arguments object in context is not array at all !!!
+
+## Activation object
+
+1. in function context, a variable object is presented as an activation object. Besides variables and function declarations, it also stores formal parameters and arguments object and called the activation object.
+
+## Scope chain
+
+1. When a function refers in its code the identifier which is not a local variable (or a local function or a formal parameter), such variable is called a free variable. And to search these free variables exactly a scope chain is used.
+
+2. When a function refers in its code the identifier which is not a local variable (or a local function or a formal parameter), such variable is called a free variable.
+
+3. We may assume the linkage of the scope chain objects via the implicit __parent__ property, which refers to the next object in the chain.
+
+And since these objects are simple objects, they may have prototypes (and prototype chains). This fact leads to that scope chain lookup is two-dimensional: (1) first a scope chain link is considered, and then (2) on every scope chain’s link — into the depth of the link’s prototype chain (if the link of course has a prototype).
+
+4. remember the difference of 
+   - variable 
+   - argument
+   - parameter
+
+## Closure
+
+1. first-class objects: This term means that functions may be passed as arguments to other functions (in such case they are called “funargs”, short from “functional arguments”).
+
+2. higher-order functions: Functions which receive “funargs” are called higher-order functions or, closer to mathematics, operators. 
+
+3. function valued functions: Functions which return other functions are called function valued functions (or functions with functional value).
+
+4.1 upward funarg problem
+It appears when a function is returned “up” (to the outside) from another function and uses already mentioned above free variables. 
+
+Scope chain = Activation object + [[Scope]]
+
+Using a __parent__ concept, we may represent the example above with the following figure (thus parent variable objects are saved in the [[Scope]] property of a function)
+
+4.2 downward funarg problem
+
+dynamic scope is not used in ECMAScript.
+
+To avoid this ambiguity and to form a closure, a static scope is decided to be used.
+
+5. definition of a closure: 
+
+A closure is a combination of a code block (in ECMAScript this is a function) and statically/lexically saved all parent scopes. Thus, via these saved scopes a function may easily refer free variables.
+
+Notice, that since every (normal) function saves [[Scope]] at creation, theoretically, all functions in ECMAScript are closures.
+
+6. ES6 introduced block-scope bindings. This is done via let or const keywords.
+
+# This value
+
+1. One important note is that the this value is a property of the execution context, but not a property of the variable object.
+
+2. when accessing this in a code, its value is taken directly from the execution context and without any scope chain lookup. The value of this is determined only once, on entering the context.
+
+3. NOTE: In ES6 this actually became a property of a lexical environment, i.e. property of the variable object in ES3 terminology. This is done to support arrow functions, which have lexical this, which they inherit from parent contexts.
+
+> https://stackoverflow.com/questions/33308121/can-you-bind-arrow-functions
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,17 @@
+LingerieCart
+============
+
+# Installation
+1. composer and Magento
+2. store credentials for repo.magento.com in /Users/Damon/.composer/auth.json
+3. use xampp php: (http://andyy.me/mcrypt-php-extension-for-laravel-in-xampp-mac/)
+   $ sudo nano ~/.bash_profile
+   add "export PATH="/Applications/XAMPP/xamppfiles/bin:$PATH""
+4. !!!: solve the problem when install Magento!!! IMPORTANT
+   http://mrgott.com/misc/10-install-mcrypt-and-intl-php-extensions-on-mac-os-x-and-xampp
+5. File system permission
+   Enable xamp rewrite module
+   http://www.leonardaustin.com/blog/technical/enable-mod_rewrite-in-xampp/
+6. Install sample data: and remember to
+   $ php <your Magento install dir>/bin/magento setup:upgrade
+6. static files: php -dmemory_limit=6G bin/magento setup:static-content:deploy

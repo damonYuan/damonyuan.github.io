@@ -1,0 +1,956 @@
+---
+title:  "Spring"
+description: "Spring"
+hidden: true
+date: 2019-08-09 15:04:23
+categories: [Tech]
+tags: [Spring]
+---
+
+## TODOs
+
+### JHipster Monitoring
+
+> https://www.jhipster.tech/monitoring/
+
+### Springboot Actuator
+
+> https://docs.spring.io/spring-boot/docs/2.2.0.BUILD-SNAPSHOT/reference/html/production-ready-features.html#production-ready
+
+### Tomcat
+
+Tomcat 设计了两个核心组件来实现这两个功能，分别是连接器和容器，连接器用来处理外部网络连接，容器用来处理内部 Servlet
+
+> http://objcoding.com/2019/05/30/tomcat-architecture/
+
+### Payment system
+
+> http://objcoding.com/2019/06/04/payment-platform/
+
+## Spring boot
+
+### JarLauncher and PropertiesLauncher
+
+> http://weyprecht.de/2018/05/02/how-to-really-package-and-deploy-a-spring-boot-application/
+
+
+Both can be used with an executable Jar, but only the first one supports the loader.path property. 
+
+> http://www.codevomit.xyz/bootlog/blog/how-to-provide-spring-boot-fat-jar
+
+### ClassLoader
+
+The difference is that when you launch the app from an IDE, you have two kinds of artifacts: classes and JARs. Classes are loaded before JARs, so even though you have two versions of a class (your fix in /src/main/java and original in spring-boot-2.0.0.M7.jar lib), only the fix will be loaded. (ClassLoaders don’t care about duplicates — the class that is found first is loaded).
+
+> https://dzone.com/articles/spring-boot-classloader-and-class-override
+
+### maven adding a local jar 
+
+```
+mvn install:install-file \
+    -Dfile=sample-lib.jar \
+    -DgroupId=net.alea.test \
+    -DartifactId=sample-lib \
+    -Dversion=1.0 \
+    -Dpackaging=jar \
+    -DlocalRepositoryPath=./lib-maven
+```
+
+> http://workshop.alea.net/post/2016/11/maven-memo-local-jar/
+
+### classloader
+
+大家都知道，当我们写好一个Java程序之后，不是管是CS还是BS应用，都是由若干个.class文件组织而成的一个完整的Java应用程序，当程序在运行时，即会调用该程序的一个入口函数来调用系统的相关功能，而这些功能都被封装在不同的class文件当中，所以经常要从这个class文件中要调用另外一个class文件中的方法，如果另外一个文件不存在的，则会引发系统异常。而程序在启动的时候，并不会一次性加载程序所要用的所有class文件，而是根据程序的需要，通过Java的类加载机制（ClassLoader）来动态加载某个class文件到内存当中的，从而只有class文件被载入到了内存之后，才能被其它class所引用。所以ClassLoader就是用来动态加载class文件到内存当中用的。
+
+> https://blog.csdn.net/xyang81/article/details/7292380
+
+The Hierarchies of classloader
+
+```
++--- BootStrap ClassLoader # 称为启动类加载器，是Java类加载层次中最顶层的类加载器，负责加载JDK中的核心类库，如：rt.jar、resources.jar、charsets.jar等
+
++--- sun.misc.Launcher$ExtClassLoader     # loading classes /jre/lib/ext/
+     +--- sun.misc.Launcher.Launcher$AppClassLoader    # loading classes from the root of the jar - spring-boot-loader-play-0.0.1-SNAPSHOT.jar and root of the classes/
+          +--- org.springframework.boot.loader.LaunchedUrlClassLoader    # loading classes from /BOOT-INF/lib/ & /BOOT-INF/classes/
+```
+
+> https://dzone.com/articles/spring-boot-classloader-and-class-override
+
+除了Java默认提供的三个ClassLoader之外，用户还可以根据需要定义自已的ClassLoader，而这些自定义的ClassLoader都必须继承自java.lang.ClassLoader类，也包括Java提供的另外二个ClassLoader（Extension ClassLoader和App ClassLoader）在内，但是Bootstrap ClassLoader不继承自ClassLoader，因为它不是一个普通的Java类，底层由C++编写，已嵌入到了JVM内核当中，当JVM启动后，Bootstrap ClassLoader也随着启动，负责加载完核心类库后，并构造Extension ClassLoader和App ClassLoader类加载器。
+
+### install jdk using brew
+
+```
+brew tap adoptopenjdk/openjdk
+brew cask install adoptopenjdk8
+brew cask install adoptopenjdk9
+brew cask install adoptopenjdk10
+```
+
+### Spring priority order of configurations
+
+Here’s the priority order in descending order, which Spring Boot uses to select the effective configuration:
+
+  1. Java Config
+  2. Command Line Arguments
+  3. Java System Properties
+  4. OS Environment Variables
+  5. application.properties in Current Directory
+  6. application.properties in the classpath (src/main/resources or the packaged jar file)
+  
+> https://www.baeldung.com/spring-boot-context-path  
+
+### A TALE OF TWO APPLICATION CONTEXTS
+
+But in Spring web applications, there’s often another application context. This other application context is created by ContextLoaderListener.
+
+Whereas DispatcherServlet is expected to load beans containing web components such as controllers, view resolvers, and handler mappings, ContextLoaderListener is expected to load the other beans in your application. These beans are typically the middle-tier and data-tier components that drive the back end of the application.
+
+Under the covers, AbstractAnnotationConfigDispatcherServletInitializer cre- ates both a DispatcherServlet and a ContextLoaderListener. 
+
+> Spring In Action, 4th Edition
+
+### DevTools with LiveReloader
+
+TODO: How to fix "Could not connect to LiveReload server"?
+
+More precisely, when DevTools is in play, the application is loaded into two sepa- rate class loaders in the Java virtual machine (JVM). One class loader is loaded with your Java code, property files, and pretty much anything that’s in the src/main/ path of the project. These are items that are likely to change frequently. The other class loader is loaded with dependency libraries, which aren’t likely to change as often.
+
+> Spring in Action, 5th Edition
+
+### Charts
+
+Flowchart
+
+> https://zhuanlan.zhihu.com/p/28468233
+
+UML Designer for Mac
+
+> http://www.umldesigner.org/
+
+Visio for Windows
+
+### JDL
+
+1. `jhipster import-jdl my_file1.jdl --json-only` to create the json file and check if it is valid
+2. `jhipster entity Design --regenerate` and check the changes then add those changes
+3. `./mvnw liquidity:update` to update data base, in production we will need to create rollback script
+4. `./mvnw liquidity:generateChangeLog` to check the changes again
+5. `./mvnw liquibase:rollback -Dliquibase.rollbackCount=1` to rollback
+
+  When starting to use Liquibase on an existing database, it is often useful, particularly for testing, to have a way to generate the change log to create the current database schema. Liquibase allows you to do this with the “generateChangeLog” command_line command.
+   
+  You are right that liquibase cannot compare a changelog file with a database. The only real option is to compare your developer database with an actual liquibase-managed database, or at least one temporarily created. 
+
+### JPA and Hibernate
+
+In Hibernate native APIs, the persistence context is defined as the org.hibernate.Session. In JPA, the persistence context is defined by javax.persistence.EntityManager. Much of the org.hibernate.Session and javax.persistence.EntityManager methods deal with moving entities between these states.
+
+> https://docs.jboss.org/hibernate/orm/4.3/devguide/en-US/html/ch03.html
+
+Spring Data JPA is not an implementation or JPA provider, it's just an abstraction used to significantly reduce the amount of boilerplate code required to implement data access layers for various persistence stores. I hope this article useful to you. 
+
+> https://dzone.com/articles/what-is-the-difference-between-hibernate-and-sprin-1
+
+> https://www.jhipster.tech/jdl/
+
+### Second Level Cache
+
+we annotate it with Hibernate specific @org.hibernate.annotations.Cache annotation and specify a cache concurrency strategy.
+
+Collections are not cached by default, and we need to explicitly mark them as cacheable. 
+
+Entities are not stored in second-level cache as Java instances, but rather in their disassembled (hydrated) state:
+
+Id (primary key) is not stored (it is stored as part of the cache key)
+Transient properties are not stored
+Collections are not stored (see below for more details)
+Non-association property values are stored in their original form
+Only id (foreign key) is stored for ToOne associations
+This depicts general Hibernate second-level cache design in which cache model reflects the underlying relational model, which is space-efficient and makes it easy to keep the two synchronized.
+
+We already mentioned that we have to explicitly indicate that a collection (OneToMany or ManyToMany association) is cacheable, otherwise it is not cached.
+
+Actually, Hibernate stores collections in separate cache regions, one for each collection. The region name is a fully qualified class name plus the name of collection property, for example: org.baeldung.persistence.model.Foo.bars. This gives us the flexibility to define separate cache parameters for collections, e.g. eviction/expiration policy.
+
+Also, it is important to mention that only ids of entities contained in a collection are cached for each collection entry, which means that in most cases it is a good idea to make the contained entities cacheable as well.
+
+> https://www.baeldung.com/hibernate-second-level-cache#cacheConcurrencyStrategy
+
+### spring boot 中 servlet 启动原理
+
+jar包和war包启动区别
+
+jar包: 
+- 生成 SpringApplication instance (SpringBootApplication())
+- 执行 SpringBootApplication 的 run 方法
+- 启动 IOC 容器 (Application Context) ConfigurableApplicationContext
+- Create server  `this.webServer = factory.getWebServer(getSelfInitializer());` with ServletContextInitializer
+- 创建嵌入式 Servlet Container 容器 (Servlet Context)
+
+war包: 
+- 先是启动 Servlet 服务器 and provide servletContext (Servlet Context)
+- 服务器启动 Springboot 应用 (springBootServletInitizer)
+- 生成 SpringApplication instance (SpringApplicationBuilder)
+- 执行 SpringBootApplication instance 的 run 方法
+- 然后启动 IOC 容器 (Application Context)
+
+
+> https://www.cnblogs.com/developerxiaofeng/p/9081689.html
+
+从Servlet规范3.0开始，开发者可以不必须使用web.xml开声明自己写的servlet：实现ServletContainerInitializer接口。ServletContainerInitializer#onStartUp()会在容器启动时被调用，开发者可以在其中注册Servlet,Listener,Filter。
+
+传入了一个ServletWebServerApplicationContext#selfInitialize() 这个地方比较难以理解，涉及到JDK8的lambda语法。看看
+
+```
+/**
+ * Returns the {@link ServletContextInitializer} that will be used to complete the
+ * setup of this {@link WebApplicationContext}.
+ */
+private org.springframework.boot.web.servlet.ServletContextInitializer getSelfInitializer() {
+    // 这里居然返回的是一个方法？
+    // 因为这个方法的生命的返回类型是ServletContextInitializer
+    // 所以返回的必须是这个类型的对象
+    // 也就是说，返回了实现了ServletContextInitializer接口的一个类型的对象
+    // 具体就是使用selfInitialize这个方法来实现ServletContextInitializer接口的onStartup方法
+    return this::selfInitialize;
+}
+```
+
+> https://juejin.im/post/5bb2f642e51d450e3e16c90d
+
+Tomcat的启动主要是初始化2个核心组件，连接器(Connector)和容器（Container），一个Tomcat实例就是一个Server，一个Server包含多个Service，也就是多个应用程序，每个Service包含多个连接器（Connetor）和一个容器（Container),而容器下又有多个子容器，按照父子关系分别为：Engine,Host,Context,Wrapper，其中除了Engine外，其余的容器都是可以有多个。
+
+> https://juejin.im/post/5d3f95ebf265da039e12959e
+
+
+
+### springboot child application and parent application
+
+> https://dzone.com/articles/spring-boot-and-application-context-hierarchy
+> https://stackoverflow.com/questions/32097421/create-a-spring-boot-application-with-multiple-child-contexts
+> https://stackoverflow.com/questions/45113258/spring-boot-config-application-context-hierarchy
+
+### spring boot 配置 Servlet 容器
+
+jetty  更轻量级,更加灵活,可插拔和可扩展,其架构是基于Handler来实现的,可以同时处理大量长时间连接,默认采用NIO,在处理静态资源性能较高
+
+Tomcat  默认采用BIO,基于容器设计的,不易扩展,对JavaEE和Servlet的支持更加全面,很多特性直接集成
+
+> https://www.cnblogs.com/developerxiaofeng/p/9077810.html
+
+### Tomcat vs. Jetty vs. Undertow: Comparison of Spring Boot Embedded Servlet Containers
+
+> https://examples.javacodegeeks.com/enterprise-java/spring/tomcat-vs-jetty-vs-undertow-comparison-of-spring-boot-embedded-servlet-containers/
+
+### WebMvcConfigurer without @EnableWebMvc
+
+In general, the @EnableWebMvc should not be used in Spring boot applications.
+
+If you want to keep Spring Boot MVC features and you want to add additional MVC configuration (interceptors, formatters, view controllers, and other features), you can add your own @Configuration class of type WebMvcConfigurer but without @EnableWebMvc. 
+
+If you wish to provide custom instances of RequestMappingHandlerMapping, RequestMappingHandlerAdapter, or ExceptionHandlerExceptionResolver, you can declare a WebMvcRegistrationsAdapter instance to provide such components.
+
+If you want to take complete control of Spring MVC, you can add your own @Configuration annotated with @EnableWebMvc.
+
+> https://stackoverflow.com/questions/48721984/cant-run-the-spring-boot-application-with-enablewebmvc-configuration
+> https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-web-applications.html#boot-features-spring-mvc-message-converters
+
+### All Cache
+
+> https://medium.com/datadriveninvestor/all-things-caching-use-cases-benefits-strategies-choosing-a-caching-technology-exploring-fa6c1f2e93aa
+
+### Understanding Spring’s @ControllerAdvice 
+
+> https://medium.com/@jovannypcg/understanding-springs-controlleradvice-cd96a364033f
+
+
+### liquidbase:diffChangeLog and liquidbase:updateSQL
+
+The diff command only provides a textual overview of the differences.
+
+In order to get an SQL of the difference of a new (dev) and old database:
+
+Use diffChangeLog to (temporarily perhaps) update your changelog by comparing two databases
+
+Use updateSQL against the out-of-date database to show the sql commands that would be run to bring it up to date. Note the printed SQL will also contain commands needed by liquibase for administration.
+
+> https://stackoverflow.com/questions/16943302/liquibase-command-line-create-diff-changelog-in-sql
+
+  1. use `./mvnw compile liquibase:diff` to generate the diff
+  2. validate the diff
+  3. use `./mvnw compile liquibase:update` to update the database
+  4. Internationalization check
+
+### Auditing with JPA, Hibernate, and Spring Data JPA
+
+With Hibernate, we could make use of Interceptors and EventListeners as well as database triggers to accomplish auditing. But the ORM framework offers Envers, a module implementing auditing and versioning of persistent classes.
+
+> https://www.baeldung.com/database-auditing-jpa
+> https://dzone.com/articles/spring-data-jpa-auditing-automatically-the-good-stuff
+> https://dev.to/njnareshjoshi/jpa-auditing-persisting-audit-logs-automatically-using-entitylisteners-238p
+
+hibernate-envers
+
+> https://docs.jboss.org/envers/docs/
+> https://vladmihalcea.com/the-best-way-to-implement-an-audit-log-using-hibernate-envers/
+
+Spring allows to create and publish custom events which – by default – are synchronous. This has a few advantages – such as, for example, the listener being able to participate in the publisher’s transaction context.
+
+> https://www.baeldung.com/spring-events
+
+Audit can have persistent audit or non-persistent audit, if it is persistent audit, the entity's deleting action will be saved into a audit table.
+
+### JHipster with Actuator
+
+Enable JMX agent: Enables JMX agent that shows application endpoints data by adding the following VM options (requires Spring Boot 1.3.0 or later):
+
+-Dcom.sun.management.jmxremote
+-Dspring.jmx.enabled=true
+-DSpring.liveBeansView.mbeanDomain
+-Dspring.application.admin.enabled=true
+
+> https://www.jetbrains.com/help/idea/run-debug-configuration-spring-boot.html
+
+### 限流算法
+
+1. Guava RateLimiter
+
+   [限流算法 - Guava RateLimiter](https://blog.csdn.net/boling_cavalry/article/details/75174486)
+   
+   从另一方面讲，RateLimiter通过限制后面请求的等待时间，来支持一定程度的突发请求(预消费)。 但是某些情况下并不需要这种突发请求处理能力，如某IM厂商提供消息推送接口，但推送接口有严格的频率限制(600次/30秒)，在调用该IM厂商推送接口时便不能预消费，否则，则可能出现推送频率超出限制而失败。该情况的处理会在其他博文中介绍。
+
+   > https://blog.csdn.net/z69183787/article/details/80110367
+
+2. Semaphore
+
+3. Leaky Bucket
+
+4. Token Bucket
+
+5. Jhipster
+
+   [Rate limiting](https://www.jhipster.tech/api-gateway/)
+   
+6. Buckets for A/B testing   
+
+### Intellij Thymeleaf type error
+
+put <!--/*@thymesVar id="order" type="com.dy.getstream.web.page.vm.OrderVM"*/--> inside the body 
+
+### Validation
+
+1. package org.hibernate.validator.constraints;
+2. package javax.validation.constraints;
+3. `Thymeleaf exception Neither BindingResult nor plain target object for bean name`
+
+   * set Model's class name the same as the attribute's name
+   * the key is the request's attribute should have the key, and the key should be the same as thymeleaf's `th:object="${orderVM}"`
+   * it will set the attribute name as order
+   
+   ```
+   @PostMapping
+    public String processOrder(@ModelAttribute("order") @Valid OrderVM order, Errors errors) {
+        if (errors.hasErrors()) {
+            return "orderForm";
+        }
+        log.info("Order submitted: " + order);
+        return "redirect:/page";
+    }
+   ```
+   
+4.  The Order parameter is annotated with @ModelAttribute to indicate that its value should come from the model and that Spring MVC shouldn’t attempt to bind request parameters to it.   
+
+5. the following code will put the order attribute into the model for the all http method handler in the controller.
+
+```
+@ModelAttribute(name = "order")
+    public TacoOrderDTO order() {
+        return new TacoOrderDTO();
+    }
+```    
+   
+### SpEL
+
+You may be wondering about the difference between the expressions wrapped with ${} and those wrapped with *{}. The ${} expressions (such as ${spitter}) are vari- able expressions. Normally, these are Object-Graph Navigation Language (OGNL) expressions (http://commons.apache.org/proper/commons-ognl/). But when used with Spring, they’re SpEL expressions. In the case of ${spitter}, it resolves to the model property whose key is spitter.
+
+As for *{} expressions, they’re selection expressions. Whereas variable expressions are evaluated against the entire SpEL context, selection expressions are evaluated on a selected object. In the case of the form, the selected object is the one given in the <form> tag’s th:object attribute: a Spitter object from the model. Therefore the
+*{firstName} expression evaluates to the firstName property on the Spitter object.
+
+### JSP in Springboot
+
+But there’s a gotcha if you choose to use JSP. As it turns out, Java servlet contain- ers—including embedded Tomcat and Jetty containers—usually look for JSPs some- where under /WEB-INF. But if you’re building your application as an executable JAR file, there’s no way to satisfy that requirement. Therefore, JSP is only an option if you’re building your application as a WAR file and deploying it in a traditional servlet container. If you’re building an executable JAR file, you must choose Thymeleaf, FreeMarker, or one of the other options in table 2.2.
+
+###  'java.lang.String' to required type 'java.util.Collection'
+
+> https://www.baeldung.com/spring-type-conversions
+
+
+
+### `@Transactional(readOnly = true)`
+
+Reading methods like findAll() and findOne(…) are using @Transactional(readOnly = true) which is not strictly necessary but triggers a few optimizations in the transaction infrastructure (setting the FlushMode to MANUAL to let persistence providers potentially skip dirty checks when closing the EntityManager). Beyond that the flag is set on the JDBC Connection as well which causes further optimizations on that level.
+
+Depending on what database you use it can omit table locks or even reject write operations you might trigger accidentally. Thus we recommend using @Transactional(readOnly = true) for query methods as well which you can easily achieve adding that annotation to you repository interface. Make sure you add a plain @Transactional to the manipulating methods you might have declared or re-decorated in that interface.
+
+> https://stackoverflow.com/questions/44984781/what-are-advantages-of-using-transactionalreadonly-true
+
+### sql scheme
+
+If there’s a file named schema.sql in the root of the application’s classpath, then the SQL in that file will be executed against the database when the application starts. Therefore, you should place the contents of listing 3.8 in your project as a file named schema.sql in the src/main/resources folder.
+
+> Spring in Action, 5th Edition
+
+### Thymeleaf - The difference between th:field=“${}” and th:field=“*{}”
+
+${...} : Variable expressions. These are OGNL expressions (or Spring EL if you have spring integrated)
+
+*{...} : Selection expressions. Same as above, excepted it will be executed on a previously selected object only
+
+#{...} : Message (i18n) expressions. Used to retrieve locale-specific messages from external sources
+
+@{...} : Link (URL) expressions. Used to build URLs
+~{...} : Fragment expressions. Represent fragments of markup and move them around templates
+
+> https://stackoverflow.com/questions/37728515/thymeleaf-the-difference-between-thfield-and-thfield
+
+### What is the use of BindingResult interface in spring MVC?
+
+> https://stackoverflow.com/questions/10413886/what-is-the-use-of-bindingresult-interface-in-spring-mvc
+
+
+### principle for generated classes
+
+1. Never change repository and domain.
+2. Changes can be made on DTO.
+
+### @SessionAttributes
+
+The class-level @SessionAttributes annotation specifies any model objects like the order attribute that should be kept in session and available across multiple requests.
+
+### serialVersionUID
+
+> https://stackoverflow.com/questions/285793/what-is-a-serialversionuid-and-why-should-i-use-it
+
+### JPA repository
+
+Repository methods are composed of a verb, an optional subject, the word By, and a predicate. 
+
+Spring Data also understands find, read, and get as synonymous for fetching one or more entities. Alternatively, you can also use count as the verb if you only want the method to return an int with the count of matching entities.
+
+`readOrdersByDeliveryZipAndPlacedAtBetween()`
+
+In addition to an implicit Equals operation and the Between operation, Spring Data method signatures can also include any of these operators:
+ IsAfter, After, IsGreaterThan, GreaterThan  IsGreaterThanEqual, GreaterThanEqual
+ IsBefore, Before, IsLessThan, LessThan
+ IsLessThanEqual, LessThanEqual
+ IsBetween, Between  IsNull, Null
+ IsNotNull, NotNull  IsIn, In
+ IsNotIn, NotIn
+ IsStartingWith, StartingWith, StartsWithIn addition to an implicit Equals operation and the Between operation, Spring Data method signatures can also include any of these operators:
+ IsAfter, After, IsGreaterThan, GreaterThan  IsGreaterThanEqual, GreaterThanEqual
+ IsBefore, Before, IsLessThan, LessThan
+ IsLessThanEqual, LessThanEqual
+ IsBetween, Between  IsNull, Null
+ IsNotNull, NotNull  IsIn, In
+ IsNotIn, NotIn
+ IsStartingWith, StartingWith, StartsWith
+ IsEndingWith, EndingWith, EndsWith  IsContaining, Containing, Contains  IsLike, Like
+ IsNotLike, NotLike
+ IsTrue, True
+ IsFalse, False
+ Is, Equals
+ IsNot, Not
+ IgnoringCase, IgnoresCase
+
+As alternatives for IgnoringCase and IgnoresCase, you can place either AllIgnoring- Case or AllIgnoresCase on the method to ignore case for all String comparisons.
+
+Finally, you can also place OrderBy at the end of the method name to sort the results by a specified column. For example, to order by the deliveryTo property:
+
+`List<Order> findByDeliveryCityOrderByDeliveryTo(String city)`
+
+In that case, feel free to name the method anything you want and annotate it with @Query to explicitly specify the query to be performed when the method is called, as this example shows:
+
+```
+@Query("Order o where o.deliveryCity='Seattle'")
+List<Order> readOrdersDeliveredInSeattle();
+```
+
+### POST form
+
+```
+public String processDesign(@Valid TacoDTO taco,
+                                @ModelAttribute TacoOrderDTO order,
+                                Errors errors) {
+```
+
+
+The attribute of TacoDTO and TacoOrderDTO should be different or the parser will put the fields with the same name into the two objects.                                
+And always use the class name as the @ModelAttribute name, eg.,
+
+
+```
+@ModelAttribute
+    public TacoOrderDTO order() {
+        return new TacoOrderDTO();
+    }
+
+or
+
+@ModelAttribute(name = "tacoOrderDTO")
+    public TacoOrderDTO order() {
+        return new TacoOrderDTO();
+    }    
+```    
+
+
+### EnableGlobalMethodSecurity
+
+> https://www.baeldung.com/spring-security-method-security
+
+### Spring Security
+
+The `@RoleAllowed` and `@Secured` annotation doesn't support Spring Expression Language (SpEL).
+
+Both @PreAuthorize and @PostAuthorize annotations provide expression-based access control. Hence, predicates can be written using SpEL (Spring Expression Language).
+
+The @PreAuthorize annotation checks the given expression before entering the method, whereas, the @PostAuthorize annotation verifies it after the execution of the method and could alter the result.
+
+There are two points we'd like to remind regarding method security:
+
+By default, Spring AOP proxying is used to apply method security – if a secured method A is called by another method within the same class, security in A is ignored altogether. This means method A will execute without any security checking. The same applies to private methods
+Spring SecurityContext is thread-bound – by default, the security context isn't propagated to child-threads.
+
+> https://www.baeldung.com/spring-security-expressions-basic
+> https://www.baeldung.com/spring-security-method-security
+
+In Hystrix you will need to configure the `execution isolation strategy` based on the server used.
+
+In Tomcat or @Async, we need to enable To prevent that behaviour, we need to enable the SecurityContextHolder.MODE_INHERITABLETHREADLOCAL strategy:
+
+```
+SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);`
+```
+
+There are a few interesting use cases where we might want to make sure the SecurityContext gets propagated like this:
+
+we want to make multiple external requests which can run in parallel and which may take significant time to execute
+we have some significant processing to do locally and our external request can execute in parallel to that
+other represent fire-and-forget scenarios, like for example sending an email
+
+
+> https://www.baeldung.com/spring-security-async-principal-propagation
+> https://github.com/spring-cloud/spring-cloud-netflix/issues/1330
+
+### LDAP
+
+LDAP (Lightweight Directory Access Protocol)
+
+When the LDAP server starts, it will attempt to load data from any LDIF files that it can find in the classpath. LDIF (LDAP Data Interchange Format) is a standard way of representing LDAP data in a plain text file.
+
+https://medium.com/@viraj.rajaguru/how-to-use-spring-security-to-authenticate-with-microsoft-active-directory-1caff11c57f2
+
+### Hibernate: save, persist, update, merge, saveOrUpdate
+
+Any entity instance in your application appears in one of the three main states in relation to the Session persistence context:
+
+  * transient — this instance is not, and never was, attached to a Session; this instance has no corresponding rows in the database; it's usually just a new object that you have created to save to the database;
+
+  * persistent — this instance is associated with a unique Session object; upon flushing the Session to the database, this entity is guaranteed to have a corresponding consistent record in the database;
+
+  * detached — this instance was once attached to a Session (in a persistent state), but now it’s not; an instance enters this state if you evict it from the context, clear or close the Session, or put the instance through serialization/deserialization process.
+  
+This means that when you change fields of a persistent object, you don't have to call save, update or any of those methods to get these changes to the database: all you need is to commit the transaction, or flush or close the session, when you're done with it.  
+
+It is important to understand from the beginning that all of the methods (persist, save, update, merge, saveOrUpdate) do not immediately result in the corresponding SQL UPDATE or INSERT statements. The actual saving of data to the database occurs on committing the transaction or flushing the Session.
+
+The save method is an “original” Hibernate method that does not conform to the JPA specification.
+
+Its purpose is basically the same as persist, but it has different implementation details. The documentation for this method strictly states that it persists the instance, “first assigning a generated identifier”. The method is guaranteed to return the Serializable value of this identifier.
+
+> https://www.baeldung.com/hibernate-save-persist-update-merge-saveorupdate
+
+### Connection Pool for databases
+
+The DataSource bean will be pooled using Tomcat’s JDBC connection pool if it’s avail- able on the classpath. If not, Spring Boot looks for and uses one of these other connection pool implementations on the classpath:
+
+  - HikariCP
+  - Commons DBCP 2
+  
+### JNDI - Java Naming and Directory Interface
+
+If you set the spring.datasource.jndi-name property, the other data source connec- tion properties (if set) are ignored.
+
+1. declare our datasource in <tomcat_home>/conf/server.xml file inside the <GlobalNamingResources> element.
+
+2. We must also define a ResourceLink inside the <Context> element in <tomcat_home>/conf/context.xml
+
+> https://www.baeldung.com/spring-persistence-jpa-jndi-datasource
+
+### random port 
+
+Although you’re explicitly setting server.port to 0, the server won’t start on port 0. Instead, it’ll start on a randomly chosen available port. This is useful when running automated integration tests to ensure that any concurrently running tests don’t clash on a hard-coded port number. 
+
+### HTTPS
+
+One of the most com- mon things you’ll need to do with the underlying container is to set it up to handle HTTPS requests.
+
+1. create a keystore using the JDK’s keytool command-line utility: `keytool -keystore mykeys.jks -genkey -alias tomcat -keyalg RSA`
+
+2. A cipher suite is a set of algorithms that help secure a network connection that uses Transport Layer Security (TLS) or its now-deprecated predecessor Secure Socket Layer (SSL). The set of algorithms that cipher suites usually contain include: a key exchange algorithm, a bulk encryption algorithm, and a message authentication code (MAC) algorithm.
+
+### Configuration Property
+
+Configuration property metadata is completely optional and doesn’t prevent configu- ration properties from working. But the metadata can be useful for providing some minimal documentation around the configuration properties, especially in the IDE.
+
+To create metadata for your custom configuration properties, you’ll need to create a file under the META-INF (for example, in the project under src/main/resources/ META-INF) named additional-spring-configuration-metadata.json.
+
+Configuration properties can be set in 
+
+  - command-line arguments, 
+  - environment variables, 
+  - JVM system properties, 
+  - properties files, 
+  - or YAML files, among other options.
+
+### Preventing SQL injection in Hibernate
+
+The JDBC driver will escape this data appropriately before the query is executed, making sure that data is used just as data.
+
+Secured Usage
+
+```
+/* Positional parameter in HQL */
+Query hqlQuery = session.createQuery("from Orders as orders where orders.id = ?");
+List results = hqlQuery.setString(0, "123-ADB-567-QTWYTFDL").list();
+
+/* Native-SQL */
+Query sqlQuery = session.createSQLQuery("Select * from Books where author = ?");
+List results = sqlQuery.setString(0, "Charles Dickens").list();
+```
+
+Vulnerable Usage
+
+```
+List results = session.createQuery("from Orders as orders where orders.id = " + currentOrder.getId()).list();
+List results = session.createSQLQuery("Select * from Books where author = " + book.getAuthor()).list();
+```
+
+> https://software-security.sans.org/developer-how-to/fix-sql-injection-in-java-hibernate
+
+```
+@Query(
+  value = "SELECT * FROM Users u WHERE u.status = ?1", 
+  nativeQuery = true)
+User findUserByStatusNative(Integer status);
+```
+
+```
+@Query(value = "SELECT * FROM Users u WHERE u.status = :status and u.name = :name", 
+  nativeQuery = true)
+User findUserByStatusAndNameNamedParamsNative(
+  @Param("status") Integer status, @Param("name") String name);
+```
+> https://www.baeldung.com/spring-data-jpa-query
+
+### Spring Cross Origin
+
+`@CrossOrigin(origins="*")`
+
+### Database Security
+
+- Parameterized Query
+- Prepared statement
+  `@nativeQuery()` and `@query()`
+- Database Least Privilege  
+
+### Restful
+ 
+ - `@RestController`
+ - `@Controller` + `@ResponseBody`
+ - `@Controller` + `ResponseEntity` 
+
+### get the effective POM
+
+`mvn help:effective-pom`
+
+### Hypermedia as the Engine of Application State, or HATEOAS
+
+is a means of creating self-describing APIs wherein resources returned from an API contain links to related resources.
+
+This particular flavor of HATEOAS is known as HAL (Hypertext Application Lan- guage; http://stateless.co/hal_specification.html), a simple and commonly used for- mat for embedding hyperlinks in JSON responses. 
+
+```
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-hateoas</artifactId>
+</dependency>
+```
+
+```
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-data-rest</artifactId>
+</dependency>
+```
+`spring.data.rest.base-path `
+
+### consuming REST services
+
+A Spring application can consume a REST API with
+- RestTemplate—A straightforward, synchronous REST client provided by the core Spring Framework.
+- Traverson—A hyperlink-aware, synchronous REST client provided by Spring HATEOAS. Inspired from a JavaScript library of the same name.
+- WebClient—A reactive, asynchronous REST client
+
+### Msg
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-activemq</artifactId>
+</dependency>
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-artemis</artifactId>
+</dependency>
+```
+
+```
+spring: jms:
+    template:
+      default-destination: tacocloud.order.queue
+```      
+
+It’s important to note that the ActiveMQQueue used here is actually from Artemis (from the org.apache.activemq.artemis.jms.client package). If you’re using ActiveMQ (not Artemis), there’s also a class named ActiveMQQueue (from the org.apache.activemq .command package).
+
+```
+MessageConverter
+SimpleMessageConverter // SimpleMessageConverter is the default, but it requires that the object being sent implement Serializable.
+MappingJackson2MessageConverter // avoid that restriction
+```
+```
+@Bean
+public MappingJackson2MessageConverter messageConverter() {
+  MappingJackson2MessageConverter messageConverter =
+                          new MappingJackson2MessageConverter();
+  messageConverter.setTypeIdPropertyName("_typeId");
+  return messageConverter;
+}
+```
+Notice that you called setTypeIdPropertyName() on the MappingJackson2Message- Converter before returning it. This is very important, as it enables the receiver to know what type to convert an incoming message to. By default, it will contain the fully quali- fied classname of the type being converted. But that’s somewhat inflexible, requiring that the receiver also have the same type, with the same fully qualified classname.
+
+Because JMS is defined by a standard Java specification and supported by many message broker implementations, it’s a common choice for messaging in Java. But JMS has a few shortcomings, not the least of which is that as a Java specification its use is limited to Java applications. Newer messaging options such as RabbitMQ and Kafka address these shortcomings and are available for other languages and platforms beyond the JVM. Let’s set JMS aside and see how you could have implemented your taco order messaging with RabbitMQ.
+
+There are several different kinds of exchanges, including the following:
+- Default—A special exchange that’s automatically created by the broker. It routes messages to queues whose name is the same as the message’s routing key. All queues will automatically be bound to the default exchange.
+- Direct—Routes messages to a queue whose binding key is the same as the mes- sage’s routing key.
+- Topic—Routes a message to one or more queues where the binding key (which may contain wildcards) matches the message’s routing key.
+- Fanout—Routes messages to all bound queues without regard for binding keys or routing keys.
+- Headers—Similar to a topic exchange, except that routing is based on message header values rather than routing keys.
+- Dead letter—A catch-all for any messages that are undeliverable (meaning they don’t match any defined exchange-to-queue binding).
+
+The only requirement to using a ParameterizedTypeReference with receiveAndConvert() is that the message converter must be an implementation of SmartMessageConverter; Jackson2JsonMessageConverter is the only out-of-the-box implementation to choose from.
+
+```
+<dependency>
+    <groupId>org.springframework.kafka</groupId>
+    <artifactId>spring-kafka</artifactId>
+</dependency>
+```
+Aside from the unique method signatures for send() and sendDefault(), Kafka- Template differs from JmsTemplate and RabbitTemplate in that it doesn’t offer any methods for receiving messages. That means the only way to consume messages from a Kafka topic using Spring is to write a message listener.
+
+### Springboot Integration
+
+Whereas this makes RestTemplate available in the classpath, it also triggers auto- configuration for Spring MVC. As a standalone Spring Integration flow, the applica- tion doesn’t need Spring MVC or even the embedded Tomcat that autoconfiguration provides. Therefore, you should disable Spring MVC autoconfiguration with the following entry in application.yml:
+
+```
+spring:
+  main:
+    web-application-type: none
+```    
+
+The spring.main.web-application-type property can be set to either servlet, reactive, or none. 
+
+### Java method reference
+
+```
+@GetMapping("/convertAndSend/order")
+public String convertAndSendOrder() {
+  Order order = buildOrder();
+  jms.convertAndSend("tacocloud.order.queue", order,
+      this::addOrderSource);
+  return "Convert and sent order";
+}
+private Message addOrderSource(Message message) throws JMSException {
+  message.setStringProperty("X_ORDER_SOURCE", "WEB");
+  return message;
+}
+```
+
+### Jwt
+
+> https://jwt.io/introduction/
+
+If the token is sent in the Authorization header, Cross-Origin Resource Sharing (CORS) won't be an issue as it doesn't use cookies.
+
+Do note that with signed tokens, all the information contained within the token is exposed to users or other parties, even though they are unable to change it. This means you should not put secret information within the token.
+
+### Reactive Spring
+
+- The Reactive Streams specification can be summed up by four interface definitions: Publisher, Subscriber, Subscription, and Processor. 
+
+- What the Reactive Streams interfaces don’t lend themselves to, however, is com- posing such a stream in a functional way. 
+
+- At each phase of the pipeline, the data is tweaked somehow, but no assumption can be made about which thread any of the operations are performed on. They may be the same thread ... or they may not be.
+
+- The Mono in the example is one of Reactor’s two core types. Flux is the other. Both are implementations of Reactive Streams’ Publisher. A Flux represents a pipe- line of zero, one, or many (potentially infinite) data items. A Mono is a specialized reactive type that’s optimized for when the dataset is known to have no more than one data item.
+
+- Mono and Flux sound a lot like Observable and Single. 
+
+- dependency
+
+```
+<dependency>
+    <groupId>io.projectreactor</groupId>
+    <artifactId>reactor-core</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.projectreactor</groupId>
+    <artifactId>reactor-test</artifactId>
+    <scope>test</scope>
+</dependency>    
+```
+
+if you want to use Reactor in a non-Spring Boot project, you’ll need to set up Reactor’s BOM (bill of materials) in the build. 
+
+```
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-bom</artifactId>
+            <version>Bismuth-RELEASE</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+- [Maven依赖中的scope详解](https://blog.csdn.net/kimylrong/article/details/50353161)
+  
+  provided：在编译和测试时有效
+  runtime：在测试和运行时有效
+  import: This scope is only supported on a dependency of type pom in the <dependencyManagement> section. It indicates the dependency to be replaced with the effective list of dependencies in the specified POM's <dependencyManagement> section. Since they are replaced, dependencies with a scope of import do not actually participate in limiting the transitivity of a dependency.
+  
+- etween Flux and Mono, there are over 500 operations, each of which can be loosely categorized as
+  
+  * Creation operations
+  * Combination operations
+  * Transformation operations
+  * Logic operations  
+  
+- What’s important to understand about map() is that the mapping is performed syn- chronously, as each item is published by the source Flux.  If you want to perform the mapping asynchronously, you should consider the flatMap() operation.  
+
+### Reactive API
+
+Typical Servlet-based web frameworks, such as Spring MVC, are blocking and multi- threaded in nature, using a single thread per connection. As requests are handled, a worker thread is pulled from a thread pool to process the request. Meanwhile, the request thread is blocked until it’s notified by the worker thread that it’s finished.
+ 
+### Persisting data reactively
+
+This includes support for a reactive program- ming model when persisting data with Cassandra, MongoDB, Couchbase, or Redis.
+
+Unfortunately, there’s no support for reactive JPA. Although relational databases are certainly the most prolific databases in the industry, supporting a reactive programming model with Spring Data JPA would require that the databases and JDBC drivers involved also support non-blocking reactive models. It’s unfortunate that, at least for now, there’s no support for working with relational databases reactively.   
+
+Cassandra is a distributed, high-performance, always available, eventually consistent, partitioned-row-store, NoSQL database.
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-cassandra</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-cassandra-reactive</artifactId>
+</dependency>
+```
+
+At the very least, you’ll need to configure the name of a key space within which your repositories will operate. To do that, you’ll first need to create such a key space.
+
+In Cassandra, a keyspace is a grouping of tables in a Cassandra node. It’s roughly analogous to how tables, views, and constraints are grouped in a relational database.
+
+```
+cqlsh> create keyspace tacocloud
+   ... with replication={'class':'SimpleStrategy', 'replication_factor':1}
+   ... and durable_writes=true;
+```
+
+Put simply, this will create a key space named tacocloud with simple replication and durable writes. By setting the replication factor to 2, you ask Cassandra to keep one copy of each row. The replication strategy determines how replication is handled. The SimpleStrategy replication strategy is fine for single data center use (and for demo code), but you might consider the NetworkTopologyStrategy if you have your Cas- sandra cluster spread across multiple data centers. I refer you to the Cassandra docu- mentation for more details of how replication strategies work and alternative ways of creating key spaces.
+
+```
+spring:
+  data:
+    cassandra:
+      keyspace-name: tacocloud
+      schema-action: recreate-drop-unused
+```
+
+Here, you also set the spring.data.cassandra.schema-action to recreate-drop- unused. This setting is very useful for development purposes because it ensures that any tables and user-defined types will be dropped and recreated every time the appli- cation starts. The default value, none, takes no action against the schema and is useful in production settings where you’d rather not drop all tables whenever an application starts up.
+
+By default, Spring Data Cassandra assumes that Cassandra is running locally and listening on port 9092. If that’s not the case, as in a production setting, you may want to set the spring.data.cassandra.contact-points and spring.data.cassandra.port properties:
+
+```
+spring:
+  data:
+    cassandra:
+      keyspace-name: tacocloud
+      contact-points:
+      - casshost-1.tacocloud.com
+      - casshost-2.tacocloud.com
+      - casshost-3.tacocloud.com
+      port: 9043
+      username: tacocloud
+      password: s3cr3tP455w0rd
+```      
+A Cassandra table has two kinds of keys: partition keys and clustering keys. Hash operations are performed on each row’s partition key to determine which parti- tion(s) that row will be managed by. Clustering keys determine the order in which the rows are maintained within a partition (not necessarily the order that they may appear in the results of a query).
+
+But why do you need to introduce a new IngredientUDT class? Why can’t you just reuse the Ingredient class? Put simply, columns that contain collections of data, such as the ingredients column, must be collections of native types (integers, strings, and so on) or must be collections of user-defined types.
+
+In Cassandra, user-defined types enable you to declare table columns that are richer than simple native types. Often they’re used as a denormalized analog for relational foreign keys. In contrast to foreign keys, which only hold a reference to a row in another table, columns with user-defined types actually carry data that may be copied from a row in another table. In the case of the ingredients column in the tacos table, it will contain a collection of data structures that define the ingredi- ents themselves.
+
+You can’t use the Ingredient class as a user-defined type, because the @Table annotation has already mapped it as an entity for persistence in Cassandra. There- fore, you must create a new class to define how ingredients will be stored in the ingredients column of the taco table. IngredientUDT (where “UDT” means user- defined type) is the class for the job:
+
+`cqlsh:tacocloud> select id, name, createdAt, ingredients from tacos;`
+
+### self-preservation
+- This property is useful in a development environment where it’s likely that for a num- ber of reasons, Eureka may not receive renewal requests. In those cases where you may be bringing service instances up and down frequently, self-preservation mode results in registry entries for stopped services being retained, creating problems when another service tries to consume the service that’s long gone. Disabling self-preservation mode will prevent strange behavior like that.
+```
+eureka: 
+  ...
+  server:
+    enable-self-preservation: false
+```            
+
+- Scaling Eureka： Even though a single Eureka instance is more convenient in development, you’ll proba- bly want to have at least two Eureka instances for high-availability purposes when you take the application to production.
+
+- Monitoring failures
+```
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+        
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-turbine</artifactId>
+</dependency>
+        
+```        
+
+----

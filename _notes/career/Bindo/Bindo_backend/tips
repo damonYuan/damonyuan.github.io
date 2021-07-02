@@ -1,0 +1,5 @@
+1. Add Faye
+   1. app/observers/xx.rb
+   2. config/application.rb
+   3. lib/juggernaut_message/xxx.rb
+   4. spec/observers/xxx_spec.rb

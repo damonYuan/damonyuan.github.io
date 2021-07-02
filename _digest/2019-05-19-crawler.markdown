@@ -1,0 +1,279 @@
+---
+title:  "Crawler"
+description: "Crawler"
+hidden: true
+date: 2019-05-19 15:04:23
+categories: [Tech]
+tags: [Crawler]
+---
+
+## Chapter 1. 开发环境配置
+
+1. PhantomJS
+
+   required by pyspider
+
+   selenium support for PhantomJS has been deprecated, please use headless versions of Chrome or Firefox instead
+
+2. tesserocr
+
+  `brew install imagemagick`
+  `brew install tesseract`
+  `brew install tesseract-lang`
+
+  > https://anaconda.org/mcs07/tesserocr
+  `conda install -c mcs07 tesserocr`
+
+  > https://github.com/sirfz/tesserocr/issues/76#issuecomment-342692158
+  `CC=clang XCC=clang++ CPPFLAGS="-stdlib=libc++ -DUSE_STD_NAMESPACE -mmacosx-version-min=10.8" pip3 install tesserocr`
+
+  > https://github.com/sirfz/tesserocr
+
+3. mysql localhost connection
+
+  `/usr/local/etc/my.cnf`
+  ```
+  [mysqld]
+  # Only allow connections from localhost
+  # bind-address = 127.0.0.1
+  bind-address = *
+  ```  
+
+4. mongo
+
+  `brew services start mongodb`  
+
+  `mongo --port 27017` to start the command line
+
+  Robomongo/Robo 3T
+
+5. redis
+
+  `brew services start redis`  
+  `redis-server /usr/local/etc/redis.conf`
+  `redis-cli`
+
+  Redis Desktop Manager
+
+  gem 'redis-dump'
+
+5. freeze
+
+  `pip3 freeze > freeze.txt`  
+
+6. flask + Redis
+
+   `FLASK_APP=hello.py flask run`  
+
+   动态代理池 和 Cookie 池
+
+7. tornado + Redis
+
+    ADSL 拨号代理池   
+
+8. mitmproxy
+
+9. scrapy-splash
+
+  `docker run -d -p 8050:8050 scrapinghub/splash`
+
+10. scrapy-redis : 分布式爬虫
+
+  scrapyd : need to create the config file manually, then `scrapyd > /dev/null &`
+
+  进程维护： screen, tmux, supervisor
+
+  scrapyd-client
+  python-scrapyd-api
+  scrapyrt  
+  gerapy
+
+11. Pyppeteer
+
+> https://cloud.tencent.com/developer/article/1420921
+> https://segmentfault.com/a/1190000019333581
+
+## Chapter 2. 爬虫基础
+
+1. Request
+
+   * Request Method
+   * Request URL
+   * Request Headers
+   * Request Body
+
+2. Response
+
+    * Response Code
+    * Response Headers
+    * Response Body
+
+3. 选择器
+
+选择器之间用空格分开表示嵌套关系， 不加（同类型则为逗号）则为并列关系         
+
+## Chapter 3. 基本库的使用
+
+1. update conda and use the new python version
+
+   `conda update conda`
+   `conda install python=3.7.3`
+   `conda create --name env python=2.7`
+   `conda config --set auto_activate_base false`
+   `conda env remove --name myenv`
+
+2. urlencoded 将字典转化成字符串
+
+3. export env files
+
+   `conda env export > environment.yml`
+   
+4. `.condarc` : https://docs.conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html#overview
+
+5. Regex
+
+```
+re.I 匹配对大小写不敏感
+re.L 做本地化识别匹配
+re.M 多行匹配，影响 ^ 和 $
+re.S 使 . 匹配包含换行在内的所有字符
+re.U 根据 Unicode 字符集解析字符，这个标志影响 \W, \w, \b 和 \B
+re.X 更灵活的格式
+```
+
+6. Key libs
+
+```
+requests
+six
+requests[socks]
+requests_oauthlib
+urllib
+```
+
+## Chapter 4. 解析库的使用
+
+1. Methods
+
+   - XPath
+   
+     nodename: 选取此节点的所有子节点
+     /: 从当前节点选取直接子节点
+     //: 从当前节点选取子孙节点
+     .: 选取当前节点
+     ..: 选取当前节点的父节点, or parent::
+     @: 属性获取或者属性匹配, '//li[contains(@class, "li")]', '//li[contains(@class, "li") and @name="item"]'
+     text(): 获取文本
+     
+   - CSS 选择器
+   - regex
+   
+2. libs
+
+```
+lxml
+Beautiful Soup
+pyquery
+```   
+
+3. Beautiful Soup 解析器
+
+   - html.parser
+   - lxml
+   
+     ```
+     from bs4 import BeautifulSoup
+     soup =  BeautifulSoup('<p>Hello</p>', 'lxml')
+     print(soup.p.string)
+     ```
+     
+   - xml
+   - html5lib
+   
+4. pyquery
+
+   - 伪类选择器
+
+## Chapter 5. 数据存储
+
+1. 文件
+
+   * file 存储模式
+   * json
+   * csv
+   
+2. database
+
+   * pymysql
+   * pymongo
+   * redis-py
+   
+     redis-dump
+     redis-load
+     
+## Chapter 6. Ajax 数据爬取
+
+1. Ajax 有一个特殊的请求类型叫 xhr     
+
+## Chapter 7. 动态页面渲染爬取
+
+1. libs
+
+```
+Selenium
+Splash
+PyV8
+Ghost
+```
+
+## Chapter 8. 验证码的识别
+
+`www.chaojiying.com`
+
+## Chapter 9. 代理的使用
+
+1. `http://www.xicidaili.com`
+`www.xdaili.com`
+`www.abuyun.com`
+
+2. `requests[socks]`
+
+3. 代理池维护
+
+`https://github.com/damonYuan/ProxyPool`
+
+## Chapter 10. 模拟登陆
+
+1. Session
+2. Cookie 池
+
+## Chapter 11. App 的爬取
+
+1. proxy
+
+   - Charles
+   - mitmdump and mitmproxy
+   - Burp Suite
+
+2. Appium
+
+   - Charles 得到接口链接， mitmproxy 监听接口数据，Appium 模拟 App 操作
+
+## pyspider 框架使用
+
+## scrapy 框架使用
+
+1. `scrapy startproject tutorial`
+
+2. `scrapy genspider quotes quotes.toscrape.com`
+
+3. `scrapy crawl quotes -o quotes.json`
+
+## 分布式爬虫
+
+## 分布式爬虫的部署   
+   
+
+      
+   
+

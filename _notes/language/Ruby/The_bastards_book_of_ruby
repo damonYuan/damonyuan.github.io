@@ -1,0 +1,59 @@
+The Bastards Book of Ruby
+=========================
+http://ruby.bastardsbook.com/
+
+
+# The Fundamentals
+
+# Suppliments
+
+1. Regular Expression
+
+2. An Intro to the Web Scraping
+
+   find what code is run in button in chrome: 
+   http://stackoverflow.com/questions/23472334/how-to-find-what-code-is-run-by-a-button-element-in-chrome-using-developer-tools
+
+3. Meet Your Web Inspector
+4. Inspecting a Webpage's Traffic
+   1. Some webpages will be impossible to scrape with a HTML parser because they dynamically load in data through Javascript or Flash. In these cases, we need to use the network panel(it provides a way to directly examine the data and logic underneath the webpage) to examine the source of these data requests.
+   2. Select the XHR filter
+      The acronym XHR stands for XMLHttpRequest, which is the technical term for the requests made to the server by the browser. In this case, we're looking for the data request for a list of suggested search terms that begin with 'J'; this request is made by the browser to the server when we enter J into the search field.
+   3. resp = RestClient.get("#{WURL}#{letter}", 'User-Agent' => 'Ruby')
+      included the 'User-Agent' => 'Ruby' header because it seems that Wikipedia will refuse requests to scrapers that don't identify themselves.
+
+      https://en.wikipedia.org/wiki/List_of_HTTP_header_fields : check the header fields
+
+   4. the network panel also shows us webpage behavior that isn't evident in the raw HTML: the prelocaind of the images that are immediately before and after this photo.
+
+   5. For flash: if you open up your network panel (don't filter by images; for some reason, the inspector doesn't classify the image loads as image file types), you can see the details of each image file - including its direct URL.
+
+   The Dollars for Docs Data Guides: https://www.propublica.org/nerds/item/the-coders-cause-in-dollars-for-docs
+
+5. Parsing HTML with Nokogiri
+   It is a gem used to parse HTML
+
+6. Writing a Web Crawler
+   1. Combining HTML parsing and web inspection to programmatically navigate and scrape websites.
+   2. wget: a powerful program that lets you mirror websites in a signle line.
+      $ wget -k -p http://www.whitehouse.gov
+
+      Note: for simple sites, wget will suffice, especially if your goal is to only make a local copy for later parsing. But in order to do that parsing, you'll usually have to write some code using something like Nokogiri anyway.
+
+      for more complicated scraping jobs, through, especially for sites that require user input, wget may not get everything that you need. 
+   3. Sometimes websites will inject new selectors or attributes that aren't present in the raw source code.
+      html.client-firefox
+      <tbody>
+   4. ruby: use compact to remove those nil values from the collections.
+   5. ruby: uniq method returns a collection with duplicated values removed.
+   6. use Net::HTTP.get_response rather than RestClient.get or OpenURI#open
+      1. Both the RestClient and OpenURI modules will automatically follow the redirect, but we need to reject the pages that redirect to the homepage.
+      2. Instead, we can use the get_response method from the Net::HTTP library to ask for the HTTP status code.
+   7. mechanize gem for web crawel
+
+7. The mechanize Gem
+
+8. SQL
+      
+
+

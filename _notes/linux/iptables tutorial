@@ -1,0 +1,18 @@
+iptables tutorial
+====
+
+https://www.frozentux.net/iptables-tutorial/iptables-tutorial.html
+
+### Chapter 2. TCP/IP repetition
+
+
+https://www.karlrupp.net/en/computer/nat_tutorial
+
+1. packet forward
+
+```
+# Disabled by default!
+$> echo "1" > /proc/sys/net/ipv4/ip_forward
+```
+
+2. use `nmap` to scan a website

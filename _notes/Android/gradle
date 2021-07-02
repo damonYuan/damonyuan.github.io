@@ -1,0 +1,295 @@
+Gradle
+=====
+
+1. project gradle
+
+```
+apply plugin: 'com.android.application'
+apply from: 'build-release.gradle'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        applicationId getApplicationIdProp()
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_7
+            targetCompatibility JavaVersion.VERSION_1_7
+        }
+
+        versionCode getVersionCodeProp() as Integer
+        versionName getVersionNameProp()
+    }
+
+    signingConfigs {
+        release {
+            storeFile     file(releaseStoreFilePath)
+            storePassword releaseStorePassword
+            keyAlias      releaseKeyAlias
+            keyPassword   releaseKeyPassword
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        releaseUnsigned.initWith(buildTypes.release)
+        releaseUnsigned {
+            signingConfig null
+        }
+    }
+
+    lintOptions {
+        disable 'MissingTranslation', 'ExtraTranslation'
+    }
+
+    packagingOptions {
+        exclude 'AndroidManifest.xml'
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/notice.txt'
+        exclude 'DEPENDENCIES.txt'
+        exclude 'DEPENDENCIES'
+        exclude 'dependencies.txt'
+        exclude 'LICENSE.txt'
+        exclude 'LICENSE'
+        exclude 'license.txt'
+        exclude 'LGPL2.1'
+        exclude 'NOTICE.txt'
+        exclude 'NOTICE'
+        exclude 'notice.txt'
+    }
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+dependencies {
+    provided files('src/main/libs/XposedBridgeApi-54.jar')
+
+    compile project(':handy-tracker')
+    compile project(':handy-log')
+    compile project(':handy-util')
+    compile project(':handy-root')
+
+    // leakcanary
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
+    // libphonenumber
+    compile 'com.googlecode.libphonenumber:libphonenumber:8.5.1'
+
+    compile "com.android.support:support-annotations:$supportVersion"
+}
+
+```
+
+2. root gradle:
+
+```
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+ext {
+    minSdkVersion = 17
+    targetSdkVersion = 24
+    compileSdkVersion = 24
+    compileSdkVersionS = 'Google Inc.:Google APIs:24'
+    supportVersion = '25.3.0'
+    buildToolsVersion = '25.0.2'
+    sourceCompatibilityVersion = JavaVersion.VERSION_1_7
+    targetCompatibilityVersion = JavaVersion.VERSION_1_7
+    playServicesVersion = '8.4.0'
+    gsonVersion = '2.3'
+    gradleVersion = '2.3.1'
+    robolectricVersion = "3.1"
+    mockitoVersion = "2.0.86-beta"
+    junitVersion = "4.12"
+    rxjavaVersion = "2.0.6"
+    rxandroidVersion = "2.0.1"
+    retrofitVersion = "2.2.0"
+    daggerVersion = "2.10+"
+    picassoVersion = "2.5.2"
+    butterknifeVersion = "8.5.1"
+    okhttpVersion = "3.2.0"
+    espressoVersion = "2.2.2"
+    multidexVersion = "1.0.1"
+
+    //find secrets from properties first
+    if (rootProject.file('secrets.properties').exists()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream("${rootProject.file('secrets.properties')}"))
+        repoUrl = props.getProperty('TINKLABS_REPO_URL')
+        repoKey = props.getProperty('TINKLABS_REPO_KEY')
+        repoSecret = props.getProperty('TINKLABS_REPO_SECRET')
+    }
+    //if no "secrets.properties" file, try to get secrets from system env
+    else {
+        repoUrl = System.getenv('TINKLABS_REPO_URL')
+        repoKey = System.getenv('TINKLABS_REPO_KEY')
+        repoSecret = System.getenv('TINKLABS_REPO_SECRET')
+    }
+    if (repoUrl == null) {
+        throw new IllegalArgumentException("need TINKLABS_REPO_URL(put secrets.properties file in the root directory or in the system environment)");
+    }
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.3'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+```
+
+3. gradle for release
+```
+ext {
+    getCommitHash = this.&getCommitHash
+    getVersionCodeProp = this.&getVersionCodeProp
+    getVersionNameProp = this.&getVersionNameProp
+    getApplicationIdProp = this.&getApplicationIdProp
+}
+
+def getCommitHash() {
+    def stdout = new ByteArrayOutputStream()
+    try {
+        exec {
+            commandLine 'git', 'rev-parse', '--short' , 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    } finally {
+        stdout.close()
+    }
+}
+
+def getVersionCodeProp() {
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.exists() && versionPropsFile.canRead()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(versionPropsFile))
+        return props.getProperty('VERSION_CODE')
+    }
+    else {
+        throw new GradleException("Could not read version.properties!")
+    }
+}
+
+def getVersionNameProp() {
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.exists() && versionPropsFile.canRead()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(versionPropsFile))
+        return props.getProperty('VERSION_NAME')
+    }
+    else {
+        throw new GradleException("Could not read version.properties!")
+    }
+}
+
+def getApplicationIdProp() {
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.exists() && versionPropsFile.canRead()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(versionPropsFile))
+        return props.getProperty('APPLICATION_ID')
+    } else {
+        throw new GradleException("Could not read version.properties!")
+    }
+}
+
+task checkDirty {
+    doFirst {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'status', '--porcelain'
+            standardOutput = stdout
+        }
+        def result = stdout.toString().trim();
+        if (result != null && result.length() > 0) {
+            throw new GradleException("Please commit your code before build!")
+        }
+    }
+}
+
+task bumpVersion {
+    doFirst {
+        def versionPropsFile = file('version.properties')
+        if (versionPropsFile.exists() && versionPropsFile.canRead()) {
+            def stdout = new ByteArrayOutputStream()
+            try {
+                Properties props = new Properties()
+                props.load(new FileInputStream(versionPropsFile))
+                def code = props['VERSION_CODE'].toInteger() + 1
+                props['VERSION_CODE'] = code.toString()
+                props.store(versionPropsFile.newWriter(), null)
+
+                exec {
+                    commandLine 'git', 'commit', '-am', String.format("bump version to %s(%s)", props['VERSION_NAME'], code.toString())
+                    standardOutput = stdout
+                }
+                exec {
+                    commandLine 'git', 'push'
+                    standardOutput = stdout
+                }
+
+                // change apk name
+                android.applicationVariants.all { variant ->
+                    if (variant.buildType.name == "release") {
+                        variant.outputs.each { output ->
+                            def file = output.outputFile
+                            def fileName = "HandyXposed-" + getVersionNameProp() + "(" + getVersionCodeProp() + ")_" + getCommitHash() + ".apk"
+                            output.outputFile = new File(file.parent, fileName)
+                        }
+                    } else if (variant.buildType.name == "debug") {
+                        variant.outputs.each { output ->
+                            def file = output.outputFile
+                            def fileName = "HandyXposed_debug.apk"
+                            output.outputFile = new File(file.parent, fileName)
+                        }
+                    }
+                }
+            } finally {
+                stdout.close()
+            }
+        } else {
+            throw new GradleException("Could not read version.properties!")
+        }
+    }
+}
+bumpVersion.dependsOn checkDirty
+
+tasks.whenTaskAdded { task ->
+    if (task.name == 'assembleRelease') {
+        task.dependsOn bumpVersion
+    }
+}
+```

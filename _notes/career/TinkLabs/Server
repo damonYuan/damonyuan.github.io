@@ -1,0 +1,6 @@
+Server
+======
+
+1. Database Migrations
+Console/cake Migrations.migration generate --force
+Console/cake Migrations.migration run all

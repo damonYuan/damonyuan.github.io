@@ -1,0 +1,22 @@
+---
+title:  "Azure"
+description: "Azure"
+hidden: true
+date: 2019-04-15 15:04:23
+categories: [Tech, Mindmap]
+tags: [Azure]
+---
+
+# GCP part I (Azure Part 1)
+
+1. https://azure.microsoft.com/en-us/pricing/calculator/
+
+## Chapter 1. Windows Azure
+
+## Chapter 2. First Step with a web role
+
+# GCP part II  (Azure Part 4 and part 5)
+
+## Chapter 9 & 10. BLOB storage (GCP Cloud Storage)
+
+## Chapter 11 & 12 & 13 & 14. The Table Service & SQL Azure (GCP Cloud SQL / Cloud Spanner)

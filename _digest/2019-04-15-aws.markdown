@@ -1,0 +1,96 @@
+---
+title:  "AWS"
+description: "AWS"
+hidden: true
+date: 2019-04-15 15:04:23
+categories: [Tech, Mindmap]
+tags: [AWS]
+---
+
+# GCP part I
+
+## Chapter 1. What is AWS
+
+1.  In one of our last projects, the test environment only ran from 7 a.m. to 8 p.m. on weekdays, allowing us to save 60%.
+
+2. quality and security follow the latest standards and certifications
+
+  - ISO 27001—A worldwide information security standard certified by an indepen- dent and accredited certification body.
+  - ISO 9001—A standardized quality management approach used worldwide and certified by an independent and accredited certification body.
+  - PCI DSS Level 1—A data security standard (DSS) for the payment card industry (PCI) to protect cardholders data.
+
+  https://aws.amazon.com/compliance/
+
+  https://www.pcisecuritystandards.org/ for qualification -> check LinkedIn
+
+  HKMA ECF
+
+3. http://aws.amazon.com/calculator
+
+4. Hardware
+
+  - Compute
+  - Network
+  - Storage
+
+5. Setup a billing alarm
+
+6. Resource Group
+
+## Chapter 2. A simple example
+
+1. AWS Blueprint
+
+# GCP part II
+
+## Chapter 8. S3 and Glacier (GCP Cloud Storage)
+
+  CloudFront + S3 == GCS Multiregional
+  S3 == GCS Regional
+  Glacier == GCS Nearline / Codeline
+
+1. Data is managed as object, so it is called as object store.
+
+  Back in the old days, data was managed in a hierarchy consisting of folders and files. The file was the representation of the data. In an object store, data is stored as objects. Each object consists of a globally unique identifier, some metadata, and the data itself, as figure 8.1 illustrates. An object’s globally unique identifier (GUID) is also known as its key; you can address the object from different devices and machines in a distributed system using the GUID.
+
+2. S3 support versioning, by default it is disabled
+
+3. Glacier
+
+  It is expensive to upload and retrieve a lot of small files, so you should bundle small files into large archives before storing them on Amazon Glacier.
+
+4. S3 Lifecycle Rule
+
+  A lifecycle rule can be used to archive or delete objects after a given number of days. To add a lifecycle rule that moves objects to Glacier.
+
+5. Hosting Static Website
+
+6. S3 is eventually consistent
+
+7. designing object keys that offer maximum I/O performance on S3
+
+8. If you’re creating, updating, or deleting an object on S3, this operation is atomic.
+
+9. In S3, keys are stored in alphabetical order in an index. If your workload will require more than 100 requests per second, you should choose keys for your objects that begin with different characters.  
+
+## Chapter 11. RDS (GCP Cloud SQL / Cloud Spanner)
+
+1. Amazon Aurora, which is MySQL- and PostgreSQL-compatible
+
+2. Exporting Mysql
+
+  `mysqldump -u $UserName -p --all-databases > dump.sql`
+  `mysqldump -u $UserName -p $DatabaseName > dump.sql`
+  `mysqldump -u $UserName -p $DatabaseName --host $Host > dump.sql`
+
+  When migrating a huge database to AWS with minimal downtime, the Database Migration Service (DMS) can help.
+
+  `mysql --host $DBHostName --user wordpress -p < wordpress-import.sql` 
+
+## Chapter 12. ElasticCache (GCP MemoryStore)
+
+## Chapter 13. DynamoDB (GCP Datastore / Bigtable)
+
+## Chapter 9. EBS (GCP ???)
+
+## Chapter 10. EFS (GCP ???)

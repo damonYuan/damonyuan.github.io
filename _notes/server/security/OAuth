@@ -1,0 +1,20 @@
+OAuth
+
+# OAuth2 senario: https://malalanayake.wordpress.com/tag/oauth-2-0-scenarios/
+
+1. Authorization Code
+
+In order to prevent man-in-the-middle attack. The exchange of an authorization code for a token happens on the server side. Normally the consumer has the public key registered on the service provider and has the client id and private secret save in its server.
+
+eg: - FACEBOOK_ID=1821424564802638
+    - FACEBOOK_SECRET=2339bdf25f236a42fc3a18280bf455e8
+
+Website C mimic A to get some Facebook resource, but it does not know the FACEBOOK_ID and its corresponding FACEBOOK_SECRET, so event if Facebook return it the Authorization Code, it cannot successfully ahenticate it, which means it cannot use the code to exchange for access token. 
+
+2. Implicit
+
+For client apps which are implemented in a browser using a scripting language. e.g, javascript do not alow redirect out of its domain.
+
+3. Resource owner credentials (just login)
+
+Normally used inside a mobile because redirection is not possible with mobile apps.

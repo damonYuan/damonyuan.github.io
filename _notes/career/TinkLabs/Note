@@ -1,0 +1,42 @@
+Note
+=====
+
+1. Virtual extension
+
+   
+   .blacklist_longd
+   numbers inside this file will be forbidden to go out. such as 001, do not allow user to call 001.
+
+   the virtual extension is made by backend(shell script); and each hotels will have one number
+
+2. Sim mapping ???
+   base of phonemap
+
+   device_sim_id: 20 bytes
+
+   check the device_sim_id match the mapped sim_id, they should be the same.
+
+   make sure country code is correct too.
+
+3. Whitelist
+   .whitelist_longd
+   numbers inside this file will be allowed to come in.
+
+4. push message
+5. OTA scripts
+   120gpsinit: default settings, turn on wifi turn gps etc
+   130otaupdate: check /system/.otadatafile, and source, destination, md5sum
+   131handypreload: /system or /custpack in some system. Normal app: /data/app.apk (it happens before ota, and this only apply to m370)
+
+   reboot 2 twice for OTA: 1. downloading; 2. install apk;
+
+   problem: 1. infinite loop
+
+   touch /sdcard/.admin so that the log will be enabled.
+
+6. idd (air2billing)
+
+7. fcs integration ???
+   device users table
+
+
